@@ -36,4 +36,24 @@ class CommentsController extends Controller
 
         return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
     }
+
+    public function editComment(Request $request, $id)
+    {
+        $validator =  Validator::make($request->all(), [
+            'comment' => 'required|max:255'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_genre_id', $id);
+        }
+
+        if ($comment = Comments::find($id)) {
+            $comment->comment = $request->input('comment');
+            $response = $comment->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect()->back();
+        }
+    }
 }

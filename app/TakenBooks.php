@@ -13,7 +13,7 @@ class TakenBooks extends Model
      * @var array
      */
     protected $fillable = [
-        'book_id', 'user_id', 'start_day', 'end_day', 'late_days'
+        'book_id', 'user_id', 'start_day', 'end_day', 'late_days', 'worker_id', 'read', 'debt'
     ];
 
     /**

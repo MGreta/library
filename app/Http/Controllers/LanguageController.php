@@ -56,27 +56,32 @@ class LanguageController extends Controller
         //
     }
 
-    public function editLanguage($id)
+    /*public function editLanguage($id)
     {
         $language = Language::find($id);
 
         return view('language.edit', compact('language'));
-    }
+    }*/
 
     public function LanguageEdit($id, Request $request)
     {
-        $this->validate($request, [
-            'language' => 'required|max:255'
+
+        $validator =  Validator::make($request->all(), [
+            'language' => 'required|max:255|min:2'
         ]);
-        $language = Language::find($id);
-        $language->language = $request->input('language');
-        $response = $language->save();
-        if ($response) {
-            return redirect()->back()
-                    ->with(['message' => 'Knyga atnaujintas.']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
         }
-        return redirect()->back()
-                ->withErrors(['error' => 'Klaida. Neleistinas veiksmas.']);
+
+        if ($language = Language::find($id)) {
+            $language->language = $request->input('language');
+        $response = $language->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/languages');
+        }
     }
 
     public function update(Request $request, $id)

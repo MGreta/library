@@ -15,7 +15,9 @@
                     <th>end date</th>
                     <th>read(yes/no)</th>
                     <th>admin</th>
+                    <th>Days late</th>
                     <th>debt</th>
+                    <th>Returned</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,8 +30,12 @@
                                 <td> {{ $books[$i]->start_day }} </td>
                                 <td> {{ $books[$i]->end_day }} </td>
                                 <td> {{-- $books[$i]->read --}} </td>
-                                <td> {{-- $books[$i]->admin --}} </td>
-                                <td> {{-- $books[$i]->debt --}} </td>
+                                <td> {{ get_user_name($books[$i]->worker_id) }} </td>
+                                <td> {{ days_late($books[$i]->id) }} </td>
+                                <td> {{ get_debt($books[$i]->id) }} </td>
+                                <td>
+                                    <a class="btn btn-default btn-xs" href="{{ url('/late-books/' . $books[$i]->id . '/returned') }}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                                </td>
                         </tr>
                     @endfor
                 @else
@@ -48,7 +54,9 @@
                     <th>end date</th>
                     <th>read(yes/no)</th>
                     <th>admin</th>
+                    <th>Days late</th>
                     <th>debt</th>
+                    <th>Returned</th>
                 </tr>
             </tfoot>
         </table>
