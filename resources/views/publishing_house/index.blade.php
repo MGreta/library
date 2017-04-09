@@ -2,7 +2,13 @@
 
 @section('content')
 
-
+@if($errors->any())
+    <script>
+        $(function() {
+            $('#houseEdit{{session('wrong_id')}}').modal('show');
+        });
+    </script>
+@endif
 <div class="">
 @if (Auth::user())
     @if (Auth::user()->hasRole("admin"))
@@ -51,12 +57,48 @@
                                     <tr>
                                         <th>{{ $i+1 }}</th>
                                             <td>{{ $publishing_house[$i]->publishing_house }}</td>
-                                            <td>{{ get_books_by_publishing_house($publishing_house[$i]->id) }}</td>
+                                            <td>{{-- get_books_by_publishing_house($publishing_house[$i]->id) --}}</td>
                                             @if (Auth::user())
                                             @if (Auth::user()->hasRole("admin"))
                                             <td>
-                                                <a class="btn btn-default btn-xs" href="{{ url('/publishing-house/' . $publishing_house[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                                                <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#languages-delete-modal" data-languages="{{ $types[$i]->type }}" data-languages-id="{{ $types[$i]->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                                <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#houseEdit{{ $publishing_house[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                                <div class="modal fade" id="houseEdit{{ $publishing_house[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="myModalLabel">{{$publishing_house[$i]->publishing_house}}</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                            @include ('partials.notice')
+                                                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/publishing-house/' . $publishing_house[$i]->id . '/edit') }}">
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-sm-2 control-label" for="publishing_house">Publishing House</label>
+                                                                        <div class="col-sm-10">
+                                                                            <input type="text" class="form-control" id="publishing_house" name="publishing_house" value="{{ old('publishing_house', $publishing_house[$i]->publishing_house) }}">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-6 col-md-offset-4">
+                                                                            <button type="submit" class="btn btn-primary">
+                                                                                Save Changes
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <a class="btn btn-default btn-xs" href="{{ url('/publishing-house/' . $publishing_house[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> -->
+                                                <a class="btn btn-default btn-xs" href="{{ url('/publishing-house/' . $publishing_house[$i]->id . '/destroy') }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                             </td>
                                             @endif
                                             @endif
