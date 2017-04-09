@@ -2,7 +2,13 @@
 
 @section('content')
 
-
+@if($errors->any())
+    <script>
+        $(function() {
+            $('#languageEdit{{session('wrong_id')}}').modal('show');
+        });
+    </script>
+@endif
 <div class="">   
     <div class="row">
         <div class="col-md-6">
@@ -30,7 +36,43 @@
                                             @if (Auth::user())
                                                 @if (Auth::user()->hasRole("admin"))
                                                 <td>
-                                                    <a class="btn btn-default btn-xs" href="{{ url('/language/' . $languages[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                                    <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#languageEdit{{ $languages[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                                    <div class="modal fade" id="languageEdit{{ $languages[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                    <h4 class="modal-title" id="myModalLabel">{{$languages[$i]->language}}</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                @include ('partials.notice')
+                                                                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/language/' . $languages[$i]->id . '/edit') }}">
+                                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                                                                        <div class="form-group">
+                                                                            <label class="col-sm-2 control-label" for="title">Language</label>
+                                                                            <div class="col-sm-10">
+                                                                                <input type="text" class="form-control" id="language" name="language" value="{{ old('language', $languages[$i]->language) }}">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-6 col-md-offset-4">
+                                                                                <button type="submit" class="btn btn-primary">
+                                                                                    Save Changes
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <a class="btn btn-default btn-xs" href="{{ url('/language/' . $languages[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> -->
                                                     <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#languages-delete-modal" data-languages="{{ $languages[$i]->language }}" data-languages-id="{{ $languages[$i]->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                                 </td>
                                                 @endif
