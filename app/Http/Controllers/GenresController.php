@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Genres;
 use Validator;
 use DB;
+use Session;
 
 class GenresController extends Controller
 {
@@ -41,7 +42,7 @@ class GenresController extends Controller
     public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
-            'genre' => 'required|max:255'
+            'genre' => 'required|max:255|min:2'
         ]);
 
         if ($validator->fails()) {
@@ -54,7 +55,7 @@ class GenresController extends Controller
         ]);
         if ($genre) {
 
-            return redirect('admin/genres')->with('status', 'Genre created successfully.');
+            return redirect('/genres')->with('status', 'Genre created successfully.');
         }
 
         return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
@@ -71,27 +72,31 @@ class GenresController extends Controller
         //
     }
 
-    public function editGenre($id)
+    /*public function editGenre($id)
     {
         $genre = Genres::find($id);
 
         return view('genre.edit', compact('genre'));
-    }
+    }*/
 
-    public function GenreEdit($id, Request $request)
+    public function GenreEdit(Request $request, $id)
     {
-        $this->validate($request, [
-            'genre' => 'required|max:255'
+        $validator =  Validator::make($request->all(), [
+            'genre' => 'required|max:255|min:2'
         ]);
-        $genre = Genres::find($id);
-        $genre->genre = $request->input('genre');
-        $response = $genre->save();
-        if ($response) {
-            return redirect()->back()
-                    ->with(['message' => 'Knyga atnaujintas.']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_genre_id', $id);
         }
-        return redirect()->back()
-                ->withErrors(['error' => 'Klaida. Neleistinas veiksmas.']);
+
+        if ($genre = Genres::find($id)) {
+            $genre->genre = $request->input('genre');
+            $response = $genre->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/books');
+        }
     }
 
     /**
