@@ -60,6 +60,12 @@
             </tfoot>
         </table>
         <div class="form-group">
+        <label for="comment" class="col-sm-2 control-label">Comment</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="comment" placeholder="Comment" name="comment" value="{{ old('comment') }}">
+        </div>
+        </div>
+        <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" name="create" value="create" class="btn btn-primary">Order</button>
             </div>
