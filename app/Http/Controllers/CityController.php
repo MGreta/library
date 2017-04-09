@@ -49,27 +49,31 @@ class CityController extends Controller
         //
     }
 
-    public function edit($id)
+    /*public function edit($id)
     {
         $city = City::find($id);
 
         return view('city.edit', compact('city'));
-    }
+    }*/
 
-    public function PublishingHouseEdit($id, Request $request)
+    public function cityEdit($id, Request $request)
     {
-        $this->validate($request, [
-            'publishing_house' => 'required|max:255'
+        $validator =  Validator::make($request->all(), [
+            'city' => 'required|max:255|min:2'
         ]);
-        $publishing_house = PublishingHouse::find($id);
-        $publishing_house->publishing_house = $request->input('publishing_house');
-        $response = $city->save();
-        if ($response) {
-            return redirect()->back()
-                    ->with(['message' => '']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
         }
-        return redirect()->back()
-                ->withErrors(['error' => 'Klaida.']);
+
+        if ($city = City::find($id)) {
+            $city->city = $request->input('city');
+            $response = $city->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/city');
+        }
     }
 
     public function update(Request $request, $id)
@@ -79,7 +83,8 @@ class CityController extends Controller
 
     public function destroy($id)
     {
-        //
+         DB::table('cities')->where('id', $id)->delete();
+        return redirect()->back();
     }
 
    /* public function order()
