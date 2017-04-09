@@ -39,7 +39,7 @@ class PublishingHouseController extends Controller
         ]);
         if ($publishing_house) {
 
-            return redirect('type')->with('status', 'Type created successfully.');
+            return redirect('publishing-house')->with('status', 'Type created successfully.');
         }
 
         return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));
@@ -59,6 +59,24 @@ class PublishingHouseController extends Controller
 
     public function PublishingHouseEdit($id, Request $request)
     {
+        $validator =  Validator::make($request->all(), [
+            'publishing_house' => 'required|max:255|min:2'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_genre_id', $id);
+        }
+
+        if ($publishing_house = PublishingHouse::find($id)) {
+            $publishing_house->publishing_house = $request->input('publishing_house');
+        $response = $publishing_house->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/publishing-house');
+        }
+
+
         $this->validate($request, [
             'publishing_house' => 'required|max:255'
         ]);
@@ -80,7 +98,8 @@ class PublishingHouseController extends Controller
 
     public function destroy($id)
     {
-        //
+        DB::table('publishing_houses')->where('id', $id)->delete();
+        return redirect()->back();
     }
 
    /* public function order()
