@@ -1,6 +1,7 @@
 @extends('welcome')
 
 @section('content')
+@include ('partials.notice')
 <div class="panel panel-primary">
   <div class="panel-heading">Debt price</div>
   <div class="panel-body">
@@ -9,7 +10,7 @@
     	<div class="form-group">
         <label for="title" class="col-sm-2 control-label">Price per day</label>
     	  <div class="col-sm-10">
-    	   	<input type="text" class="form-control" id="price" placeholder="price" name="price" value="{{ old('price') }}">
+    	   	<input type="text" class="form-control" id="price" placeholder="price" name="price" value="{{ get_price() }}">
     	  </div>
       </div>
     	<div class="form-group">
