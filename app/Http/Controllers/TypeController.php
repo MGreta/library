@@ -71,27 +71,31 @@ class TypeController extends Controller
         //
     }
 
-    public function editType($id)
+    /*public function editType($id)
     {
         $type = Type::find($id);
 
         return view('admin.edit_type', compact('type'));
-    }
+    }*/
 
     public function TypeEdit($id, Request $request)
     {
-        $this->validate($request, [
-            'type' => 'required|max:255'
+        $validator =  Validator::make($request->all(), [
+            'type' => 'required|max:255|min:2'
         ]);
-        $type = Type::find($id);
-        $type->type = $request->input('type');
-        $response = $type->save();
-        if ($response) {
-            return redirect()->back()
-                    ->with(['message' => 'Knyga atnaujintas.']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
         }
-        return redirect()->back()
-                ->withErrors(['error' => 'Klaida. Neleistinas veiksmas.']);
+
+        if ($type = Type::find($id)) {
+            $type->type = $request->input('type');
+            $response = $type->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/type');
+        }
     }
 
     /**
@@ -114,7 +118,8 @@ class TypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('types')->where('id', $id)->delete();
+        return redirect()->back();
     }
 
     public function order()
