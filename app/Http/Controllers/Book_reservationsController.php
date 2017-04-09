@@ -55,7 +55,7 @@ class Book_reservationsController extends Controller
 	            $book = new Book_reservations();
 	            $book->user_id = $user_id;
 	            $book->book_id = $book_id;
-	            $book->comment = 'labas';
+	            $book->comment = $request->input('comment');
 	            $book->reservation_start_day = '2017-03-10';
 	            $book->reservation_end_day = '2017-04-10';
 	            $book->save();
@@ -71,11 +71,13 @@ class Book_reservationsController extends Controller
     public function postToTakenBooks(Request $request, $id) {
     	$book_id = Book_reservations::where('id', $id)->value('book_id');
     	$user_id = Book_reservations::where('id', $id)->value('user_id');
+        $worker_id = Auth::user()->id;
     	$book = new TakenBooks();
     	$book->book_id = $book_id;
     	$book->user_id = $user_id;
     	$book->start_day = Carbon::now();
     	$book->end_day = Carbon::now()->addDays(30);
+        $book->worker_id = $worker_id;
     	$response = $book->save();
     	if ($response) {
     		DB::table('Book_reservations')->where('id', $id)->delete();
