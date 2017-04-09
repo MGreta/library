@@ -109,7 +109,7 @@
                     
 
                     <!-- <input id="input-1" name="input-1" value="1" name="rating"> -->
-          
+          {{ get_average_rating($book->id) }}
    
 
             <div class="form-group">
@@ -159,10 +159,48 @@
         @if ($comments->count())
             @for ($i = 0; $i < count($comments); $i++)
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="title">{{ $comments[$i]->user_id }}</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" for="title">{{ get_user_name($comments[$i]->user_id) }}</label>
+                    <div class="col-sm-9">
                         <p>{{ $comments[$i]->comment }}</p>
                     </div>
+                    @if ((Auth::user()->id) == ($comments[$i]->user_id))
+                    <div class="col-sm-1">
+                        <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#editComment{{ $comments[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                        <div class="modal fade" id="editComment{{ $comments[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    @include ('partials.notice')
+                                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $comments[$i]->id . '/editComment') }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="title">Comment</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="comment" name="comment" value="{{ old('comments', $comments[$i]->comment) }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-md-offset-4">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Save Changes
+                                                </button>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             @endfor
         @endif
