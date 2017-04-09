@@ -8,7 +8,9 @@ use App\Http\Requests;
 use Auth;
 use App\User;
 use Validator;
-
+use App\TakenBooks;
+use App\Book_reservations;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -66,5 +68,73 @@ class UserController extends Controller
 
         return redirect('/profile')->with('errors', new MessageBag(['Unauthorized action.']));
 	}
+
+    public function books()
+    {
+        $user_id = Auth::user()->id;
+        $books = TakenBooks::where('user_id', $user_id)->where('returned', '0')->get();
+
+        return view('user.books', compact('books'));
+    }
+
+    public function lateBooks()
+    {
+        $user_id = Auth::user()->id;
+        $books = TakenBooks::where('user_id', $user_id)->where('returned', '0')->where('end_day', '<', Carbon::now())->get();
+
+        return view('user.late_books', compact('books'));
+    }
+
+    public function returnedBooks()
+    {
+        $user_id = Auth::user()->id;
+        $books = TakenBooks::where('user_id', $user_id)->where('returned', '1')->get();
+
+        return view('user.returned_books', compact('books'));
+    }
+
+    public function reservedBooks()
+    {
+        $user_id = Auth::user()->id;
+        $reservations = Book_reservations::where('user_id', $user_id)->where('is_ready', '0')->get();
+        $reservations_is_ready = Book_reservations::where('user_id', $user_id)->where('is_ready', '1')->get();
+
+        return view('user.reserved_books', compact('reservations', 'reservations_is_ready'));
+    }
+
+    public function removeReservation(Request $request, $id)
+    {
+        $user_id = Auth::user()->id;
+        DB::table('Book_reservations')->where('id', $id)->where('user_id', $user_id)->delete();
+        if ($response) {
+            return redirect('/user-reserved-books');
+        } else {
+            return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
+        }
+    }
+
+    public function readBook($id)
+    {
+        if ($book = TakenBooks::find($id)) {
+            $book->read = '1';
+            $response = $book->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/user-books');
+        }
+    }
+
+    public function notReadBook($id)
+    {
+        if ($book = TakenBooks::find($id)) {
+            $book->read = '0';
+            $response = $book->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/user-books');
+        }
+    }
 
 }
