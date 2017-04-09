@@ -79,29 +79,33 @@ class AuthorController extends Controller
         //
     }
 
-    public function editAuthor($id)
+    /*public function editAuthor($id)
     {
         $author = Author::find($id);
 
         return view('admin.edit_author', compact('author'));
-    }
+    }*/
 
     public function AuthorEdit($id, Request $request)
-    {
-        $this->validate($request, [
-            'author_name' => 'required|max:255',
-            'author_surname' => 'required|max:255'
+    {   
+        $validator =  Validator::make($request->all(), [
+            'author_name' => 'required|max:255|min:2',
+            'author_surname' => 'required|max:255|min:2'
         ]);
-        $author = Author::find($id);
-        $author->author_name = $request->input('author_name');
-        $author->author_surname = $request->input('author_surname');
-        $response = $author->save();
-        if ($response) {
-            return redirect()->back()
-                    ->with(['message' => 'Knyga atnaujintas.']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
         }
-        return redirect()->back()
-                ->withErrors(['error' => 'Klaida. Neleistinas veiksmas.']);
+
+        if ($author = Author::find($id)) {
+            $author->author_name = $request->input('author_name');
+            $author->author_surname = $request->input('author_surname');
+            $response = $author->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/authors');
+        }
     }
 
     /**
