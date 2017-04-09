@@ -24,8 +24,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        /*$schedule->call(function() 
+        {
+            $price = Option::where('name', 'debt_price')->value('value');
+            $late_date = new Carbon(TakenBooks::where('end_day', '<', Carbon::now())->value('end_day'));
+            $now = Carbon::now();
+            $time_late = ($late_date->diff($now)->days);
+            $debt = $time_late*$price;
+            TakenBooks
+        })*/
     }
 
     /**
