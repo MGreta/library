@@ -114,33 +114,37 @@ class AdminController extends Controller
 
     
 
-    public function editUser($id)
+    /*public function editUser($id)
     {
         $user = User::find($id);
 
         return view('admin.edit_user', compact('user'));
-    }
+    }*/
 
     public function UserEdit($id, Request $request)
     {
-        $this->validate($request, [
+        $validator =  Validator::make($request->all(), [
             'name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'class' => 'required|max:255',
             'email' => 'required|max:255'
         ]);
-        $user = User::find($id);
-        $user->name = $request->input('name');
-        $user->last_name = $request->input('last_name');
-        $user->class = $request->input('class');
-        $user->email = $request->input('email');
-        $response = $user->save();
-        if ($response) {
-            return redirect()->back()
-                    ->with(['message' => 'Knyga atnaujintas.']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
         }
-        return redirect()->back()
-                ->withErrors(['error' => 'Klaida. Neleistinas veiksmas.']);
+
+        if ($user = User::find($id)) {
+            $user->name = $request->input('name');
+            $user->last_name = $request->input('last_name');
+            $user->class = $request->input('class');
+            $user->email = $request->input('email');
+            $response = $user->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            }
+            return redirect('/all-users');
+        }
     }
 
 }
