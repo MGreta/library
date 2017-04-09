@@ -95,6 +95,11 @@
             <div class="row">
                 <div class="col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
+                        <li><a href=" {{ url('/user-books') }} ">My occupied books</a></li>
+                        <li><a href=" {{ url('/user-late-books') }} ">My late books</a></li>
+                        <li><a href=" {{ url('/user-returned-books') }} ">My returned books</a></li>
+                        <li><a href=" {{ url('/user-reserved-books') }} ">My reserved books</a></li>
+                        <hr>
                         <li><a href="{{ url('/books') }}">All Books</a></li>
                     </ul>
                 </div>
@@ -123,6 +128,7 @@
                         <li><a href="{{ url('/occupied-books') }}">Occupied Books</a></li>
                         <li><a href="{{ url('/reservations') }}">Reserved Books</a></li>
                         <li><a href="{{ url('/late-books') }}">Late Books</a></li>
+                        <li><a href="{{ url('/returned-books') }}">Returned Books</a></li>
                         <hr>
                         <li><a href=" {{ url('/options') }} ">Options</a></li>
                     </ul>
