@@ -19,12 +19,32 @@
                 <div class="panel-body">
                     <form class="form-inline" role="form" method="POST" action="{{ url('genres') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" for="genre">Genre</label>
+                        <!-- <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" for="genre_input">Genre</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="genre" name="genre" value="{{ old('genre') }}">
+                                <input type="text" class="form-control" id="genre_input" name="genre_input" value="{{ old('genre_input') }}">
                             </div>
+                        </div> -->
+                        <div class="input-group control-group after-add-more">
+                            <input type="text" name="genre_input[]" class="form-control" value="{{ old('genre_input') }}">
                         </div>
+                        <div class="input-group-btn"> 
+                                <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
+                        </div>
+                        <script type="text/javascript">
+
+                            $(document).ready(function() {
+                                $(".add-more").click(function(){ 
+                                    var html = $(".after-add-more").html();
+                                    $(".after-add-more").after(html);
+                                });
+
+                                $("body").on("click",".remove",function(){ 
+                                    $(this).parents(".control-group").remove();
+                                });
+                            });
+
+                        </script>
                         <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
                     </form>
                 </div>
@@ -95,7 +115,45 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#genres-delete-modal" data-genre-id="{{ $genres[$i]->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> -->
+                                                <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#genres-delete-modal{{$genres[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                                <div class="modal fade" id="genres-delete-modal{{$genres[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                                <h4 class="modal-title">Delete genre</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/genres/' .$genres[$i]->id .'/delete') }}">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <h5>Genre</h5>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p>{{ $genres[$i]->genre }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <h4>Ar tikrai norite istrinti?</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                             @endif
                                             @endif

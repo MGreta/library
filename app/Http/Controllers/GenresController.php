@@ -9,6 +9,8 @@ use App\Genres;
 use Validator;
 use DB;
 use Session;
+use App\Book;
+use Illuminate\Support\MessageBag;
 
 class GenresController extends Controller
 {
@@ -41,8 +43,29 @@ class GenresController extends Controller
      */
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'genre' => 'required|max:255|min:2'
+        $genre_inputs = $request->input('genre_input');
+        foreach($genre_inputs as $genre_input){
+            $genre_input_same = Genres::where('genre', $genre_input)->get();
+            if($genre_input = ''){
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+            }else{
+                if (count($genre_input_same) !== 0){
+                    return redirect()->back()->with('errors', new MessageBag(['genre jau yra įvesta']));
+                }
+            }
+        }
+
+        foreach($genre_inputs as $genre_input){
+            $genre_input = Genres::create([
+                'genre' => $genre_input
+            ]);
+        }
+        if ($genre_input) {
+            return redirect('genres')->with('status', 'Genre created successfully.');
+        }
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
+        /*$validator =  Validator::make($request->all(), [
+            'genre_input' => 'required|max:255|min:2|unique:genres,genre'
         ]);
 
         if ($validator->fails()) {
@@ -51,14 +74,14 @@ class GenresController extends Controller
         }
 
         $genre = Genres::create([
-            'genre' => $request->input('genre')
+            'genre' => $request->input('genre_input')
         ]);
         if ($genre) {
 
             return redirect('/genres')->with('status', 'Genre created successfully.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));*/
     }
 
     /**
@@ -119,7 +142,11 @@ class GenresController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        DB::table('genres')->where('id', $id)->delete();
+        $genres = DB::table('genres')->get();
+
+        return view('genre.index', compact('genres'));
     }
 
     public function order()
