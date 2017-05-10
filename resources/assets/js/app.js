@@ -18,3 +18,13 @@ Vue.component('example', require('./components/Example.vue'));
 const app = new Vue({
     el: '#app'
 });
+
+
+(function($) {
+	$('.udk-select').on('change', function() {
+		if ($('.udk-select').val() !== 'not-selected') {
+			$('.udk-select').css( "color", "#000" );
+		}
+	    
+	});
+})(jQuery);
