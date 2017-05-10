@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\City;
 use DB;
 use Validator;
+use Illuminate\Support\MessageBag;
 
 class CityController extends Controller
 {
@@ -24,12 +25,32 @@ class CityController extends Controller
 
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'city' => 'required|max:255'
+        $cities = $request->input('city');
+        foreach($cities as $city){
+            $city_same = City::where('city', $city)->get();
+            if($city = ''){
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+            }else{
+                if (count($city_same) !== 0){
+                    return redirect()->back()->with('errors', new MessageBag(['miestas jau yra įvesta']));
+                }
+            }
+        }
+
+        foreach($cities as $city){
+            $city = City::create([
+                'city' => $city
+            ]);
+        }
+        if ($city) {
+            return redirect('city')->with('status', 'City created successfully.');
+        }
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new city. Please try again.']));
+        /*$validator =  Validator::make($request->all(), [
+            'city' => 'required|max:255|unique:cities,city'
         ]);
 
         if ($validator->fails()) {
-
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -37,11 +58,10 @@ class CityController extends Controller
             'city' => $request->input('city')
         ]);
         if ($city) {
-
             return redirect('city')->with('status', 'City created successfully.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new city. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new city. Please try again.']));*/
     }
 
     public function show($id)
