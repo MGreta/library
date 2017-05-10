@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		
 		Route::get('user/{id}/edit-user', 'AdminController@editUser');
 		Route::get('all-users', 'AdminController@allUsers');
+		Route::post('all-users/{id}/delete', 'UserController@destroy');
 
 		Route::get('users', 'AdminController@users');
 
@@ -63,6 +64,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		Route::get('book/{id}/edit', 'BookController@edit');
 		Route::post('book/{id}/edit', 'BookController@bookEdit');
 
+		Route::post('book/{id}/delete', 'BookController@destroy');
+
 	
 	//Language
 		/*Route::get('admin/language', 'LanguageController@allLanguages');*/
@@ -70,6 +73,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		
 		Route::get('language/{id}/edit', 'LanguageController@editLanguage');
 		Route::post('language/{id}/edit', 'LanguageController@LanguageEdit');
+		Route::post('language/{id}/delete', 'LanguageController@destroy');
 
 
 	//Type
@@ -78,7 +82,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		Route::get('type/{id}/edit', 'TypeController@editType');
 		Route::post('type/{id}/edit', 'TypeController@TypeEdit');
 
-		Route::get('type/{id}/destroy', 'TypeController@destroy');
+		Route::post('type/{id}/delete', 'TypeController@destroy');
 
 
 	//City
@@ -87,7 +91,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		/*Route::get('city/{id}/edit', 'CityController@editType');*/
 		Route::post('city/{id}/edit', 'CityController@cityEdit');
 
-		Route::get('city/{id}/destroy', 'CityController@destroy');
+		Route::post('city/{id}/delete', 'CityController@destroy');
 
 
 	//Publishing House
@@ -96,11 +100,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		Route::get('publishing-house/{id}/edit', 'PublishingHouseController@editType');
 		Route::post('publishing-house/{id}/edit', 'PublishingHouseController@TypeEdit');
 
-		Route::get('publishing-house/{id}/destroy', 'PublishingHouseController@destroy');
+		Route::get('publishing-house/{id}/delete', 'PublishingHouseController@destroy');
 
 
 	//Authors
 		Route::post('authors', 'AuthorController@store');
+		Route::post('authors/{id}/delete', 'AuthorController@destroy');
 
 		Route::get('author/{id}/edit', 'AuthorController@AuthorEdit');
 		Route::post('author/{id}/edit', 'AuthorController@AuthorEdit');
@@ -120,12 +125,24 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 	//Genre
 		Route::post('genres', 'GenresController@store');
+		Route::post('genres/{id}/delete', 'GenresController@destroy');
+		Route::get('genres', 'GenresController@destroy');
 		
 		Route::get('genres/{id}/edit', 'GenresController@GenreEdit');
 		Route::post('genres/{id}/edit', 'GenresController@GenreEdit');
 
+	//Register book to take
+		Route::get('register-book', 'TakenBooksController@registerBookIndex');
+		Route::post('register-book', 'TakenBooksController@registerBook');
 
+	//Shopping cart
+		Route::get('/admin-shopping-cart', 'AdminController@shoppingCart');
 
+		Route::post('/admin-shopping-cart/order', 'AdminController@store');
+		Route::get('/admin-shopping-cart/{id}/delete', 'AdminController@getRemoveItem');
+
+	//Continued books
+		Route::get('/continued-books', 'TakenBooksController@continuedBooks');
 	
 });
 
@@ -154,6 +171,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 	Route::get('books/byType', 'BookController@orderByType');
 	Route::get('books/byUDK', 'BookController@orderByUDK');
 	Route::get('books/byQuantity', 'BookController@orderByQuantity');
+	Route::get('books/byQuantity', 'BookController@orderByGenre');
 
 
 //Type
@@ -189,6 +207,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 	/*Route::get('/shopping-cart/order', 'Book_reservationsController@add');*/
 	Route::post('/shopping-cart/order', 'Book_reservationsController@store');
+	Route::get('/shopping-cart/{id}/delete', 'Book_reservationsController@getRemoveItem');
 
 
 //Occupied books
@@ -225,6 +244,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 	Route::get('/returned-books/{id}/not-returned', 'TakenBooksController@notReturned');
 	Route::post('/returned-books/{id}/not-returned', 'TakenBooksController@notReturned');
 
+//Search
+	Route::get('/search', 'BookController@showSearch');
+	Route::get('/search/search', 'BookController@search');
+
+	Route::get('/detail-search', 'BookController@showDetailSearch');
+	Route::get('/detail-search/search', 'BookController@detailSearch');
 
 Route::group(['middleware' => ['auth', 'role:user']], function () {
 
@@ -237,4 +262,9 @@ Route::group(['middleware' => ['auth', 'role:user']], function () {
 
 		Route::get('/user-books/{id}/read', 'UserController@readBook');
 		Route::get('/user-books/{id}/not-read', 'UserController@notReadBook');
+
+		Route::get('/user-books/{id}/{taken_id}/continueBook', 'UserController@continueBook');
 });
+
+
+Route::post('add-url', 'WelcomeController@addUrl');
