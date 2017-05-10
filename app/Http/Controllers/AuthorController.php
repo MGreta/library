@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Author;
 use Validator;
 use DB;
+use Illuminate\Support\MessageBag;
 
 class AuthorController extends Controller
 {
@@ -128,7 +129,8 @@ class AuthorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('authors')->where('id', $id)->delete();
+        return redirect()->back();
     }
 
     public function orderByName()
