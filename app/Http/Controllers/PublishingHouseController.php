@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\PublishingHouse;
 use DB;
 use Validator;
+use Illuminate\Support\MessageBag;
 
 class PublishingHouseController extends Controller
 {
@@ -25,8 +26,29 @@ class PublishingHouseController extends Controller
 
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'publishing_house' => 'required|max:255'
+        $publishing_houses = $request->input('publishing_house');
+        foreach($publishing_houses as $publishing_house){
+            $publishing_house_same = PublishingHouse::where('publishing_house', $publishing_house)->get();
+            if($publishing_house = ''){
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+            }else{
+                if (count($publishing_house_same) !== 0){
+                    return redirect()->back()->with('errors', new MessageBag(['publishing house jau yra įvesta']));
+                }
+            }
+        }
+
+        foreach($publishing_houses as $publishing_house){
+            $publishing_house = PublishingHouse::create([
+                'publishing_house' => $publishing_house
+            ]);
+        }
+        if ($publishing_house) {
+            return redirect('publishing-house')->with('status', 'publishing house created successfully.');
+        }
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new publishinghouse. Please try again.']));
+        /*$validator =  Validator::make($request->all(), [
+            'publishing_house' => 'required|max:255|unique:publishing_houses,publishing_house'
         ]);
 
         if ($validator->fails()) {
@@ -42,7 +64,7 @@ class PublishingHouseController extends Controller
             return redirect('publishing-house')->with('status', 'Type created successfully.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));*/
     }
 
     public function show($id)
@@ -99,7 +121,7 @@ class PublishingHouseController extends Controller
     public function destroy($id)
     {
         DB::table('publishing_houses')->where('id', $id)->delete();
-        return redirect()->back();
+        return redirect('/publishing-house');
     }
 
    /* public function order()
