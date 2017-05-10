@@ -9,6 +9,7 @@ use Validator;
 use DB;
 use Auth;
 use App\Comments;
+use Illuminate\Support\MessageBag;
 
 class CommentsController extends Controller
 {
