@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Type;
 use DB;
 use Validator;
+use Illuminate\Support\MessageBag;
+use App\Book;
 
 class TypeController extends Controller
 {
@@ -40,8 +42,29 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'type' => 'required|max:255'
+        $types = $request->input('type');
+        foreach($types as $type){
+            $type_same = Type::where('type', $type)->get();
+            if($type = ''){
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+            }else{
+                if (count($type_same) !== 0){
+                    return redirect()->back()->with('errors', new MessageBag(['type jau yra įvesta']));
+                }
+            }
+        }
+
+        foreach($types as $type){
+            $type = Type::create([
+                'type' => $type
+            ]);
+        }
+        if ($type) {
+            return redirect('type')->with('status', 'Type created successfully.');
+        }
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));
+        /*$validator =  Validator::make($request->all(), [
+            'type' => 'required|max:255|unique:types,type'
         ]);
 
         if ($validator->fails()) {
@@ -57,7 +80,7 @@ class TypeController extends Controller
             return redirect('type')->with('status', 'Type created successfully.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));*/
     }
 
     /**
@@ -118,6 +141,16 @@ class TypeController extends Controller
      */
     public function destroy($id)
     {
+        $books_with_type = Book::where('type', $id)->get();
+        if (count($books_with_type) > 0){
+            /*foreach ($books_with_type as $book) {
+                $book_id = Book::where('id', $book->id)->where('type', $id)->value('id');
+                $book = Book::find($book_id);
+                $book->type = '0';
+                $book->save();
+            }*/
+            return redirect()->back()->withErrors(['error' => 'Klaida. Negalima ištrinti jeigu tipas turi knygų.']);
+        }
         DB::table('types')->where('id', $id)->delete();
         return redirect()->back();
     }
