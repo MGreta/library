@@ -15,6 +15,7 @@
                     <th>Comment</th>
                     <th>Reservation start date</th>
                     <th>Reservation end date</th>
+                    <th>How many free</th>
                     <th>Not ready</th>
                     <th>Taken</th>
                 </tr>
@@ -29,6 +30,7 @@
                                 <td>{{ $reservations_is_ready[$i]->comment }}</td>
                                 <td>{{ $reservations_is_ready[$i]->reservation_start_day }}</td>
                                 <td>{{ $reservations_is_ready[$i]->reservation_end_day }}</td>
+                                <td> {{ count_free_books($reservations_is_ready[$i]->book_id) }} </td>
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/reservations/' . $reservations_is_ready[$i]->id . '/not-ready') }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                 </td>
@@ -53,6 +55,7 @@
                     <th>Comment</th>
                     <th>Reservation start date</th>
                     <th>Reservation end date</th>
+                    <th>How many free</th>
                     <th>Ready</th>
                     <th>Taken</th>
                 </tr>
@@ -74,6 +77,7 @@
                     <th>Comment</th>
                     <th>Reservation start date</th>
                     <th>Reservation end date</th>
+                    <th>How many free</th>
                     <th>Ready</th>
                     <th>Taken</th>
                 </tr>
@@ -88,12 +92,22 @@
                                 <td>{{ $reservations[$i]->comment }}</td>
                                 <td>{{ $reservations[$i]->reservation_start_day }}</td>
                                 <td>{{ $reservations[$i]->reservation_end_day }}</td>
+                                <td> {{ count_free_books($reservations[$i]->book_id) }} </td>
+                                @if(count_free_books($reservations[$i]->book_id) < '1')
+                                <td>
+                                    <a class="btn btn-default btn-xs" href="{{ url('/reservations/' . $reservations[$i]->id . '/ready') }}" disabled><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-default btn-xs" href="{{ url('/reservations/' . $reservations[$i]->id . '/taken') }}" disabled><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                                </td>
+                                @else
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/reservations/' . $reservations[$i]->id . '/ready') }}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
                                 </td>
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/reservations/' . $reservations[$i]->id . '/taken') }}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
                                 </td>
+                                @endif
                             <td>
                         </tr>
                     @endfor
@@ -112,6 +126,7 @@
                     <th>Comment</th>
                     <th>Reservation start date</th>
                     <th>Reservation end date</th>
+                    <th>How many free</th>
                     <th>Ready</th>
                     <th>Taken</th>
                 </tr>
