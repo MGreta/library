@@ -13,6 +13,7 @@ use App\Cart;
 use App\TakenBooks;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\MessageBag;
 
 class Book_reservationsController extends Controller
 {
@@ -51,14 +52,15 @@ class Book_reservationsController extends Controller
         $books = $cart->items;
         if ($request->has('create')) {
         	foreach ($books as $book) {
-        		$book_id = $book['item']['id'];
-	            $book = new Book_reservations();
-	            $book->user_id = $user_id;
-	            $book->book_id = $book_id;
-	            $book->comment = $request->input('comment');
-	            $book->reservation_start_day = '2017-03-10';
-	            $book->reservation_end_day = '2017-04-10';
-	            $book->save();
+                
+                $book_id = $book['item']['id'];
+                $book = new Book_reservations();
+                $book->user_id = $user_id;
+                $book->book_id = $book_id;
+                $book->comment = $request->input('comment');
+                $book->reservation_start_day = Carbon::now();
+                $book->reservation_end_day = Carbon::now()->addDays(30);
+                $book->save();
         	}
 
         	Session::forget('cart');
@@ -66,6 +68,18 @@ class Book_reservationsController extends Controller
         }
 
         return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new user. Please try again.']));
+    }
+
+    public function getRemoveItem($id) {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+        if (count($cart->items) > 0) {
+            Session::put('cart', $cart);
+        } else {
+            Session::forget('cart');
+        }
+        return redirect()->back();
     }
 
     public function postToTakenBooks(Request $request, $id) {
