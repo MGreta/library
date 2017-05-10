@@ -18,16 +18,17 @@
                     <th>#</th>
                     <th><a href="{{ action('BookController@orderByTitle') }}">Title</a></th>
                     <th><a href="{{ action('BookController@orderByAuthor') }}">Author</a></th>
-                    <th><a href="{{ action('BookController@orderByISBN') }}">ISBN</a></th>
-                    <th><a href="{{ action('BookController@orderByDate') }}">Date</a></th>
+                    <!-- <th><a href="{{ action('BookController@orderByISBN') }}">ISBN</a></th> -->
+                    <!-- <th><a href="{{ action('BookController@orderByDate') }}">Date</a></th> -->
                     <th><a href="{{ action('BookController@orderBySize') }}">Size</a></th>
                     <th><a href="{{ action('BookController@orderByLanguage') }}">Language</a></th>
                     <th><a href="{{ action('BookController@orderByType') }}">Rusis</a></th>
-                    <th><a href="{{ action('BookController@orderByUDK') }}">UDK</a></th>
+                    <!-- <th><a href="{{ action('BookController@orderByUDK') }}">UDK</a></th> -->
                     <th><a href="{{ action('BookController@orderByQuantity') }}">Kiekis</a></th>
-                    <th><a href="#">Publishing house</a></th>
-                    <th><a href="#">City</a></th>
-                    <th><a href="#">Genre</a></th>
+                    <th>Laisvos</th>
+                    <!-- <th><a href="#">Publishing house</a></th>
+                    <th><a href="#">City</a></th> -->
+                    <th><a href="{{ action('BookController@orderByGenre') }}">Genre</a></th>
                     <th>About</th>
                     <th>Add to cart</th>
                     @if (Auth::user())
@@ -42,17 +43,21 @@
                     @for ($i = 0; $i < count($books); $i++)
                         <tr>
                             <th>{{ $i+1 }}</th>
-                                <td><a href="{{ url('/book/' . $books[$i]->id ) }}">{{ $books[$i]->title }}</a></td>
+                                <td><a href="{{ url('/book/' . $books[$i]->id ) }}">{{ $books[$i]->title }}</a>
+                                    <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
+                                    <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
+                                </td>
                                 <td>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</td>
-                                <td>{{ $books[$i]->isbn }}</td>
-                                <td>{{ $books[$i]->date }}</td>
+                                <!-- <td>{{ $books[$i]->isbn }}</td> -->
+                                <!-- <td>{{ $books[$i]->date }}</td> -->
                                 <td>{{ $books[$i]->size }}</td>
                                 <td>{{ $books[$i]->language }}</td>
                                 <td>{{ get_type($books[$i]->type) }}</td>
-                                <td>{{ $books[$i]->udk }}</td>
+                                <!-- <td>{{ $books[$i]->udk }}</td> -->
                                 <td>{{ $books[$i]->quantity }}</td>
-                                <td>{{ $books[$i]->publishing_house }}</td>
-                                <td>{{ $books[$i]->city }}</td>
+                                <td> {{ count_free_books($books[$i]->id) }} </td>
+                                <!-- <td>{{ $books[$i]->publishing_house }}</td>
+                                <td>{{ $books[$i]->city }}</td> -->
                                 <td>{{ get_genre($books[$i]->genre) }}</td>
                                 <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">About {{ $books[$i]->title }}</a>
                                     <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -98,7 +103,14 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label" for="author">Author</label>
                                                             <div class="col-sm-10">
-                                                                <input type="text" class="form-control" id="author" name="author" value="{{ old('author', $books[$i]->author) }}">
+                                                                <select class="form-control" id="author" name="author">
+                                                                    <option value="0">Select author</option>
+                                                                    @if ($authors->count())
+                                                                        @foreach ($authors as $author)
+                                                                            <option value="{{ $author->id }}" @if ($books[$i]->author == $author->id) {{ 'selected="selected"' }} @endif >{{ $author->author_name }} {{ $author->author_surname }}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
                                                             </div>
                                                         </div>
 
@@ -127,13 +139,14 @@
                                                             <label class="col-sm-2 control-label" for="language">Language</label>
                                                             <div class="col-sm-10">
                                                                 <select class="form-control" id="language" name="language">
-                                                                    <option value="{{ $books[$i]->language }}">{{ get_language($books[$i]->language) }}</option>
-                                                                    @if (get_all_languages($books[$i]->language)->count())
-                                                                        @foreach (get_all_languages($books[$i]->language) as $language)
-                                                                            <option value="{{ $language->id }}" @if (old('language') == $language->id) {{ 'selected="selected"' }} @endif >{{ $language->language }}</option>
-                                                                        @endforeach
+                                                                    @if ($languages->count())
+                                                                      @foreach ($languages as $language)
+                                                                        <option value="{{ $language->id }}" @if ($books[$i]->language == $language->language) {{ 'selected="selected"' }} @endif > 
+                                                                            {{ $language->language }}
+                                                                        </option>
+                                                                      @endforeach
                                                                     @endif
-                                                                </select>
+                                                                </select>                                                                
                                                             </div>
                                                         </div>
 
@@ -152,13 +165,6 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="udk">Udk</label>
-                                                            <div class="col-sm-10">
-                                                                <input type="text" class="form-control" id="udk" name="udk" value="{{ $books[$i]->udk }}">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
                                                             <label class="col-sm-2 control-label" for="quantity">Quantity</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $books[$i]->quantity }}">
@@ -168,14 +174,28 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label" for="publishing_house">Publishing house</label>
                                                             <div class="col-sm-10">
-                                                                <input type="text" class="form-control" id="publishing_house" name="publishing_house" value="{{ $books[$i]->publishing_house }}">
+                                                                <select class="form-control" id="publishing_house" name="publishing_house">
+                                                                    <option value="0">Select a publishing house</option>
+                                                                    @if ($publishing_houses->count())
+                                                                        @foreach ($publishing_houses as $publishing_house)
+                                                                            <option value="{{ $publishing_house->id }}" @if ($books[$i]->publishing_house == $publishing_house->id) {{ 'selected="selected"' }} @endif >{{ $publishing_house->publishing_house }}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label" for="city">City</label>
                                                             <div class="col-sm-10">
-                                                                <input type="text" class="form-control" id="city" name="city" value="{{ $books[$i]->city }}">
+                                                                <select class="form-control" id="city" name="city">
+                                                                    <option value="0">Select a city</option>
+                                                                    @if ($cities->count())
+                                                                        @foreach ($cities as $city)
+                                                                            <option value="{{ $city->id }}" @if ($books[$i]->city == $city->id) {{ 'selected="selected"' }} @endif >{{ $city->city }}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
                                                             </div>
                                                         </div>
 
@@ -208,8 +228,53 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <a class="btn btn-default btn-xs" href="{{ url('/book/' . $books[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> -->
-                                    <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#books-delete-modal" data-books-title="{{ $books[$i]->title }}" data-books-author="{{ $books[$i]->author }}" data-books-isbn="{{ $books[$i]->isbn }}" data-books-id="{{ $books[$i]->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                    <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#books-delete-modal{{$books[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                    <div class="modal fade" id="books-delete-modal{{$books[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                    <h4 class="modal-title">Delete book</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' .$books[$i]->id .'/delete') }}">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <h5>Book title</h5>
+                                                            </div>
+                                                            <div>
+                                                                <p>{{ $books[$i]->title }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <h5>Book author</h5>
+                                                            </div>
+                                                            <div>
+                                                                <p>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h4>Ar tikrai norite istrinti?</h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 @endif
                                 @endif
@@ -228,15 +293,16 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Author</th>
-                    <th>ISBN</th>
-                    <th>Date</th>
+                    <!-- <th>ISBN</th> -->
+                    <!-- <th>Date</th> -->
                     <th>Size</th>
                     <th>Language</th>
                     <th>Rusis</th>
-                    <th>UDK</th>
+                    <!-- <th>UDK</th> -->
                     <th>Kiekis</th>
-                    <th>Publishing house</th>
-                    <th>City</th>
+                    <th>Laisvos</th>
+                    <!-- <th>Publishing house</th>
+                    <th>City</th> -->
                     <th>Genre</th>
                     <th>About</th>
                     <th>Add to cart</th>
@@ -251,47 +317,6 @@
     </div>
 </div>
 
-@if (Auth::user())
-@if (Auth::user()->hasRole("admin"))
-<div class="modal fade" id="books-delete-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">Delete book</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . 0 . '/delete') }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="book_id" value="" id="bookid">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Title:</label>
-                            <div class="col-sm-8">
-                                <p class="form-control-static" id="bookTitle"></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Author:</label>
-                            <div class="col-sm-8">
-                                <p class="form-control-static" id="bookAuthor"></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Isbn:</label>
-                            <div class="col-sm-8">
-                                <p class="form-control-static" id="bookIsbn"></p>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
-                </div>
-            </div>
-        </div>
-</div>
-@endif
-@endif
+
 
 @endsection
