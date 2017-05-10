@@ -11,6 +11,9 @@ use Session;
 use App\TakenBooks;
 use Carbon\Carbon;
 use DB;
+use App\Book;
+use App\User;
+use Illuminate\Support\MessageBag;
 
 class TakenBooksController extends Controller
 {
@@ -54,5 +57,24 @@ class TakenBooksController extends Controller
         } else {
             return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
         }
+    }
+
+    public function registerBookIndex(Request $request)
+    {
+        $books = Book::all();
+        $users = User::all();
+
+        return view('taken_books.register', compact('books', 'users'));
+    }
+
+    public function registerBook(Request $request)
+    {
+
+    }
+
+    public function continuedBooks()
+    {
+        $books = TakenBooks::where('returned', '0')->where('times_continued', '>', '0')->orderBy('end_day')->get();
+        return view('taken_books.continued_books', compact('books'));
     }
 }
