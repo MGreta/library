@@ -31,6 +31,12 @@
                         <input type="text" class="form-control" id="author_surname" name="author_surname" value="{{ old('author_surname') }}">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="image">Image</label>
+                    <div class="col-sm-8">
+                        <input type="file" class="form-control" id="author_image" name="image" value="{{ old('image') }}">
+                    </div>
+                </div>
                 <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
             </form>
         </div>
@@ -45,8 +51,8 @@
                     <tr class="info">
                         <th>#</th>
                         <th><a href="{{ action('AuthorController@orderByName') }}">Name</a></th>
-                        <th><a href="{{ action('AuthorController@orderBySurname') }}">Surname</a></th>
                         <th>Books</th>
+                        <th>Kiek kartu autoriaus knygos buvo paimtos</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -55,9 +61,9 @@
                         @for ($i = 0; $i < count($authors); $i++)
                             <tr>
                                 <th>{{ $i+1 }}</th>
-                                    <td><a href="/author/{{ $authors[$i]->id }}/books">{{ $authors[$i]->author_name }}</a></td>
-                                    <td><a href="/author/{{ $authors[$i]->id }}/books">{{ $authors[$i]->author_surname }}</a></td>
+                                    <td><a href="/author/{{ $authors[$i]->id }}/books">{{ $authors[$i]->author_name }} {{ $authors[$i]->author_surname }}</a></td>
                                     <td>{{ get_books_by_authors($authors[$i]->id) }}</td>
+                                    <td> {{ count_author_taken_times($authors[$i]->id) }} </td>
                                     <td>
                                         <a class="btn btn-default btn-xs"  data-toggle="modal" data-target="#authorEdit{{ $authors[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                         <div class="modal fade" id="authorEdit{{ $authors[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -101,8 +107,45 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <a class="btn btn-default btn-xs" href="{{ url('/author/' . $authors[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> -->
-                                        <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#authors-delete-modal" data-authors-id="{{ $authors[$i]->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                        <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#authors-delete-modal{{$authors[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                        <div class="modal fade" id="authors-delete-modal{{$authors[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                        <h4 class="modal-title">Delete author</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/authors/' .$authors[$i]->id .'/delete') }}">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <h5>Author name</h5>
+                                                                </div>
+                                                                <div>
+                                                                    <p>{{ $authors[$i]->author_name }} {{ $authors[$i]->author_surname }}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <h4>Ar tikrai norite istrinti?</h4>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 <td>
                             </tr>
@@ -118,8 +161,8 @@
                     <tr class="info">
                         <th>#</th>
                         <th>Name</th>
-                        <th>Surname</th>
                         <th>Books</th>
+                        <th>Kiek kartu autoriaus knygos buvo paimtos</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
