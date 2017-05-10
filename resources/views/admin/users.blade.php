@@ -95,8 +95,45 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <a class="btn btn-default btn-xs" href="{{ url('/user/' . $users[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> -->
-                                    <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#users-delete-modal" data-users-email="{{ $users[$i]->email }}" data-users-id="{{ $users[$i]->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                    <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#users-delete-modal{{$users[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                    <div class="modal fade" id="users-delete-modal{{$users[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                    <h4 class="modal-title">Delete user</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/all-users/' .$users[$i]->id .'/delete') }}">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <h5>User name</h5>
+                                                            </div>
+                                                            <div>
+                                                                <p>{{ $users[$i]->name }} {{ $users[$i]->last_name }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h4>Ar tikrai norite istrinti?</h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             <td>
                         </tr>
