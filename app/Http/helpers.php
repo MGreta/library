@@ -7,9 +7,13 @@ use App\Type;
 use App\User;
 use App\BookRatings;
 use App\TakenBooks;
+use App\Comments;
 use Carbon\Carbon;
 use App\Option;
 use App\Genres;
+use App\Book_reservations;
+use App\PublishingHouse;
+use App\City;
 
 function get_author_name($id) {
 	$author_name = Author::where('id', $id)->value('author_name');
@@ -29,11 +33,11 @@ function get_language($id) {
 	return $language;
 }
 
-function get_all_languages($id) {
+/*function get_all_languages($id) {
 	$languages = Language::where('id', '!=', $id)->get();
 
 	return $languages;
-}
+}*/
 
 function get_type($id) {
 	$type = Type::where('id', $id)->value('type');
@@ -95,6 +99,25 @@ function get_average_rating($id) {
     $ratings = round($ratings, 1);
     return $ratings;
 }
+function count_ratings($id) {
+	$ratings = BookRatings::where('book_id', $id)->count();
+	return $ratings;
+}
+function count_comments($id) {
+	$comments = Comments::where('book_id', $id)->count();
+	return $comments;
+}
+function count_book_taken_times($id) {
+	$times = TakenBooks::where('book_id', $id)->count();
+	return $times;
+}
+function count_author_taken_times($id) {
+	$times = TakenBooks::where('id', $id)->count();
+
+	$books = DB::table('books')->join('taken_books', 'books.id', '=', 'taken_books.book_id')->where('books.author', $id)->count();
+
+	return $books;
+}
 function is_late($id) {
 	$is_late = TakenBooks::where('book_id', $id)->where('end_day', '<', Carbon::now())->value('id');
 
@@ -133,4 +156,57 @@ function is_read($id) {
 	$is_read = TakenBooks::where('id', $id)->value('read');
 
 	return $is_read;
+}
+function count_free_books($id) {
+	$all = Book::where('id', $id)->value('quantity');
+	$reserved = Book_reservations::where('book_id', $id)->count();
+	$taken = TakenBooks::where('book_id', $id)->count();
+
+	$free = $all - $reserved - $taken;
+	return $free; 
+}
+
+function count_continued_books() {
+	$books = TakenBooks::where('returned', '0')->where('times_continued', '>', '0')->count();
+
+	return $books;
+}
+
+function count_occupied_books() {
+	$books = TakenBooks::where('returned', '0')->orderBy('end_day')->count();
+
+	return $books;
+}
+
+function count_reserved_books() {
+	$reservations = Book_reservations::where('is_ready', '0')->count();
+    $reservations_is_ready = Book_reservations::where('is_ready', '1')->count();
+
+    $books = $reservations + $reservations_is_ready;
+
+    return $books;
+}
+
+function count_late_books() {
+	$books = TakenBooks::where('returned', '0')->where('end_day', '<', Carbon::now())->orderBy('end_day')->count();
+
+	return $books;
+}
+
+function count_returned_books() {
+	$books = TakenBooks::where('returned', '1')->orderBy('end_day')->count();
+
+	return $books;
+}
+
+function get_publishing_house($publishing_house_id) {
+	$publishing_house = PublishingHouse::where('id', $publishing_house_id)->value('publishing_house');
+
+	return $publishing_house;
+}
+
+function get_city($city_id) {
+	$city = City::where('id', $city_id)->value('city');
+
+	return $city;
 }
