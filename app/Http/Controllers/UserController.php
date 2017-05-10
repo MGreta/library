@@ -11,6 +11,8 @@ use Validator;
 use App\TakenBooks;
 use App\Book_reservations;
 use Carbon\Carbon;
+use App\Book;
+use Illuminate\Support\MessageBag;
 
 
 class UserController extends Controller
@@ -137,4 +139,38 @@ class UserController extends Controller
         }
     }
 
+    public function destroy($id)
+    {
+        DB::table('users')->where('id', $id)->delete();
+        return redirect()->back();
+    }
+
+    public function continueBook($id, $taken_id)
+    {
+        $all = Book::where('id', $id)->value('quantity');
+        $reserved = Book_reservations::where('book_id', $id)->count();
+        $taken = TakenBooks::where('book_id', $id)->where('returned', '=', '0')->count();
+
+        $free = $all - $reserved - $taken;
+        $taken_book_id = TakenBooks::where('book_id', $id)->where('id', $taken_id)->value('id');
+        $times_continued = TakenBooks::where('id', $taken_book_id)->value('times_continued');
+        if ($free > 0)
+        {
+            if ($book = TakenBooks::find($taken_book_id)) {
+                $book = TakenBooks::find($taken_book_id);
+                $book->end_day = Carbon::now()->addDays(30);
+                $times_continued = $times_continued + 1;
+                $book->times_continued = $times_continued;
+                $response = $book->save();
+                if ($response) {
+                    return redirect()->back()->with(['message' => 'Rezrevacija pratesta.']);
+                }
+                return redirect('/books');
+            }
+        } else 
+        {
+            /*return redirect()->back()->withErrors(['error' => 'Knygos prasitesti negalima.']);*/
+            return redirect('/user-returned-books');
+        }
+    }
 }

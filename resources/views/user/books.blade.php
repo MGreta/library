@@ -17,13 +17,14 @@
                     <th>Days left</th>
                     <th>Days late</th>
                     <th>debt</th>
+                    <th>Prasitesti knyga</th>
                 </tr>
             </thead>
             <tbody>
                 @if ($books->count())
                     @for ($i = 0; $i < count($books); $i++)
-                        @if(is_late($books[$i]->book_id) == $books[$i]->id)
-                        <tr  style="color:red" >
+                        @if(days_late($books[$i]->id) > 0)
+                        <tr  style="color:red">
                         @else
                         <tr>
                         @endif
@@ -43,6 +44,13 @@
                                 <td> {{ days_left($books[$i]->id) }} </td>
                                 <td> {{ days_late($books[$i]->id) }} </td>
                                 <td> {{ get_debt($books[$i]->id) }} </td>
+                                <td>
+                                @if((days_left($books[$i]->id) < 7) && (days_late($books[$i]->id) == 0) && (count_free_books($books[$i]->book_id) > 0))
+                                    <a class="btn btn-default btn-xs" href="{{ url('/user-books/' . $books[$i]->book_id . '/' . $books[$i]->id . '/continueBook') }}"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a>
+                                @else
+                                    <a class="btn btn-default btn-xs" href="{{ url('/user-books/' . $books[$i]->book_id . '/' . $books[$i]->id . '/continueBook') }}" disabled><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a>
+                                @endif
+                                </td>
                         </tr>
                     @endfor
                 @else
@@ -63,6 +71,7 @@
                     <th>Days left</th>
                     <th>Days late</th>
                     <th>debt</th>
+                    <th>Prasitesti knyga</th>
                 </tr>
             </tfoot>
         </table>
