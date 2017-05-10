@@ -9,7 +9,59 @@
         });
     </script>
 @endif
-<div class="">   
+<div class="">  
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Add Language</div>
+                <div class="panel-body">
+                    <form class="form-inline" role="form" method="POST" action="{{ url('/language') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <!-- <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" for="language">Language</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="language" name="language" value="{{ old('language') }}">
+                            </div>
+                        </div> -->
+
+                        <div class="input-group control-group after-add-more">
+                            <input type="text" name="language[]" class="form-control" value="{{ old('language') }}">
+                        </div>
+                        <div class="input-group-btn"> 
+                                <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
+                        </div>
+                        <!-- Copy Fields -->
+                        <!-- <div class="copy hide">
+                            <div class="control-group input-group" style="margin-top:10px">
+                                <input type="text" name="language[]" class="form-control" value="{{ old('language') }}">
+                                <div class="input-group-btn"> 
+                                    <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <script type="text/javascript">
+
+                            $(document).ready(function() {
+                                $(".add-more").click(function(){ 
+                                    var html = $(".after-add-more").html();
+                                    $(".after-add-more").after(html);
+                                });
+
+                                $("body").on("click",".remove",function(){ 
+                                    $(this).parents(".control-group").remove();
+                                });
+                            });
+
+                        </script>
+
+
+                        <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> 
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
@@ -72,8 +124,45 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- <a class="btn btn-default btn-xs" href="{{ url('/language/' . $languages[$i]->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> -->
-                                                    <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#languages-delete-modal" data-languages="{{ $languages[$i]->language }}" data-languages-id="{{ $languages[$i]->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                                    <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#languages-delete-modal{{$languages[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                                    <div class="modal fade" id="languages-delete-modal{{$languages[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                                    <h4 class="modal-title">Delete language</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/language/' .$languages[$i]->id .'/delete') }}">
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <h5>Language</h5>
+                                                                            </div>
+                                                                            <div>
+                                                                                <p>{{ $languages[$i]->language }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <h4>Ar tikrai norite istrinti?</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 @endif
                                             @endif

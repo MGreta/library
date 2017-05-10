@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Language;
 use Validator;
 use DB;
+use Illuminate\Support\MessageBag;
 
 class LanguageController extends Controller
 {
@@ -31,23 +32,27 @@ class LanguageController extends Controller
 
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'language' => 'required|max:255'
-        ]);
 
-        if ($validator->fails()) {
-
-            return redirect()->back()->withErrors($validator)->withInput();
+        $languages = $request->input('language');
+        foreach($languages as $language){
+            $language_same = Language::where('language', $language)->get();
+            if($language = ''){
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+            }else{
+                if (count($language_same) !== 0){
+                    return redirect()->back()->with('errors', new MessageBag(['kalba jau yra įvesta']));
+                }
+            }
         }
 
-        $language = Language::create([
-            'language' => $request->input('language')
-        ]);
+        foreach($languages as $language){
+            $language = Language::create([
+                'language' => $language
+            ]);
+        }
         if ($language) {
-
             return redirect('language')->with('status', 'Language created successfully.');
         }
-
         return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new language. Please try again.']));
     }
 
@@ -91,7 +96,8 @@ class LanguageController extends Controller
 
     public function destroy($id)
     {
-        //
+        DB::table('languages')->where('id', $id)->delete();
+        return redirect()->back();
     }
 
     public function order()
