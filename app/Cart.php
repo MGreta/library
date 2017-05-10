@@ -28,4 +28,8 @@ class Cart
         $this->items[$id] = $storedItem;
         $this->totalQty++;
     }
+
+    public function removeItem($id) {
+        unset($this->items[$id]);
+    }
 }

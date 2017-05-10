@@ -13,6 +13,12 @@ use App\Type;
 use App\Book_reservations;
 use App\Role;
 use DB;
+use Session;
+use App\Cart;
+use App\TakenBooks;
+use Carbon\Carbon;
+use Auth;
+use Illuminate\Support\MessageBag;
 
 class AdminController extends Controller
 {
@@ -145,6 +151,69 @@ class AdminController extends Controller
             }
             return redirect('/all-users');
         }
+    }
+    //shopping cart
+    public function shoppingCart()
+    {
+        if (!Session::has('cart')) {
+            return view('user.shopping_cart', ['books' => null]);
+        }
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+        $users = User::all();
+
+
+        $books = $cart->items;
+        foreach ($books as $book) {
+            if (count_free_books($book['item']['id']) == '0') {
+
+                $book_id = $book['item']['id'];
+                $will_be_free = TakenBooks::where('book_id', $book_id)->orderBy('end_day')->first();
+
+                return view('user.shopping_cart')->with('books', $books)->with('will_be_free', $will_be_free)->with('successMsg','Book will be free from ');
+            }
+        }
+
+        return view('admin.shopping_cart', ['books' => $cart->items], compact('users'));
+    }
+
+    public function store(Request $request)
+    {
+        $user_id = $request->input('user');
+        $admin_id = Auth::user()->id;
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+        $books = $cart->items;
+        if ($request->has('create')) {
+            foreach ($books as $book) {
+                
+                $book_id = $book['item']['id'];
+                $book = new TakenBooks();
+                $book->user_id = $user_id;
+                $book->book_id = $book_id;
+                $book->start_day = Carbon::now();
+                $book->end_day = Carbon::now()->addDays(30);
+                $book->worker_id = $admin_id;
+                $book->save();
+            }
+
+            Session::forget('cart');
+            return redirect('/books')->with('status', 'User created successfully.');
+        }
+
+        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new user. Please try again.']));
+    }
+
+    public function getRemoveItem($id) {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+        if (count($cart->items) > 0) {
+            Session::put('cart', $cart);
+        } else {
+            Session::forget('cart');
+        }
+        return redirect()->back();
     }
 
 }
