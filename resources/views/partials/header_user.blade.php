@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">            
             <form class="navbar-form navbar-left">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Detali paieska</li>
+                    <li><a href=" {{ url('/search') }} ">Detali paieska</li>
                 </ul>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">

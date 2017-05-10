@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">            
             <form class="navbar-form navbar-left">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Detali paieska</li>
+                    <li><a href=" {{ url('/search') }} ">Detali paieska</li>
                 </ul>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
@@ -25,6 +25,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"></a></li>
                 <!-- <li><a href="{{ url('/admin') }}">Admin</a></li> -->
+                <li>
+                    <a href="{{ url('/admin-shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Shopping Cart
+                    <span class="badge">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
+                    </a>
+                </li>
                 <li><a href="{{ url('/profile') }}">Profile</a></li>
                 <li>
                     <a href="{{ url('/logout') }}"

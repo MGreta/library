@@ -13,16 +13,24 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              
-                    <form class="navbar-form navbar-left">
+                    <div class="navbar-form navbar-left">
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Detali paieska</li>
+                            <li><a href=" {{ url('/detail-search') }} ">Detali paieska</a></li>
                         </ul>
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
+                        <form class="form-horizontal" role="form" method="GET" action="{{ url('/search/search') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" placeholder="Search" name="search" value="{{ old('search') }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"></a></li>
                         <li>
