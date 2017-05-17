@@ -14,6 +14,8 @@ use DB;
 use App\Book;
 use App\User;
 use Illuminate\Support\MessageBag;
+use App\Option;
+use App\Book_reservations;
 
 class TakenBooksController extends Controller
 {
@@ -76,5 +78,36 @@ class TakenBooksController extends Controller
     {
         $books = TakenBooks::where('returned', '0')->where('times_continued', '>', '0')->orderBy('end_day')->get();
         return view('taken_books.continued_books', compact('books'));
+    }
+
+    public function continueBook($id, $taken_id)
+    {
+        $days = Option::where('name', 'days_to_have_book')->value('value');
+
+        $all = Book::where('id', $id)->value('quantity');
+        $reserved = Book_reservations::where('book_id', $id)->count();
+        $taken = TakenBooks::where('book_id', $id)->where('returned', '=', '0')->count();
+
+        $free = $all - $reserved - $taken;
+        $taken_book_id = TakenBooks::where('book_id', $id)->where('id', $taken_id)->value('id');
+        $times_continued = TakenBooks::where('id', $taken_book_id)->value('times_continued');
+        if ($free > 0)
+        {
+            if ($book = TakenBooks::find($taken_book_id)) {
+                $book = TakenBooks::find($taken_book_id);
+                $book->end_day = Carbon::now()->addDays($days);
+                $times_continued = $times_continued + 1;
+                $book->times_continued = $times_continued;
+                $response = $book->save();
+                if ($response) {
+                    return redirect()->back()->with(['message' => 'Rezervacija pratesta.']);
+                }
+                return redirect('/books');
+            }
+        } else 
+        {
+            /*return redirect()->back()->withErrors(['error' => 'Knygos prasitesti negalima.']);*/
+            return redirect('/occupied-books');
+        }
     }
 }

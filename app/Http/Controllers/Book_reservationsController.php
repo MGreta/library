@@ -14,6 +14,7 @@ use App\TakenBooks;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\MessageBag;
+use App\Option;
 
 class Book_reservationsController extends Controller
 {
@@ -33,6 +34,7 @@ class Book_reservationsController extends Controller
 	public function store(Request $request)
     {
     	$user_id = Auth::user()->id;
+        $days = Option::where('name', 'days_to_have_book')->value('value');
         /*$validator =  Validator::make($request->all(), [
             'name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -59,7 +61,7 @@ class Book_reservationsController extends Controller
                 $book->book_id = $book_id;
                 $book->comment = $request->input('comment');
                 $book->reservation_start_day = Carbon::now();
-                $book->reservation_end_day = Carbon::now()->addDays(30);
+                $book->reservation_end_day = Carbon::now()->addDays($days);
                 $book->save();
         	}
 
@@ -79,10 +81,12 @@ class Book_reservationsController extends Controller
         } else {
             Session::forget('cart');
         }
-        return redirect()->back();
+        return redirect('/shopping-cart');
     }
 
     public function postToTakenBooks(Request $request, $id) {
+        $days = Option::where('name', 'days_to_have_book')->value('value');
+
     	$book_id = Book_reservations::where('id', $id)->value('book_id');
     	$user_id = Book_reservations::where('id', $id)->value('user_id');
         $worker_id = Auth::user()->id;
@@ -90,7 +94,7 @@ class Book_reservationsController extends Controller
     	$book->book_id = $book_id;
     	$book->user_id = $user_id;
     	$book->start_day = Carbon::now();
-    	$book->end_day = Carbon::now()->addDays(30);
+    	$book->end_day = Carbon::now()->addDays($days);
         $book->worker_id = $worker_id;
     	$response = $book->save();
     	if ($response) {

@@ -16,7 +16,9 @@
                     <th>read(yes/no)</th>
                     <th>admin</th>
                     <th>Days late</th>
+                    @if(is_price() !== '0')
                     <th>debt</th>
+                    @endif
                     <th>Returned</th>
                 </tr>
             </thead>
@@ -32,7 +34,9 @@
                                 <td> {{-- $books[$i]->read --}} </td>
                                 <td> {{ get_user_name($books[$i]->worker_id) }} </td>
                                 <td> {{ days_late($books[$i]->id) }} </td>
+                                @if(is_price() !== '0')
                                 <td> {{ get_debt($books[$i]->id) }} </td>
+                                @endif
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/late-books/' . $books[$i]->id . '/returned') }}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
                                 </td>
@@ -55,7 +59,9 @@
                     <th>read(yes/no)</th>
                     <th>admin</th>
                     <th>Days late</th>
+                    @if(is_price() !== '0')
                     <th>debt</th>
+                    @endif
                     <th>Returned</th>
                 </tr>
             </tfoot>

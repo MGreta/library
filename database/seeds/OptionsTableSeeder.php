@@ -11,6 +11,14 @@ class OptionsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('udk_third_level')->insert([
+            [
+            	'name' => 'debt_price',
+            	'value' => '0'
+            ],[
+                'name' => 'days_to_have_book',
+            	'value' => '30'
+            ]
+            ]);
     }
 }

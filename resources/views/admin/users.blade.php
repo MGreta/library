@@ -19,7 +19,7 @@
                     <th><a href="{{ action('AdminController@orderByFirstName') }}">First Name</a></th>
                     <th><a href="{{ action('AdminController@orderByLastName') }}">Last Name</a></th>
                     <th><a href="{{ action('AdminController@orderByEmail') }}">Email</a></th>
-                    <th><a href="{{ action('AdminController@orderByClass') }}">Class</a></th>
+                    <!-- <th><a href="{{ action('AdminController@orderByClass') }}">Class</a></th> -->
                     <th><a href="{{ action('AdminController@orderByRole') }}">Role</a></th>
                     <th>Action</th>
                 </tr>
@@ -29,12 +29,12 @@
                     @for ($i = 0; $i < count($users); $i++)
                         <tr>
                             <th>{{ $i+1 }}</th>
-                                <td>{{ $users[$i]->name }}</td>
-                                <td>{{ $users[$i]->last_name }}</td>
+                                <td><a href="{{ url('/about-user/' . $users[$i]->id ) }}">{{ $users[$i]->name }}</a></td>
+                                <td><a href="{{ url('/about-user/' . $users[$i]->id ) }}">{{ $users[$i]->last_name }}</a></td>
                                 <td>{{ $users[$i]->email }}</td>
-                                <td>{{ $users[$i]->class }}</td>
-                                <td>@foreach ($users[$i]->roles()->pluck('name', 'slug') as $slug => $name)
-                                        {{ $name }}
+                                <!-- <td>{{ $users[$i]->class }}</td> -->
+                                <td>@foreach ($users[$i]->roles()->pluck('name', 'slug') as $slug => $role_name)
+                                        {{ $role_name }}
                                     @endforeach
                                 </td>
                                 <td>
@@ -52,33 +52,53 @@
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="title">Name</label>
+                                                            <label class="col-sm-2 control-label" for="first_name">Name</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $users[$i]->name) }}">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="author">Last Name</label>
+                                                            <label class="col-sm-2 control-label" for="last_name">Last Name</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name', $users[$i]->last_name) }}">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="isbn">Class</label>
+                                                            <label class="col-sm-2 control-label" for="class">Class</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="class" name="class" value="{{ old('class', $users[$i]->class) }}">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="date">Email</label>
+                                                            <label class="col-sm-2 control-label" for="email">Email</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $users[$i]->email) }}">
                                                             </div>
                                                         </div>
 
+                                                        <!-- <div class="form-group">
+                                                            <label class="col-sm-2 control-label" for="role">Role</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="role" name="role" value="{{ old('role', $role_name) }}">
+                                                            </div>
+                                                        </div> -->
+                                                        
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label" for="role">Role</label>
+                                                            <div class="col-sm-10">
+                                                                <select class="form-control" id="role" name="role">
+                                                                    @if ($roles->count())
+                                                                        @foreach ($roles as $role)
+                                                                            <option value="{{ $role->id }}" @if ($role_name == $role->name) {{ 'selected="selected"' }} @endif >{{ $role->name }}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="form-group">
                                                             <div class="col-md-6 col-md-offset-4">
                                                                 <button type="submit" class="btn btn-primary">
@@ -151,7 +171,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <th>Class</th>
+                    <!-- <th>Class</th> -->
                     <th>Roles</th>
                     <th>Action</th>
                 </tr>

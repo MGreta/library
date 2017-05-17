@@ -30,6 +30,7 @@ class Cart
     }
 
     public function removeItem($id) {
+        $this->totalQty--;
         unset($this->items[$id]);
     }
 }

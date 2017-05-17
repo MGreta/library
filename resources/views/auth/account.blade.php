@@ -1,3 +1,4 @@
+{{--
 @extends('layouts.default')
 
 @section('content')
@@ -29,12 +30,12 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="col-md-4 control-label" for="last_name">Class</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" id="class" name="class" value="{{ old('class', $user->class) }}">
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="email">Class</label>
@@ -58,3 +59,4 @@
     </div>
 </div>
 @endsection
+--}}

@@ -5,6 +5,9 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Book_reservations;
+use Carbon\Carbon;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -13,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\Inspire',
     ];
 
     /**
@@ -24,15 +27,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        /*$schedule->call(function() 
+        // Delete ended reservations
+
+
+        $schedule->call(function() 
         {
-            $price = Option::where('name', 'debt_price')->value('value');
-            $late_date = new Carbon(TakenBooks::where('end_day', '<', Carbon::now())->value('end_day'));
-            $now = Carbon::now();
-            $time_late = ($late_date->diff($now)->days);
-            $debt = $time_late*$price;
-            TakenBooks
-        })*/
+            Book_reservations::where('reservation_end_day', '<', Carbon::now())->delete();
+        })->everyMinute();
     }
 
     /**

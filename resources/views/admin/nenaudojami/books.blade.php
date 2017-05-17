@@ -30,7 +30,7 @@
                         <tr>
                             <th>{{ $i+1 }}</th>
                                 <td>{{ $books[$i]->title }}</td>
-                                <td>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</td>
+                                <td>{{ get_author_name($books[$i]->author) }}</td>
                                 <td>{{ $books[$i]->isbn }}</td>
                                 <td>{{ $books[$i]->date }}</td>
                                 <td>{{ $books[$i]->size }}</td>

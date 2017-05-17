@@ -43,7 +43,7 @@
                                     <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
                                     <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
                                 </td>
-                                <td>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</td>
+                                <td>{{ get_author_name($books[$i]->author) }}</td>
                                 <td>{{ $books[$i]->size }}</td>
                                 <td>{{ $books[$i]->language }}</td>
                                 <td>{{ get_type($books[$i]->type) }}</td>
@@ -229,7 +229,7 @@
                                                                 <h5>Book author</h5>
                                                             </div>
                                                             <div>
-                                                                <p>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</p>
+                                                                <p>{{ get_author_name($books[$i]->author) }}</p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -255,7 +255,6 @@
                                 </td>
                                 @endif
                                 @endif
-                            <td>
                         </tr>
                     @endfor
                 @else

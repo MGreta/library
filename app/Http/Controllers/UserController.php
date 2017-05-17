@@ -13,6 +13,7 @@ use App\Book_reservations;
 use Carbon\Carbon;
 use App\Book;
 use Illuminate\Support\MessageBag;
+use App\Option;
 
 
 class UserController extends Controller
@@ -34,35 +35,33 @@ class UserController extends Controller
         return view('user.index', compact('user'));
 
 	}
-	public function edit($id)
+	/*public function edit($id)
 	{
 		$user = Auth::user();
 		return view('auth.account', compact('user'));
-	}
+	}*/
 
-	public function update(Request $request, User $user)
+	public function update(Request $request)
 	{
 		$id = Auth::user()->id;
 		$validator =  Validator::make($request->all(), [
             'name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'class' => 'max:255',
             'email' => 'max:255'
         ]);
 
         if ($validator->fails()) {
 
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect('/profile')->with('errors', new MessageBag(['Error saving user. Please try again.']));
         }
 
         if ($user = User::find($id)) {
             $user->name = $request->input('name');
             $user->last_name = $request->input('last_name');
-            $user->class = $request->input('class');
             $user->email = $request->input('email');
             if ($user->save()) {
 
-                return view('auth.account', compact('user'))->with('status', 'Update successful.');
+                return view('user.index', compact('user'))->with('status', 'Update successful.');
             }
 
             return redirect('/profile')->with('errors', new MessageBag(['Error saving user. Please try again.']));
@@ -147,6 +146,8 @@ class UserController extends Controller
 
     public function continueBook($id, $taken_id)
     {
+        $days = Option::where('name', 'days_to_have_book')->value('value');
+
         $all = Book::where('id', $id)->value('quantity');
         $reserved = Book_reservations::where('book_id', $id)->count();
         $taken = TakenBooks::where('book_id', $id)->where('returned', '=', '0')->count();
@@ -158,7 +159,7 @@ class UserController extends Controller
         {
             if ($book = TakenBooks::find($taken_book_id)) {
                 $book = TakenBooks::find($taken_book_id);
-                $book->end_day = Carbon::now()->addDays(30);
+                $book->end_day = Carbon::now()->addDays($days);
                 $times_continued = $times_continued + 1;
                 $book->times_continued = $times_continued;
                 $response = $book->save();

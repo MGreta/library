@@ -39,8 +39,20 @@ class AdminController extends Controller
 	{
         $roles = Role::all();
 		$users = User::all();
-		return view('admin.users', compact('users'));
+		return view('admin.users', compact('users', 'roles'));
 	}
+
+    public function aboutUser($id)
+    {
+        $user = User::find($id);
+
+        $ready_reservations = Book_reservations::where('user_id', $id)->where('is_ready', '1')->get();
+        $not_ready_reservations = Book_reservations::where('user_id', $id)->where('is_ready', '0')->get();
+        $taken_books = TakenBooks::where('user_id', $id)->where('returned', '0')->orderBy('end_day')->get();
+        $returned_books = TakenBooks::where('user_id', $id)->where('returned', '1')->orderBy('end_day')->get();
+
+        return view('admin.about_user', compact('user', 'ready_reservations', 'not_ready_reservations', 'taken_books', 'returned_books'));
+    }
 
     //Order Users by
     public function orderByFirstName()
@@ -147,6 +159,8 @@ class AdminController extends Controller
             $user->email = $request->input('email');
             $response = $user->save();
             if ($response) {
+                $user->roles()->detach();
+                $user->roles()->attach($request->input('role'));
                 return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
             }
             return redirect('/all-users');

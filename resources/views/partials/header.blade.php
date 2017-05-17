@@ -33,12 +33,8 @@
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"></a></li>
-                        <li>
-                            <a href="{{ url('/shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Shopping Cart
-                            <span class="badge">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
-                            </a>
-                        </li>
                         <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/register') }}">Register</a></li>
                         <!-- <li><a href="#">Register</a></li> -->
                     </ul>
                 </div><!-- /.navbar-collapse -->

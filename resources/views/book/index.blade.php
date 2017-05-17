@@ -47,7 +47,7 @@
                                     <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
                                     <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
                                 </td>
-                                <td>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</td>
+                                <td>{{ get_author_name($books[$i]->author) }}</td>
                                 <!-- <td>{{ $books[$i]->isbn }}</td> -->
                                 <!-- <td>{{ $books[$i]->date }}</td> -->
                                 <td>{{ $books[$i]->size }}</td>
@@ -75,11 +75,12 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Add</a>
+                                    <a class="btn btn-default btn-xs" href="{{ url('/book/' . $books[$i]->id . '/edit' ) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                 </td>
                                 @if (Auth::user())
                                 @if (Auth::user()->hasRole("admin"))
                                 <td>
+                                {{--
                                     <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#booksEdit{{ $books[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                     <div class="modal fade" id="booksEdit{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
@@ -213,6 +214,27 @@
                                                             </div>
                                                         </div>
 
+                                                        @foreach ($first_level_results as $first_level_result)
+                                                            <select class="form-control udk-select selectpicker" data-live-search="true" data-size="10" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
+                                                                <ul>
+                                                                    <option class="first-level" style="color: #999999;" value="not-selected"> {{ $first_level_result['title'] }} </option>
+                                                                    <option class="first-level" style="font-size: 16px; font-weight: 600; color: #000;" value="{{ $first_level_result['title'] }}"> {{ $first_level_result['title'] }} </option>
+                                                                    @foreach ($second_level_results as $second_level_result)
+                                                                        @if ($first_level_result['id'] == $second_level_result['first_level_id'])
+                                                                        <option class="second-level" style="font-size: 14px; font-weight: 500; color: #000;" value="{{ $second_level_result['code'] }}"> {{ $second_level_result['title'] }} </option>
+                                                                            <ul>
+                                                                            @foreach ($third_level_results as $third_level_result)
+                                                                                @if ($first_level_result['id'] == $second_level_result['first_level_id'] && $first_level_result['id'] == $third_level_result['first_level_id'] && $second_level_result['id'] == $third_level_result['second_level_id'])
+                                                                                <option class="third-level" style="font-size: 12px; font-weight: 300; color: #000;" value="{{ $third_level_result['code'] }}">{{ $third_level_result['title'] }} </option>
+                                                                                @endif
+                                                                            @endforeach
+                                                                            </ul>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </ul>
+                                                            </select>
+                                                        @endforeach
+
                                                         <div class="form-group">
                                                             <div class="col-md-6 col-md-offset-4">
                                                                 <button type="submit" class="btn btn-primary">
@@ -228,6 +250,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                --}}
+                                    <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Add</a>
                                     <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#books-delete-modal{{$books[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                     <div class="modal fade" id="books-delete-modal{{$books[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
@@ -252,7 +276,7 @@
                                                                 <h5>Book author</h5>
                                                             </div>
                                                             <div>
-                                                                <p>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</p>
+                                                                <p>{{ get_author_name($books[$i]->author) }}</p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -278,7 +302,6 @@
                                 </td>
                                 @endif
                                 @endif
-                            <td>
                         </tr>
                     @endfor
                 @else

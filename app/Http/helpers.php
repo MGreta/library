@@ -14,6 +14,7 @@ use App\Genres;
 use App\Book_reservations;
 use App\PublishingHouse;
 use App\City;
+use App\Role;
 
 function get_author_name($id) {
 	$author_name = Author::where('id', $id)->value('author_name');
@@ -21,11 +22,11 @@ function get_author_name($id) {
 	return $author_name;
 }
 
-function get_author_surname($id) {
+/*function get_author_surname($id) {
 	$author_surname = Author::where('id', $id)->value('author_surname');
 
 	return $author_surname;
-}
+}*/
 
 function get_language($id) {
 	$language = Language::where('id', $id)->value('language');
@@ -87,6 +88,10 @@ function get_user_name($id) {
 	return $user_name;
 }
 
+/*function get_user_role($id) {
+	$role = Role::where
+}*/
+
 function get_book($id) {
 	$book = Book::where('id', $id)->value('title');
 
@@ -141,6 +146,16 @@ function get_price() {
 	$price = Option::where('name', 'debt_price')->value('value');
 
 	return $price;
+}
+function is_price() {
+	$price = Option::where('name', 'debt_price')->value('value');
+
+	return $price;
+}
+function get_days_to_have_book() {
+	$days = Option::where('name', 'days_to_have_book')->value('value');
+
+	return $days;
 }
 function get_debt($id) {
 	$price = Option::where('name', 'debt_price')->value('value');

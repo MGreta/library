@@ -15,7 +15,7 @@
             
       <div class="form-group">
         <label class="col-sm-1 control-label" for="author">Author</label>
-         <div class="col-sm-3">
+         <div class="col-sm-5">
           <select class="form-control" id="author" name="author">
             <option value="0">Select author</option>
             <option value="other" @if (old('author') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
@@ -28,13 +28,8 @@
         </div>
 
         <label for="author-name" class="col-sm-1 control-label">Author name</label>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
           <input type="text" class="form-control" id="author_name" placeholder="author name" name="author_name" value="{{ old('author_name') }}" disabled>
-        </div>
-
-        <label for="author_surname" class="col-sm-1 control-label">Author surname</label>
-        <div class="col-sm-3">
-          <input type="text" class="form-control" id="author_surname" placeholder="author surname" name="author_surname" value="{{ old('author_surname') }}" disabled>
         </div>
       </div>
     	<!-- <div class="form-group" id="create-book-authname" style="display: none;">
@@ -194,7 +189,7 @@
 
 
       @foreach ($first_level_results as $first_level_result)
-      <select class="form-control udk-select" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
+      <select class="form-control udk-select selectpicker" data-live-search="true" data-size="10" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
         <ul>
         <option class="first-level" style="color: #999999;" value="not-selected"> {{ $first_level_result['title'] }} </option>
         <option class="first-level" style="font-size: 16px; font-weight: 600; color: #000;" value="{{ $first_level_result['title'] }}"> {{ $first_level_result['title'] }} </option>
@@ -213,7 +208,7 @@
         </ul>
       </select>
       @endforeach
-      <select class="form-control" id="genre" name="genre">
+      <select class="form-control selectpicker" data-live-search="true" data-size="10" id="genre" name="genre">
         <option value="0">Romanai</option>
           @if ($genres->count())
             @foreach ($genres as $genre)
@@ -237,12 +232,10 @@
   $('#author').on('change', function(){
     if($(this).val() == 'other'){
       $('#author_name').prop("disabled", false);
-      $('#author_surname').prop("disabled", false);
     }
   });
   if($('#author').val() == 'other'){
     $('#author_name').prop("disabled", false);
-    $('#author_surname').prop("disabled", false);
   };
 
   $('#language').on('change', function(){

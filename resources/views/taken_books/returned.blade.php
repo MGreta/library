@@ -27,7 +27,13 @@
                                 <td> {{ get_book($books[$i]->book_id) }} </td>
                                 <td> {{ $books[$i]->start_day }} </td>
                                 <td> {{ $books[$i]->end_day }} </td>
-                                <td> {{-- $books[$i]->read --}} </td>
+                                <td>
+                                    @if(is_read($taken_books[$i]->id) == '1')
+                                    Yes
+                                    @else
+                                    No
+                                    @endif 
+                                </td>
                                 <td> {{ get_user_name($books[$i]->worker_id) }} </td>
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/returned-books/' . $books[$i]->id . '/not-returned') }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>

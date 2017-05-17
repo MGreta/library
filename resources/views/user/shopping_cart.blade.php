@@ -3,7 +3,10 @@
 @section('content')
 @include ('partials.message')
 @if(!empty($successMsg))
-  <div class="alert alert-success"> {{ $will_be_free->book_id }} {{ $successMsg }} {{$will_be_free->end_day}} </div>
+    {{--<div class="alert alert-success"> {{ $will_be_free->book_id }} {{ $successMsg }} {{$will_be_free->end_day}} </div> --}}
+    @foreach ($not_free as $not_free)
+      <div class="alert alert-success"><p>{{ $not_free['book_title'] }} bus laisva {{ $not_free['end_day'] }}</p></div>
+    @endforeach
 @endif
 <div class="panel panel-primary">
     <div class="panel-heading">Shopping cart</div>
@@ -95,7 +98,6 @@
                                         </div>
                                     </div> -->
                                 </td>
-                            <td>
                         </tr>
                     @endforeach
             </tbody>

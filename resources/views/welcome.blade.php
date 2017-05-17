@@ -123,14 +123,14 @@
                     <ul class="nav nav-sidebar">
                         <li><a href="{{ url('/all-users') }}">Users</a></li>
                         <li><a href="{{ url('/books') }}">Books</a></li>
-                        <li><a href="{{ url('/authors') }}">Authors</a></li>
+                        <li><a href="{{ url('authors') }}">Authors</a></li>
                         <li><a href="{{ url('/language') }}">Language</a></li>
                         <li><a href="{{ url('/type') }}">Type</a></li>
                         <li><a href="{{ url('/genres') }}">Genre</a></li>
                         <li><a href="{{ url('/publishing-house') }}">Publishing House</a></li>
                         <li><a href="{{ url('/city') }}">City</a></li>
                         <hr>
-                        <li><a href="{{ url('/add-user') }}">Add users</a></li>
+                        <!-- <li><a href="{{ url('/add-user') }}">Add users</a></li> -->
                         <li><a href="{{ url('/add-book') }}">Add Books</a></li>
                         <hr>                    
                         <li><a href="{{ url('/register-book') }}">Register Book</a></li>

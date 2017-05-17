@@ -4,7 +4,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">Add User</div>
   <div class="panel-body">
-    <form class="form-horizontal" role="form" method="POST" action="{{ url('admin/add-user') }}">
+    <form class="form-horizontal" role="form" method="POST" action="{{ url('/add-user') }}">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
       <div class="form-group">

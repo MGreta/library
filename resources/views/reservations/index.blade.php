@@ -37,7 +37,6 @@
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/reservations/' . $reservations_is_ready[$i]->id . '/taken') }}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
                                 </td>
-                            <td>
                         </tr>
                     @endfor
                 @else
@@ -108,7 +107,6 @@
                                     <a class="btn btn-default btn-xs" href="{{ url('/reservations/' . $reservations[$i]->id . '/taken') }}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
                                 </td>
                                 @endif
-                            <td>
                         </tr>
                     @endfor
                 @else

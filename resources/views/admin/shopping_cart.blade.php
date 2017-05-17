@@ -26,29 +26,28 @@
             <tbody>
                     @foreach($books as $book)
                         <tr>
-                                <td>{{ $book['item']['title'] }}</td>
-                                <td></td>
-                                <td>{{ $book['item']['isbn'] }}</td>
-                                <td>{{ $book['item']['udk'] }}</td>
-                                <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $book['item']['id'] }}">About {{ $book['item']['title'] }}</a>
-                                    <div class="modal fade" id="aboutModal{{ $book['item']['id'] }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">About</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>{{ $book['item']['about'] }}</p>
-                                                </div>
+                            <td>{{ $book['item']['title'] }}</td>
+                            <td></td>
+                            <td>{{ $book['item']['isbn'] }}</td>
+                            <td>{{ $book['item']['udk'] }}</td>
+                            <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $book['item']['id'] }}">About {{ $book['item']['title'] }}</a>
+                                <div class="modal fade" id="aboutModal{{ $book['item']['id'] }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">About</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>{{ $book['item']['about'] }}</p>
                                             </div>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <a class="btn btn-default btn-xs" href="{{ action('Book_reservationsController@getRemoveItem', ['id' => $book['item']['id']]) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                                </td>
+                                </div>
+                            </td>
                             <td>
+                                <a class="btn btn-default btn-xs" href="{{ action('Book_reservationsController@getRemoveItem', ['id' => $book['item']['id']]) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            </td>
                         </tr>
                     @endforeach
             </tbody>

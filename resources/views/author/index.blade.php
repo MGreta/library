@@ -17,24 +17,36 @@
     <div class="panel panel-primary">
         <div class="panel-heading">Add authors</div>
         <div class="panel-body">
-            <form class="form-inline" role="form" method="POST" action="{{ url('admin/authors') }}">
+            <form role="form" method="POST" action="{{ url('authors') }}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label" for="title">Name</label>
-                    <div class="col-sm-8">
+                    <label class="col-md-2 col-sm-4 control-label" for="title">Name</label>
+                    <div class="col-md-10 col-sm-8">
                         <input type="text" class="form-control" id="author_name" name="author_name" value="{{ old('author_name') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label" for="author">Surname</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="author_surname" name="author_surname" value="{{ old('author_surname') }}">
+                    <label class="col-md-2 col-sm-4 control-label" for="country">Country</label>
+                    <div class="col-md-10 col-sm-8">
+                        <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label" for="image">Image</label>
-                    <div class="col-sm-8">
-                        <input type="file" class="form-control" id="author_image" name="image" value="{{ old('image') }}">
+                    <label class="col-md-2 col-sm-4 control-label" for="birth_date">Birth date</label>
+                    <div class="col-md-10 col-sm-8">
+                        <input type="text" class="form-control" id="birth_date" name="birth_date" value="{{ old('birth_date') }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 col-sm-4 control-label" for="death_date">Death date</label>
+                    <div class="col-md-10 col-sm-8">
+                        <input type="text" class="form-control" id="death_date" name="death_date" value="{{ old('death_date') }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 col-sm-4 control-label" for="image">Image</label>
+                    <div class="col-md-10 col-sm-8">
+                        <input type="file" id="image" name="image" value="{{ old('image') }}">
                     </div>
                 </div>
                 <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
@@ -50,6 +62,7 @@
                 <thead>
                     <tr class="info">
                         <th>#</th>
+                        <th>Image</th>
                         <th><a href="{{ action('AuthorController@orderByName') }}">Name</a></th>
                         <th>Books</th>
                         <th>Kiek kartu autoriaus knygos buvo paimtos</th>
@@ -61,7 +74,9 @@
                         @for ($i = 0; $i < count($authors); $i++)
                             <tr>
                                 <th>{{ $i+1 }}</th>
-                                    <td><a href="/author/{{ $authors[$i]->id }}/books">{{ $authors[$i]->author_name }} {{ $authors[$i]->author_surname }}</a></td>
+                                    <td><img src="{{ URL::to('/') }}/authorsimages/{{ $authors[$i]->image }}" style="height: 50px; width: 50px;">
+                                    </td>
+                                    <td><a href="/author/{{ $authors[$i]->id }}/books">{{ $authors[$i]->author_name }}</a></td>
                                     <td>{{ get_books_by_authors($authors[$i]->id) }}</td>
                                     <td> {{ count_author_taken_times($authors[$i]->id) }} </td>
                                     <td>
@@ -147,7 +162,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                <td>
                             </tr>
                         @endfor
                     @else

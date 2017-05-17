@@ -22,7 +22,28 @@ class OptionController extends Controller
     public function debtPrice(Request $request)
     {
     	$validator =  Validator::make($request->all(), [
-            'price' => 'required|max:255|numeric'
+            'debt_price' => 'required|max:255|numeric'
+        ]);
+
+        if ($validator->fails()) {
+
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $price_id = Option::where('name', 'debt_price')->value('id');
+
+        $price = Option::find($price_id);
+        $price->value = $request->input('debt_price');
+        $response = $price->save();
+        if ($response) {
+            return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+        }
+        return redirect('/options');
+    }
+
+    public function daysToHaveBook(Request $request)
+    {
+        $validator =  Validator::make($request->all(), [
+            'days_to_have_book' => 'required|max:255|numeric'
         ]);
 
         if ($validator->fails()) {
@@ -30,15 +51,14 @@ class OptionController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $price = Option::create([
-            'name' => 'debt_price',
-            'value' => $request->input('price')
-        ]);
-        if ($price) {
+        $days_id = Option::where('name', 'days_to_have_book')->value('id');
 
-            return redirect('/options')->with('status', 'Genre created successfully.');
+        $days = Option::find($days_id);
+        $days->value = $request->input('days_to_have_book');
+        $response = $days->save();
+        if ($response) {
+            return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
         }
-
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
+        return redirect('/options');
     }
 }

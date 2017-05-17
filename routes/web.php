@@ -13,19 +13,20 @@
 
 
 Route::get('/', 'WelcomeController@index');
-Route::get('home', 'WelcomeController@index');
+/*Route::get('home', 'WelcomeController@index');*/
 // Route::get('login', 'UserController@login');
 
 Route::get('login', 'AuthController@getLogin');
 Route::post('/', 'AuthController@postLogin');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+/*Route::get('/home', 'HomeController@index');*/
 /*Route::get('login', 'AuthController@getLogin');*/
 /*Route::get('/', 'UserController@profile');*/
 Route::get('profile', 'UserController@profile');
-Route::get('profile/{id}/edit', 'UserController@edit');
-Route::patch('profile', 'UserController@update');
+/*Route::post('profile/{id}/edit', 'UserController@edit');*/
+Route::post('profile/edit', 'UserController@update');
+/*Route::post('profile', 'UserController@update');*/
 
 /**
 * Admin routes
@@ -46,6 +47,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		Route::get('user/{id}/edit', 'AdminController@editUser');
 		Route::post('user/{id}/edit', 'AdminController@userEdit');
 
+		Route::get('about-user/{id}', 'AdminController@aboutUser');
+
 
 	//Order Users
 		Route::get('users/byFirstName', 'AdminController@orderByFirstName');
@@ -56,12 +59,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 	
 	//Books
-		Route::get('book/{id}/edit-book', 'BookController@editBook');
+		Route::get('book/{id}/edit', 'BookController@editBook');
 		
 		Route::get('add-book', 'BookController@addBook');
 		Route::post('add-book', 'BookController@storeBook');
 
-		Route::get('book/{id}/edit', 'BookController@edit');
+		/*Route::get('book/{id}/edit', 'BookController@edit');*/
 		Route::post('book/{id}/edit', 'BookController@bookEdit');
 
 		Route::post('book/{id}/delete', 'BookController@destroy');
@@ -143,6 +146,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 	//Continued books
 		Route::get('/continued-books', 'TakenBooksController@continuedBooks');
+
+		Route::get('/occupied-books/{id}/{taken_id}/continueBook', 'TakenBooksController@continueBook');
 	
 });
 
@@ -236,6 +241,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 //Options
 	Route::get('/options', 'OptionController@index');
 	Route::post('/options/debt-price', 'OptionController@debtPrice');
+	Route::post('/options/days-to-have-book', 'OptionController@daysToHaveBook');
 
 	
 //Returned books

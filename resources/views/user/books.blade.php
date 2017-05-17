@@ -16,7 +16,9 @@
                     <th>admin</th>
                     <th>Days left</th>
                     <th>Days late</th>
+                    @if(is_price() !== '0')
                     <th>debt</th>
+                    @endif
                     <th>Prasitesti knyga</th>
                 </tr>
             </thead>
@@ -43,7 +45,9 @@
                                 </td>
                                 <td> {{ days_left($books[$i]->id) }} </td>
                                 <td> {{ days_late($books[$i]->id) }} </td>
+                                @if(is_price() !== '0')
                                 <td> {{ get_debt($books[$i]->id) }} </td>
+                                @endif
                                 <td>
                                 @if((days_left($books[$i]->id) < 7) && (days_late($books[$i]->id) == 0) && (count_free_books($books[$i]->book_id) > 0))
                                     <a class="btn btn-default btn-xs" href="{{ url('/user-books/' . $books[$i]->book_id . '/' . $books[$i]->id . '/continueBook') }}"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a>
@@ -70,7 +74,9 @@
                     <th>admin</th>
                     <th>Days left</th>
                     <th>Days late</th>
+                    @if(is_price() !== '0')
                     <th>debt</th>
+                    @endif
                     <th>Prasitesti knyga</th>
                 </tr>
             </tfoot>

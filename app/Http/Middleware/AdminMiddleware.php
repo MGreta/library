@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\MessageBag;
 
 class AdminMiddleware
 {
@@ -34,6 +35,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/home')->with('errors', new MessageBag(['You are not authorized to access this resource.']));
+        return redirect('/')->with('errors', new MessageBag(['You are not authorized to access this resource.']));
     }
 }

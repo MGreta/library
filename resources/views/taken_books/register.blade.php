@@ -31,39 +31,40 @@
               @if ($books->count())
                   @for ($i = 0; $i < count($books); $i++)
                       <tr>
-                          <th>{{ $i+1 }}</th>
-                              <td><a href="{{ url('/book/' . $books[$i]->id ) }}">{{ $books[$i]->title }}</a>
-                                  <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
-                                  <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
-                              </td>
-                              <td>{{ get_author_name($books[$i]->author) }} {{ get_author_surname($books[$i]->author) }}</td>
-                              <td>{{ $books[$i]->isbn }}</td>
-                              <td>{{ $books[$i]->size }}</td>
-                              <td>{{ $books[$i]->language }}</td>
-                              <td>{{ get_type($books[$i]->type) }}</td>
-                              <td>{{ $books[$i]->udk }}</td>
-                              <td>{{ $books[$i]->quantity }}</td>
-                              <td> {{ count_free_books($books[$i]->id) }} </td>
-                              <td>{{ get_genre($books[$i]->genre) }}</td>
-                              <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">About {{ $books[$i]->title }}</a>
-                                  <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                      <div class="modal-dialog" role="document">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                  <h4 class="modal-title" id="myModalLabel">About</h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                  <p>{{ $books[$i]->about }}</p>
-                                              </div>
-                                          </div>
-                                      </div>
+                        <th>{{ $i+1 }}</th>
+                          <td><a href="{{ url('/book/' . $books[$i]->id ) }}">{{ $books[$i]->title }}</a>
+                            <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
+                            <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
+                          </td>
+                          <td>{{ get_author_name($books[$i]->author) }}</td>
+                          <td>{{ $books[$i]->isbn }}</td>
+                          <td>{{ $books[$i]->size }}</td>
+                          <td>{{ $books[$i]->language }}</td>
+                          <td>{{ get_type($books[$i]->type) }}</td>
+                          <td>{{ $books[$i]->udk }}</td>
+                          <td>{{ $books[$i]->quantity }}</td>
+                          <td> {{ count_free_books($books[$i]->id) }} </td>
+                          <td>{{ get_genre($books[$i]->genre) }}</td>
+                          <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">About {{ $books[$i]->title }}</a>
+                            <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title" id="myModalLabel">About</h4>
                                   </div>
-                              </td>
-                              <td>
-                                <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Add</a>
-                            </td>
+                                  <div class="modal-body">
+                                    <p>{{ $books[$i]->about }}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
                           <td>
+                          @if(count_free_books($books[$i]->id) > 0)
+                            <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Add</a>
+                          @endif
+                          </td>
                       </tr>
                   @endfor
               @else
@@ -87,6 +88,11 @@
                   <th>Laisvos</th>
                   <th>Genre</th>
                   <th>About</th>
+                  @if (Auth::user())
+                  @if (Auth::user()->hasRole("admin"))
+                  <th>Action</th>
+                  @endif
+                  @endif
               </tr>
           </tfoot>
       </table>

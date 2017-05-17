@@ -15,7 +15,9 @@
                     <th>read(yes/no)</th>
                     <th>admin</th>
                     <th>Days late</th>
+                    @if(is_price() !== '0')
                     <th>debt</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -29,7 +31,9 @@
                                 <td> {{-- $books[$i]->read --}} </td>
                                 <td> {{ get_user_name($books[$i]->worker_id) }} </td>
                                 <td> {{ days_late($books[$i]->id) }} </td>
+                                @if(is_price() !== '0')
                                 <td> {{ get_debt($books[$i]->id) }} </td>
+                                @endif
                         </tr>
                     @endfor
                 @else
@@ -48,7 +52,9 @@
                     <th>read(yes/no)</th>
                     <th>admin</th>
                     <th>Days late</th>
+                    @if(is_price() !== '0')
                     <th>debt</th>
+                    @endif
                 </tr>
             </tfoot>
         </table>

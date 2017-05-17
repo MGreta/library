@@ -24,12 +24,12 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label class="col-sm-2 control-label" for="isbn">Class</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="class" name="class" value="{{ old('class', $user->class) }}">
 							</div>
-						</div>
+						</div> -->
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="date">Email</label>

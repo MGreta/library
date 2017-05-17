@@ -15,7 +15,7 @@ class Author extends Model
      * @var array
      */
     protected $fillable = [
-        'author_name', 'author_surname'
+        'author_name', 'country', 'birth_date', 'death_date', 'image',
     ];
 
     /**

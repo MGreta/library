@@ -25,7 +25,6 @@
                                 <td>{{ $reservations_is_ready[$i]->comment }}</td>
                                 <td>{{ $reservations_is_ready[$i]->reservation_start_day }}</td>
                                 <td>{{ $reservations_is_ready[$i]->reservation_end_day }}</td>
-                            <td>
                         </tr>
                     @endfor
                 @else
@@ -75,7 +74,6 @@
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/user-reserved-books/' . $reservations[$i]->id . '/cancel') }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                 </td>
-                            <td>
                         </tr>
                     @endfor
                 @else

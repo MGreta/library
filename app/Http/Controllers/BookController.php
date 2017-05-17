@@ -21,6 +21,8 @@ use App\PublishingHouse;
 use App\City;
 use App\TakenBooks;
 use Illuminate\Support\MessageBag;
+use App\Option;
+use App\Books_udk_codes;
 
 class BookController extends Controller
 {
@@ -34,19 +36,73 @@ class BookController extends Controller
         $cities = City::all();
         $genres = Genres::all();
 
-       return view('book.index', compact('books', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres'));
+        $first_levels = DB::table('udk_first_level')->get();
+        $first_level_results = [];
+        if ($first_levels) {
+            foreach ($first_levels as $first_level) {
+                $first_level_results[] = [
+                    'id' => $first_level->id,
+                    'title' => $first_level->title,
+                    'code' => $first_level->code,
+                ];
+            }
+        }
+
+        $second_levels = DB::table('udk_second_level')->get();
+        $second_level_results = [];
+        if ($second_levels) {
+            foreach ($second_levels as $second_level) {
+                $second_level_results[] = [
+                    'id' => $second_level->id,
+                    'first_level_id' => $second_level->id_first_level,
+                    'title' => $second_level->title,
+                    'code' => $second_level->code,
+                ];
+            }
+        }
+
+        $third_levels = DB::table('udk_third_level')->get();
+        $third_level_results = [];
+        if ($third_levels) {
+            foreach ($third_levels as $third_level) {
+                $third_level_results[] = [
+                    'first_level_id' => $third_level->id_first_level,
+                    'second_level_id' => $third_level->id_second_level,
+                    'title' => $third_level->title,
+                    'code' => $third_level->code,
+                ];
+            }
+        }
+
+       return view('book.index', compact('books', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres', 'first_level_results', 'second_level_results', 'third_level_results'));
     }
 
     public function booksByAuthor($id)
     {
         $books = Book::where('author', $id)->get();
-        return view ('book.index', compact('books'));
+
+        $languages = Language::get();
+        $types = Type::all();
+        $authors = Author::all();
+        $publishing_houses = PublishingHouse::all();
+        $cities = City::all();
+        $genres = Genres::all();
+
+        return view ('book.index', compact('books', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres'));
     }
 
     public function booksByLanguage($id)
     {
         $books = Book::where('language', $id)->get();
-        return view ('book.index', compact('books'));
+
+        $languages = Language::get();
+        $types = Type::all();
+        $authors = Author::all();
+        $publishing_houses = PublishingHouse::all();
+        $cities = City::all();
+        $genres = Genres::all();
+
+        return view ('book.index', compact('books', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres'));
     }
 
     public function book($id)
@@ -73,7 +129,7 @@ class BookController extends Controller
 
     public function orderByAuthor()
     {
-        $books = DB::table('books')->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name', 'authors.author_surname')->orderBy('authors.author_name')
+        $books = DB::table('books')->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name')->orderBy('authors.author_name')
                                     ->join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')
                                     ->get();
 
@@ -153,11 +209,47 @@ class BookController extends Controller
             return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
         }
 
+        $first_levels = DB::table('udk_first_level')->get();
+        $input = [];
+        foreach ($first_levels as $first_level) {
+            if ($request->input($first_level->id) !== 'not-selected') {
+                $input[] = [
+                    'udk' => $request->input($first_level->id),
+                    'first_level_id' => $first_level->id,
+                ];
+            }
+        }
+
+        $udk = "";
+        foreach($input as $each)
+        {
+            $udk = $udk . $each['udk'];
+        }
+        $genre_code = DB::table('genres')->where('id', $request->input('genre'))->value('code');
+        $udk = $udk . $genre_code;
+
+        DB::table('Books_udk_codes')->where('book_id', $id)->delete();
+        foreach($input as $each)
+        {
+            if($each['udk'] !== '')
+            {
+                Books_udk_codes::create([
+                    'book_id' => $id,
+                    'udk' => $each['udk'],
+                ]);
+
+                echo $id;
+                echo $each['udk'];
+                echo "<br>";
+            }
+        }
+
         if ($book = Book::find($id)) {
             $book = Book::find($id);
             $book->title = $request->input('title');
             $book->author = $request->input('author');
             $book->isbn = $request->input('isbn');
+            $book->udk = $udk;
             $book->date = $request->input('date');
             $book->size = $request->input('size');
             $book->language = $request->input('language');
@@ -169,7 +261,7 @@ class BookController extends Controller
             $book->about = $request->input('about');
             $response = $book->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect('/books')->with(['message' => 'Knyga atnaujintas.']);
             }
             return redirect('/books');
         }
@@ -231,11 +323,9 @@ class BookController extends Controller
         //author
         if ($request->input('author') == 'other') {
             $validator_auth =  Validator::make($request->all(), [
-                'author_name' => 'required|max:255',
-                'author_surname' => 'required|max:255'
+                'author_name' => 'required|max:255'
             ]);
             $author_name = $request->input('author_name');
-            $author_surname = $request->input('author_surname');
 
             if ($validator_auth->fails()) {
                 return redirect()->back()->withErrors($validator_auth)->withInput();
@@ -303,11 +393,10 @@ class BookController extends Controller
         //author
         if ($request->input('author') == 'other') {
             $author = Author::create([
-                'author_name' => $request->input('author_name'),
-                'author_surname' => $request->input('author_surname')
+                'author_name' => $request->input('author_name')
             ]);
             if ($author) {
-                $author_id = DB::table('authors')->where('author_name', $author_name)->where('author_surname', $author_surname)->value('id');
+                $author_id = DB::table('authors')->where('author_name', $author_name)->value('id');
             }
         } else {
             $author_id = $request->input('author');
@@ -433,9 +522,57 @@ class BookController extends Controller
         return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new book. Please try again.']));
     }
 
-    public function editBook()
+    public function editBook($id)
     {
-        return view('book.edit');
+        $book = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')->find($id);
+        $languages = Language::get();
+        $types = Type::all();
+        $authors = Author::all();
+        $publishing_houses = PublishingHouse::all();
+        $cities = City::all();
+        $genres = Genres::all();
+
+        $first_levels = DB::table('udk_first_level')->get();
+        $first_level_results = [];
+        if ($first_levels) {
+            foreach ($first_levels as $first_level) {
+                $first_level_results[] = [
+                    'id' => $first_level->id,
+                    'title' => $first_level->title,
+                    'code' => $first_level->code,
+                ];
+            }
+        }
+
+        $second_levels = DB::table('udk_second_level')->get();
+        $second_level_results = [];
+        if ($second_levels) {
+            foreach ($second_levels as $second_level) {
+                $second_level_results[] = [
+                    'id' => $second_level->id,
+                    'first_level_id' => $second_level->id_first_level,
+                    'title' => $second_level->title,
+                    'code' => $second_level->code,
+                ];
+            }
+        }
+
+        $third_levels = DB::table('udk_third_level')->get();
+        $third_level_results = [];
+        if ($third_levels) {
+            foreach ($third_levels as $third_level) {
+                $third_level_results[] = [
+                    'first_level_id' => $third_level->id_first_level,
+                    'second_level_id' => $third_level->id_second_level,
+                    'title' => $third_level->title,
+                    'code' => $third_level->code,
+                ];
+            }
+        }
+
+        $udk_codes = Books_udk_codes::where('book_id', $id)->get();
+
+        return view('book.edit', compact('book', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres', 'first_level_results', 'second_level_results', 'third_level_results', 'udk_codes'));
     }
 
     public function getAddToCart(Request $request, $id)
@@ -458,19 +595,26 @@ class BookController extends Controller
 
 
         $books = $cart->items;
+        $not_free = [];
         foreach ($books as $book) {
-            if (count_free_books($book['item']['id']) == '0') {
+            if (count_free_books($book['item']['id']) <= '0') {
 
                 $book_id = $book['item']['id'];
                 $will_be_free = TakenBooks::where('book_id', $book_id)->orderBy('end_day')->first();
 
 
 
-
-                return view('user.shopping_cart')->with('books', $books)->with('will_be_free', $will_be_free)->with('successMsg','Book will be free from ');
+                $not_free[] = [
+                    'book_title' => $book['item']['title'],
+                    'end_day' => $will_be_free->end_day,
+                ];
+                
 
                 /*return redirect('/shopping-cart')->with('books', $books)->with('status', 'Book will be free from...');*/
             }
+        }
+        if ($not_free !== 'NULL') {
+            return view('user.shopping_cart', compact('books', 'not_free'))->with('successMsg','Book will be free from ');
         }
 
         return view('user.shopping_cart', ['books' => $cart->items]);
@@ -494,7 +638,7 @@ class BookController extends Controller
         $searchValues = preg_split('/\s+/', $request->search, -1, PREG_SPLIT_NO_EMPTY);
 
         $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')
-                    ->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name', 'authors.author_surname')
+                    ->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name')
                     ->join('types', 'books.type', '=', 'types.id')->select('books.*', 'types.type')
                     ->join('genres', 'books.genre', '=', 'genres.id')->select('books.*', 'genres.genre')
                     ->where(function($q) use ($searchValues) {
@@ -634,7 +778,7 @@ class BookController extends Controller
         ];
 
         $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')
-                    ->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name', 'authors.author_surname')
+                    ->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name')
                     ->join('types', 'books.type', '=', 'types.id')->select('books.*', 'types.type')
                     ->join('genres', 'books.genre', '=', 'genres.id')->select('books.*', 'genres.genre')
                     ->where(function($q) use ($searchValues) {

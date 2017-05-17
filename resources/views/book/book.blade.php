@@ -26,7 +26,7 @@
             <div class="row form-group">
                 <label class="col-sm-2 control-label" for="title">Author</label>
                 <div class="col-sm-10">
-                    <p>{{ get_author_name($book->author) }} {{ get_author_surname($book->author) }}</p>
+                    <p>{{ get_author_name($book->author) }}</p>
                 </div>
             </div>
 
@@ -320,7 +320,7 @@ $(document).ready(function(){
                                 <option value="0">Select author</option>
                                 @if ($authors->count())
                                     @foreach ($authors as $author)
-                                        <option value="{{ $author->id }}" @if ($book->author == $author->id) {{ 'selected="selected"' }} @endif >{{ $author->author_name }} {{ $author->author_surname }}</option>
+                                        <option value="{{ $author->id }}" @if ($book->author == $author->id) {{ 'selected="selected"' }} @endif >{{ $author->author_name }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -464,7 +464,7 @@ $(document).ready(function(){
                             <h5>Book author</h5>
                         </div>
                         <div>
-                            <p>{{ get_author_name($book->author) }} {{ get_author_surname($book->author) }}</p>
+                            <p>{{ get_author_name($book->author) }}</p>
                         </div>
                     </div>
                     <div class="row">
