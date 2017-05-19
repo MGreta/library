@@ -103,10 +103,18 @@
             <div class="row">
                 <div class="col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li><a href=" {{ url('/user-books') }} ">My occupied books</a></li>
-                        <li><a href=" {{ url('/user-late-books') }} ">My late books</a></li>
-                        <li><a href=" {{ url('/user-returned-books') }} ">My returned books</a></li>
-                        <li><a href=" {{ url('/user-reserved-books') }} ">My reserved books</a></li>
+                    @if( count_user_occupied_books() > 0 )
+                        <li><a href=" {{ url('/user-books') }} ">My occupied books  ({{ count_user_occupied_books() }})</a></li>
+                    @endif
+                    @if( count_user_late_books() > 0 )
+                        <li><a href=" {{ url('/user-late-books') }} ">My late books ({{ count_user_late_books() }})</a></li>
+                    @endif
+                    @if( count_user_returned_books() > 0 )
+                        <li><a href=" {{ url('/user-returned-books') }} ">My returned books ({{ count_user_returned_books() }})</a></li>
+                    @endif
+                    @if( count_user_reserved_books() > 0 )
+                        <li><a href=" {{ url('/user-reserved-books') }} ">My reserved books ({{ count_user_reserved_books() }})</a></li>
+                    @endif
                         <hr>
                         <li><a href="{{ url('/books') }}">All Books</a></li>
                     </ul>
@@ -133,7 +141,7 @@
                         <!-- <li><a href="{{ url('/add-user') }}">Add users</a></li> -->
                         <li><a href="{{ url('/add-book') }}">Add Books</a></li>
                         <hr>                    
-                        <li><a href="{{ url('/register-book') }}">Register Book</a></li>
+                        <!-- <li><a href="{{ url('/register-book') }}">Register Book</a></li> -->
                         <li><a href="{{ url('/occupied-books') }}">Occupied Books ({{ count_occupied_books() }})</a></li>
                         <li><a href="{{ url('/continued-books') }}">Continued Books ({{ count_continued_books() }})</a></li>
                         <li><a href="{{ url('/reservations') }}">Reserved Books ({{ count_reserved_books() }})</a></li>

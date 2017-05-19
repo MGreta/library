@@ -47,7 +47,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <h4 class="panel-title">
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#readyReservations" aria-expanded="false" aria-controls="readyReservations">
-                Ready reservattions
+                Ready reservations
             </a>
         </h4>
     </div>
@@ -112,7 +112,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <h4 class="panel-title">
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#notReadyReservations" aria-expanded="false" aria-controls="notReadyReservations">
-                Not ready reservattions
+                Not ready reservations
             </a>
         </h4>
     </div>

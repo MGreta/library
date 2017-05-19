@@ -32,8 +32,8 @@
                         <tr>
                         @endif
                             <th>{{ $i+1 }}</th>
-                                <td>{{ get_user_name($books[$i]->user_id) }}</td>
-                                <td>{{ get_book($books[$i]->book_id) }}</td>
+                                <td><a href="{{ url('/about-user/' . $books[$i]->user_id ) }}">{{ get_user_name($books[$i]->user_id) }}</a></td>
+                                <td><a href="{{ url('/book/' . $books[$i]->book_id ) }}">{{ get_book($books[$i]->book_id) }}</a></td>
                                 <td>{{ $books[$i]->start_day }}</td>
                                 <td>{{ $books[$i]->end_day }}</td>
                                 <td> 
@@ -43,7 +43,7 @@
                                     No
                                     @endif 
                                 </td>
-                                <td> {{ get_user_name($books[$i]->worker_id) }} </td>
+                                <td><a href="{{ url('/about-user/' . $books[$i]->worker_id ) }}"> {{ get_user_name($books[$i]->worker_id) }} </a></td>
                                 <td> {{ days_late($books[$i]->id) }} </td>
                                 @if(is_price() !== '0')
                                 <td> {{ get_debt($books[$i]->id) }} </td>

@@ -105,13 +105,24 @@ class UserController extends Controller
 
     public function removeReservation(Request $request, $id)
     {
-        $user_id = Auth::user()->id;
-        DB::table('Book_reservations')->where('id', $id)->where('user_id', $user_id)->delete();
+        //$user_id = Auth::user()->id;
+
+        if ($book = Book_reservations::find($id)) {
+            $book->is_active = '0';
+            $response = $book->save();
+            if ($response) {
+                return redirect()->back()->with(['message' => 'Reservacija panaikinta.']);
+            }
+            return redirect('/user-reserved-books');
+        }
+
+
+        /*DB::table('Book_reservations')->where('id', $id)->where('user_id', $user_id)->delete();
         if ($response) {
             return redirect('/user-reserved-books');
         } else {
             return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
-        }
+        }*/
     }
 
     public function readBook($id)

@@ -88,6 +88,12 @@ function get_user_name($id) {
 	return $user_name;
 }
 
+function get_user_surname($id) {
+	$user_surname = User::where('id', $id)->value('last_name');
+
+	return $user_surname;
+}
+
 /*function get_user_role($id) {
 	$role = Role::where
 }*/
@@ -187,8 +193,22 @@ function count_continued_books() {
 	return $books;
 }
 
+function count_user_continued_books() {
+	$user_id = Auth::user()->id;
+	$books = TakenBooks::where('user_id', $user_id)->where('returned', '0')->where('times_continued', '>', '0')->count();
+
+	return $books;
+}
+
 function count_occupied_books() {
 	$books = TakenBooks::where('returned', '0')->orderBy('end_day')->count();
+
+	return $books;
+}
+
+function count_user_occupied_books() {
+	$user_id = Auth::user()->id;
+	$books = TakenBooks::where('user_id', $user_id)->where('returned', '0')->orderBy('end_day')->count();
 
 	return $books;
 }
@@ -202,14 +222,38 @@ function count_reserved_books() {
     return $books;
 }
 
+function count_user_reserved_books() {
+	$user_id = Auth::user()->id;
+	$reservations = Book_reservations::where('user_id', $user_id)->where('is_ready', '0')->count();
+    $reservations_is_ready = Book_reservations::where('user_id', $user_id)->where('is_ready', '1')->count();
+
+    $books = $reservations + $reservations_is_ready;
+
+    return $books;
+}
+
 function count_late_books() {
 	$books = TakenBooks::where('returned', '0')->where('end_day', '<', Carbon::now())->orderBy('end_day')->count();
 
 	return $books;
 }
 
+function count_user_late_books() {
+	$user_id = Auth::user()->id;
+	$books = TakenBooks::where('user_id', $user_id)->where('returned', '0')->where('end_day', '<', Carbon::now())->orderBy('end_day')->count();
+
+	return $books;
+}
+
 function count_returned_books() {
 	$books = TakenBooks::where('returned', '1')->orderBy('end_day')->count();
+
+	return $books;
+}
+
+function count_user_returned_books() {
+	$user_id = Auth::user()->id;
+	$books = TakenBooks::where('user_id', $user_id)->where('returned', '1')->orderBy('end_day')->count();
 
 	return $books;
 }
@@ -224,4 +268,10 @@ function get_city($city_id) {
 	$city = City::where('id', $city_id)->value('city');
 
 	return $city;
+}
+
+function is_canceled_reservation($id) {
+	$book = Book_reservations::where('id', $id)->value('is_active');
+
+	return $book;
 }

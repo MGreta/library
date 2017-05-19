@@ -79,7 +79,7 @@ class BookController extends Controller
 
     public function booksByAuthor($id)
     {
-        $books = Book::where('author', $id)->get();
+        $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')->where('author', $id)->get();
 
         $languages = Language::get();
         $types = Type::all();
@@ -93,7 +93,35 @@ class BookController extends Controller
 
     public function booksByLanguage($id)
     {
-        $books = Book::where('language', $id)->get();
+        $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')->where('languages.language', $id)->get();
+
+        $languages = Language::get();
+        $types = Type::all();
+        $authors = Author::all();
+        $publishing_houses = PublishingHouse::all();
+        $cities = City::all();
+        $genres = Genres::all();
+
+        return view ('book.index', compact('books', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres'));
+    }
+
+    public function booksByType($id)
+    {
+        $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')->where('type', $id)->get();
+
+        $languages = Language::get();
+        $types = Type::all();
+        $authors = Author::all();
+        $publishing_houses = PublishingHouse::all();
+        $cities = City::all();
+        $genres = Genres::all();
+
+        return view ('book.index', compact('books', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres'));
+    }
+
+    public function booksByGenre($id)
+    {
+        $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')->where('genre', $id)->get();
 
         $languages = Language::get();
         $types = Type::all();

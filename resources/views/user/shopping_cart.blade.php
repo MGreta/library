@@ -29,7 +29,7 @@
             <tbody>
                     @foreach($books as $book)
                         <tr>
-                                <td>{{ $book['item']['title'] }}</td>
+                                <td><a href="{{ url('/book/' . $book['item']['id'] ) }}">{{ $book['item']['title'] }}</a></td>
                                 <td></td>
                                 <td>{{ $book['item']['isbn'] }}</td>
                                 <td>{{ $book['item']['udk'] }}</td>

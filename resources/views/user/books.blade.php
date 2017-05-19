@@ -31,7 +31,7 @@
                         <tr>
                         @endif
                             <th>{{ $i+1 }}</th>
-                                <td>{{ get_book($books[$i]->book_id) }}</td>
+                                <td><a href="{{ url('/book/' . $books[$i]->book_id ) }}">{{ get_book($books[$i]->book_id) }}</a></td>
                                 <td>{{ $books[$i]->start_day }}</td>
                                 <td>{{ $books[$i]->end_day }}</td>
                                 <td>

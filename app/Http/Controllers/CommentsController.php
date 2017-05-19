@@ -57,4 +57,10 @@ class CommentsController extends Controller
             return redirect()->back();
         }
     }
+
+    public function deleteComment($id)
+    {
+        DB::table('comments')->where('id', $id)->delete();
+        return redirect()->back();
+    }
 }

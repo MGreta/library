@@ -35,7 +35,6 @@
                     <th><a href="{{ action('AdminController@orderByFirstName') }}">First Name</a></th>
                     <th><a href="{{ action('AdminController@orderByLastName') }}">Last Name</a></th>
                     <th><a href="{{ action('AdminController@orderByEmail') }}">Email</a></th>
-                    <!-- <th><a href="{{ action('AdminController@orderByClass') }}">Class</a></th> -->
                     <th><a href="{{ action('AdminController@orderByRole') }}">Role</a></th>
                     <th>Action</th>
                 </tr>
@@ -94,13 +93,6 @@
                                                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $users[$i]->email) }}">
                                                             </div>
                                                         </div>
-
-                                                        <!-- <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="role">Role</label>
-                                                            <div class="col-sm-10">
-                                                                <input type="text" class="form-control" id="role" name="role" value="{{ old('role', $role_name) }}">
-                                                            </div>
-                                                        </div> -->
                                                         
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label" for="role">Role</label>
@@ -187,7 +179,6 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <!-- <th>Class</th> -->
                     <th>Roles</th>
                     <th>Action</th>
                 </tr>

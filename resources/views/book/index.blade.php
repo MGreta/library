@@ -47,18 +47,18 @@
                                     <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
                                     <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
                                 </td>
-                                <td>{{ get_author_name($books[$i]->author) }}</td>
+                                <td><a href="/author/{{ $books[$i]->author }}/books">{{ get_author_name($books[$i]->author) }}</a></td>
                                 <!-- <td>{{ $books[$i]->isbn }}</td> -->
                                 <!-- <td>{{ $books[$i]->date }}</td> -->
                                 <td>{{ $books[$i]->size }}</td>
-                                <td>{{ $books[$i]->language }}</td>
-                                <td>{{ get_type($books[$i]->type) }}</td>
+                                <td><a href="/language/{{ $books[$i]->language }}/books">{{ $books[$i]->language }}</a></td>
+                                <td><a href="/type/{{ $books[$i]->type }}/books">{{ get_type($books[$i]->type) }}</td>
                                 <!-- <td>{{ $books[$i]->udk }}</td> -->
                                 <td>{{ $books[$i]->quantity }}</td>
                                 <td> {{ count_free_books($books[$i]->id) }} </td>
                                 <!-- <td>{{ $books[$i]->publishing_house }}</td>
                                 <td>{{ $books[$i]->city }}</td> -->
-                                <td>{{ get_genre($books[$i]->genre) }}</td>
+                                <td><a href="/genres/{{ $books[$i]->genre }}/books">{{ get_genre($books[$i]->genre) }}</a></td>
                                 <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">About {{ $books[$i]->title }}</a>
                                     <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">

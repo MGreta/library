@@ -125,4 +125,11 @@ class Book_reservationsController extends Controller
             return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
         }
     }
+
+    public function removeReservation(Request $request, $id)
+    {
+
+        DB::table('Book_reservations')->where('id', $id)->delete();
+        return redirect('/reservations');
+    }
 }

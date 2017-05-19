@@ -230,4 +230,18 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function usersSearch(Request $request) {
+        $searchValues = preg_split('/\s+/', $request->search, -1, PREG_SPLIT_NO_EMPTY);
+        $users = User::where(function($q) use ($searchValues) {
+                        foreach ($searchValues as $value) {
+                            $q->orwhere('name', 'LIKE', "%{$value}%")
+                                ->orWhere('last_name', 'LIKE', "%{$value}%")
+                                ->orWhere('email', 'LIKE', "%{$value}%");
+                        }
+                    })->get();
+        $roles = Role::all();
+
+        return view('search.users_search', compact('users', 'roles'));
+    }
+
 }

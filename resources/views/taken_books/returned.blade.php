@@ -23,18 +23,18 @@
                     @for ($i = 0; $i < count($books); $i++)
                         <tr>
                             <th>{{ $i+1 }}</th>
-                                <td> {{ get_user_name($books[$i]->user_id) }} </td>
-                                <td> {{ get_book($books[$i]->book_id) }} </td>
+                                <td><a href="{{ url('/about-user/' . $books[$i]->user_id ) }}"> {{ get_user_name($books[$i]->user_id) }} </a></td>
+                                <td><a href="{{ url('/book/' . $books[$i]->book_id ) }}"> {{ get_book($books[$i]->book_id) }} </a></td>
                                 <td> {{ $books[$i]->start_day }} </td>
                                 <td> {{ $books[$i]->end_day }} </td>
                                 <td>
-                                    @if(is_read($taken_books[$i]->id) == '1')
+                                    @if(is_read($books[$i]->id) == '1')
                                     Yes
                                     @else
                                     No
                                     @endif 
                                 </td>
-                                <td> {{ get_user_name($books[$i]->worker_id) }} </td>
+                                <td><a href="{{ url('/about-user/' . $books[$i]->worker_id ) }}"> {{ get_user_name($books[$i]->worker_id) }} </a></td>
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/returned-books/' . $books[$i]->id . '/not-returned') }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                 </td>

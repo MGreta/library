@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 		Route::get('about-user/{id}', 'AdminController@aboutUser');
 
+		Route::get('/users-search', 'AdminController@usersSearch');
+
 
 	//Order Users
 		Route::get('users/byFirstName', 'AdminController@orderByFirstName');
@@ -125,6 +127,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 		Route::get('/reservations/{id}/not-ready', 'Book_reservationsController@bookNotReady');
 		Route::post('/reservations/{id}/not-ready', 'Book_reservationsController@bookNotReady');
 
+		Route::get('/reservations/{id}/remove', 'Book_reservationsController@removeReservation');
+
 
 	//Genre
 		Route::post('genres', 'GenresController@store');
@@ -149,6 +153,31 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 		Route::get('/occupied-books/{id}/{taken_id}/continueBook', 'TakenBooksController@continueBook');
 	
+	//Occupied books
+		Route::get('/occupied-books', 'TakenBooksController@index');
+
+		Route::get('/occupied-books/{id}/returned', 'TakenBooksController@returned');
+		Route::post('/occupied-books/{id}/returned', 'TakenBooksController@returned');
+
+
+	//Late books
+		Route::get('/late-books', 'TakenBooksController@late');
+
+		Route::get('/late-books/{id}/returned', 'TakenBooksController@returned');
+		Route::post('/late-books/{id}/returned', 'TakenBooksController@returned');
+
+
+	//Options
+		Route::get('/options', 'OptionController@index');
+		Route::post('/options/debt-price', 'OptionController@debtPrice');
+		Route::post('/options/days-to-have-book', 'OptionController@daysToHaveBook');
+
+		
+	//Returned books
+		Route::get('/returned-books', 'TakenBooksController@returnedBooks');
+
+		Route::get('/returned-books/{id}/not-returned', 'TakenBooksController@notReturned');
+		Route::post('/returned-books/{id}/not-returned', 'TakenBooksController@notReturned');
 });
 
 /**
@@ -182,6 +211,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 //Type
 	Route::get('type', 'TypeController@index');
 	Route::get('type/order', 'TypeController@order');
+	Route::get('type/{id}/books', 'BookController@booksByType');
 
 
 //City
@@ -193,8 +223,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 	Route::get('publishing-house', 'PublishingHouseController@index');
 	Route::get('publishing-house/order', 'PublishingHouseController@order');
 
+
+//Genre
 	Route::get('genres', 'GenresController@index');
 	Route::get('genres/order', 'GenresController@order');
+	Route::get('genres/{id}/books', 'BookController@booksByGenre');
 
 
 //Language
@@ -215,40 +248,15 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 	Route::get('/shopping-cart/{id}/delete', 'Book_reservationsController@getRemoveItem');
 
 
-//Occupied books
-	Route::get('/occupied-books', 'TakenBooksController@index');
-
-	Route::get('/occupied-books/{id}/returned', 'TakenBooksController@returned');
-	Route::post('/occupied-books/{id}/returned', 'TakenBooksController@returned');
-
-
-//Late books
-	Route::get('/late-books', 'TakenBooksController@late');
-
-	Route::get('/late-books/{id}/returned', 'TakenBooksController@returned');
-	Route::post('/late-books/{id}/returned', 'TakenBooksController@returned');
-
-
 //Comments
 	Route::post('/book/{id}/addComment', 'CommentsController@addComment');
 	Route::post('/book/{id}/editComment', 'CommentsController@editComment');
+	Route::post('/book/{id}/deleteComment', 'CommentsController@deleteComment');
 
 
 //Ratings
 	Route::post('/book/{id}/rate', 'BookRatingsController@rate');
 
-
-//Options
-	Route::get('/options', 'OptionController@index');
-	Route::post('/options/debt-price', 'OptionController@debtPrice');
-	Route::post('/options/days-to-have-book', 'OptionController@daysToHaveBook');
-
-	
-//Returned books
-	Route::get('/returned-books', 'TakenBooksController@returnedBooks');
-
-	Route::get('/returned-books/{id}/not-returned', 'TakenBooksController@notReturned');
-	Route::post('/returned-books/{id}/not-returned', 'TakenBooksController@notReturned');
 
 //Search
 	Route::get('/search', 'BookController@showSearch');
