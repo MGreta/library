@@ -14,18 +14,25 @@ class CreateBooksTable extends Migration
     public function up()
     {
         Schema::create('books', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->string('title');
-            $table->string('author');
-            $table->string('isbn')->unique();
-            $table->date('date');
-            $table->integer('size');
-            $table->integer('language');
-            $table->integer('type');
-            $table->string('udk');
-            $table->integer('quantity');
-            $table->text('about');
+            $table->string('isbn')->unique()->nullable();
+            $table->string('date')->nullable();
+            $table->integer('size')->nullable();
+            $table->integer('language')->nullable()->unsigned();
+            $table->integer('type')->unsigned();
+            $table->integer('publishing_house')->nullable()->unsigned();
+            $table->integer('genre')->nullable()->unsigned();
+            $table->integer('city')->nullable()->unsigned();
+            $table->string('udk')->nullable();
+            $table->integer('quantity')->default(1);
+            $table->text('about')->nullable();
+            $table->timestamps();
         });
+
+        
     }
 
     /**

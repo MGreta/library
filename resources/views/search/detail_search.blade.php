@@ -202,13 +202,21 @@
                                     <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
                                     <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
                                 </td>
-                                <td>{{ get_author_name($books[$i]->author) }}</td>
+                                <td>
+                                    @foreach(get_authors($books[$i]->id) as $author)
+                                        @if(count(get_authors($books[$i]->id)) > 1)
+                                            {{ get_author_name($author->author_id) }}, 
+                                        @else
+                                            {{ get_author_name($author->author_id) }}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>{{ $books[$i]->size }}</td>
-                                <td>{{ $books[$i]->language }}</td>
+                                <td>{{ get_language($books[$i]->language) }}</td>
                                 <td>{{ get_type($books[$i]->type) }}</td>
                                 <td>{{ $books[$i]->quantity }}</td>
                                 <td> {{ count_free_books($books[$i]->id) }} </td>
-                                <td>{{ get_genre($books[$i]->genre) }}</td>
+                                <td>{{ $books[$i]->genre }}</td>
                                 <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">About {{ $books[$i]->title }}</a>
                                     <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">

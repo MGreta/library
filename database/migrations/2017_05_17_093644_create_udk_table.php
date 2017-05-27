@@ -14,11 +14,15 @@ class CreateUdkTable extends Migration
     public function up()
     {
         Schema::create('books_udk_codes', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->integer('book_id');
+            $table->integer('book_id')->unsigned();
             $table->string('udk');
             $table->timestamps();
         });
+
+        
     }
 
     /**

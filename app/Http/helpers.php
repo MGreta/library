@@ -59,8 +59,10 @@ function get_all_types($id) {
 	return $types;
 }
 
-function get_books_by_authors($id) {
-	$books = Book::where('author', $id)->count();
+function get_books_by_authors($id) { 
+
+	$books = Book_authors::where('author_id', $id)->count();
+	//$books = Book::where('author', $id)->count();
 
 	return $books;
 }
@@ -138,7 +140,7 @@ function count_book_taken_times($id) {
 function count_author_taken_times($id) {
 	$times = TakenBooks::where('id', $id)->count();
 
-	$books = DB::table('books')->join('taken_books', 'books.id', '=', 'taken_books.book_id')->where('books.author', $id)->count();
+	$books = DB::table('book_authors')->join('taken_books', 'book_authors.book_id', '=', 'taken_books.book_id')->where('book_authors.author_id', $id)->count();
 
 	return $books;
 }

@@ -29,7 +29,7 @@
 
         <label for="author-name" class="col-sm-1 control-label">Autorius</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="author_name" placeholder="Autorius" name="author_name" value="{{ old('author_name') }}">
+          <input type="text" class="form-control" id="author_name" placeholder="Autorius atskirkite kableliu (,)" name="author_name" value="{{ old('author_name') }}">
         </div>
       </div>
     	<!-- <div class="form-group" id="create-book-authname" style="display: none;">
@@ -155,31 +155,7 @@
           <input type="text" class="form-control" id="add_city" placeholder="Miestas" name="add_city" value="{{ old('add_city') }}" disabled>
         </div>
       </div>
-      <!-- <div class="form-group" id="create-book-city" style="display: none;">
-        
-      </div> -->
-      <!-- <div class="form-group">
-        <label class="col-sm-1 control-label" for="genre">Genre</label>
-        <div class="col-sm-5">
-          <select class="form-control" id="genre" name="genre">
-          <option value="0">Select a genre</option>
-          <option value="other" @if (old('genre') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
-            @if ($genres->count())
-              @foreach ($genres as $genre)
-                <option value="{{ $genre->id }}" @if (old('genre') == $genre->id) {{ 'selected="selected"' }} @endif >{{ $genre->genre }}</option>
-              @endforeach
-            @endif
-          </select>
-        </div>
 
-        <label for="genre" class="col-sm-1 control-label">Genre</label>
-        <div class="col-sm-5">
-          <input type="text" class="form-control" id="add_genre" placeholder="genre" name="add_genre" value="{{ old('add_genre') }}" disabled>
-        </div>
-      </div> -->
-      <!-- <div class="form-group" id="create-book-genre" style="display: none;">
-        
-      </div> -->
     	<div class="form-group">
   	    <label for="about" class="col-sm-1 control-label">Apie</label>
   	    <div class="col-sm-11">
@@ -187,35 +163,46 @@
   	    </div>
     	</div>
 
+      <div class="form-group">
+        <label for="about" class="col-sm-1 control-label">Žanras</label>
+        <div class="col-sm-11">
+          <select class="form-control" data-size="10" id="genre" name="genre">
+            <option value="0">Romanai</option>
+            @if ($genres->count())
+              @foreach ($genres as $genre)
+                <option value="{{ $genre->id }}" @if (old('genre') == $genre->id) {{ 'selected="selected"' }} @endif >{{ $genre->genre }}</option>
+              @endforeach
+            @endif
+          </select>
+        </div>
+      </div>
 
-      @foreach ($first_level_results as $first_level_result)
-      <select class="form-control udk-select selectpicker" data-live-search="true" data-size="10" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
-        <ul>
-        <option class="first-level" style="color: #999999;" value="not-selected"> {{ $first_level_result['title'] }} </option>
-        <option class="first-level" style="font-size: 16px; font-weight: 600; color: #000;" value="{{ $first_level_result['title'] }}"> {{ $first_level_result['title'] }} </option>
-        @foreach ($second_level_results as $second_level_result)
-          @if ($first_level_result['id'] == $second_level_result['first_level_id'])
-            <option class="second-level" style="font-size: 14px; font-weight: 500; color: #000;" value="{{ $second_level_result['code'] }}"> {{ $second_level_result['title'] }} </option>
+      <div class="form-group">
+        <label for="about" class="col-sm-1 control-label">Žanras</label>
+        <div class="col-sm-11">
+          @foreach ($first_level_results as $first_level_result)
+          <select class="form-control udk-select selectpicker" multiple data-max-options="1" data-live-search="true" data-size="10" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
             <ul>
-            @foreach ($third_level_results as $third_level_result)
-              @if ($first_level_result['id'] == $second_level_result['first_level_id'] && $first_level_result['id'] == $third_level_result['first_level_id'] && $second_level_result['id'] == $third_level_result['second_level_id'])
-                <option class="third-level" style="font-size: 12px; font-weight: 300; color: #000;" value="{{ $third_level_result['code'] }}">{{ $third_level_result['title'] }} </option>
+            <option class="first-level" style="color: #999999;" value="not-selected"> {{ $first_level_result['title'] }} </option>
+            <option class="first-level" style="font-size: 16px; font-weight: 600; color: #000;" value="{{ $first_level_result['title'] }}"> {{ $first_level_result['title'] }} </option>
+            @foreach ($second_level_results as $second_level_result)
+              @if ($first_level_result['id'] == $second_level_result['first_level_id'])
+                <option class="second-level" style="font-size: 14px; font-weight: 500; color: #000;" value="{{ $second_level_result['code'] }}"> {{ $second_level_result['title'] }} </option>
+                <ul>
+                @foreach ($third_level_results as $third_level_result)
+                  @if ($first_level_result['id'] == $second_level_result['first_level_id'] && $first_level_result['id'] == $third_level_result['first_level_id'] && $second_level_result['id'] == $third_level_result['second_level_id'])
+                    <option class="third-level" style="font-size: 12px; font-weight: 300; color: #000;" value="{{ $third_level_result['code'] }}">{{ $third_level_result['title'] }} </option>
+                  @endif
+                @endforeach
+                </ul>
               @endif
             @endforeach
             </ul>
-          @endif
-        @endforeach
-        </ul>
-      </select>
-      @endforeach
-      <select class="form-control selectpicker" data-live-search="true" data-size="10" id="genre" name="genre">
-        <option value="0">Romanai</option>
-          @if ($genres->count())
-            @foreach ($genres as $genre)
-              <option value="{{ $genre->id }}" @if (old('genre') == $genre->id) {{ 'selected="selected"' }} @endif >{{ $genre->genre }}</option>
-            @endforeach
-          @endif
-      </select>
+          </select>
+          @endforeach
+        </div>
+      </div>
+      
       
 
     	<div class="form-group">

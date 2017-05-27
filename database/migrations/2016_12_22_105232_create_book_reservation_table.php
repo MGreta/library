@@ -14,14 +14,20 @@ class CreateBookReservationTable extends Migration
     public function up()
     {
         Schema::create('book_reservations', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('book_id');
-            $table->string('comment');
+            $table->integer('user_id')->unsigned();
+            $table->integer('book_id')->unsigned();
+            $table->string('comment')->nullable();
             $table->date('reservation_start_day');
             $table->date('reservation_end_day');
+            $table->integer('is_ready')->default('0');
+            $table->integer('is_active')->default('1');
             $table->timestamps();
         });
+
+        
     }
 
     /**

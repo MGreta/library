@@ -14,8 +14,10 @@ class CreateUdkSecondLevelTable extends Migration
     public function up()
     {
         Schema::create('udk_second_level', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->integer('id_first_level');
+            $table->integer('id_first_level')->unsigned();
             $table->string('title');
             $table->string('code');
             $table->timestamps();

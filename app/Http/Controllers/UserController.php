@@ -43,12 +43,14 @@ class UserController extends Controller
 
 	public function update(Request $request)
 	{
+
 		$id = Auth::user()->id;
 		$validator =  Validator::make($request->all(), [
             'name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'max:255'
         ]);
+        
 
         if ($validator->fails()) {
 
@@ -59,6 +61,14 @@ class UserController extends Controller
             $user->name = $request->input('name');
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
+
+            if(!empty($request->input('repeat_password')) && !empty($request->input('password'))){
+                if ($request->input('repeat_password') == $request->input('password')) {
+                    $user->password = bcrypt($request->input('password'));
+                } else {
+                    return redirect('/profile')->with('errors', new MessageBag(['Išsaugoti naujo slaptažodžio nepavyko. Abu slaptažodžio laukai turi sutapti. Bandykite dar kartą.']));
+                }
+            }
             if ($user->save()) {
 
                 return view('user.index', compact('user'))->with('status', 'Vartotojo informacija atnaujinta sėkmingai.');

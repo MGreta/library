@@ -227,7 +227,7 @@ class BookController extends Controller
 
         $validator =  Validator::make($request->all(), [
             'title' => 'required|max:255',
-            'isbn' => 'required|max:255',
+            'isbn' => 'max:255',
             'date' => 'max:255',
             'size' => 'max:255',
             'quantity' => 'max:255',
@@ -272,27 +272,40 @@ class BookController extends Controller
                 echo "<br>";
             }
         }
+        if(!empty($request->input('author'))){
+            //istrinti knygos autorius
+            DB::table('book_authors')->where('book_id', $id)->delete();
 
-        //istrinti knygos autorius
-        DB::table('book_authors')->where('book_id', $id)->delete();
-
-        $authors = $request->input('author');
-        foreach($authors as $author)
-        {
-            if($author !== 1)
+            $authors = $request->input('author');
+            foreach($authors as $author)
             {
-                $author_id = Author::where('id', $author)->value('id');
-                $book_author = Book_authors::create([
-                    'book_id' => $id,
-                    'author_id' => $author_id,
-                ]);
+                if($author !== 1)
+                {
+                    $author_id = Author::where('id', $author)->value('id');
+                    $book_author = Book_authors::create([
+                        'book_id' => $id,
+                        'author_id' => $author_id,
+                    ]);
+                }
             }
+        }
+
+        if($request->input('isbn') == " ") {
+            $isbn = NULL;
+        } else {
+            $isbn =  $request->input('isbn');
+        }
+
+        if($request->input('genre') == 0) {
+            $genre = NULL;
+        } else {
+            $genre =  $request->input('genre');
         }
 
         if ($book = Book::find($id)) {
             $book = Book::find($id);
             $book->title = $request->input('title');
-            $book->isbn = $request->input('isbn');
+            $book->isbn = $isbn;
             $book->udk = $udk;
             $book->date = $request->input('date');
             $book->size = $request->input('size');
@@ -301,7 +314,7 @@ class BookController extends Controller
             $book->quantity = $request->input('quantity');
             $book->publishing_house = $request->input('publishing_house');
             $book->city = $request->input('city');
-            $book->genre = $request->input('genre');
+            $book->genre = $genre;
             $book->about = $request->input('about');
             $response = $book->save();
             if ($response) {
@@ -522,6 +535,8 @@ class BookController extends Controller
             if ($genre) {
                 $genre_id = DB::table('genres')->where('genre', $genre_input)->value('id');
             }
+        } elseif($request->input('genre') == 0) {
+            $genre_id = NULL;
         } else {
             $genre_id = $request->input('genre');
         }
@@ -551,7 +566,7 @@ class BookController extends Controller
 
         $validator =  Validator::make($request->all(), [
             'title' => 'required|max:255',
-            'isbn' => 'required|max:255',
+            'isbn' => 'max:255',
             'date' => 'max:255',
             'size' => 'max:255',
             'quantity' => 'max:255',
@@ -564,10 +579,16 @@ class BookController extends Controller
             /*return redirect()->back()->withErrors($validator)->withInput();*/
         }
 
+        if($request->input('isbn') == " ") {
+            $isbn = NULL;
+        } else {
+            $isbn =  $request->input('isbn');
+        }
+
         $book = Book::create([
             'title' => $request->input('title'),
             /*'author' => $author_id,*/
-            'isbn' => $request->input('isbn'),
+            'isbn' => $isbn,
             'date' => $request->input('date'),
             'size' => $request->input('size'),
             'language' => $language_id,
@@ -745,13 +766,14 @@ class BookController extends Controller
         $searchValues = preg_split('/\s+/', $request->search, -1, PREG_SPLIT_NO_EMPTY);
 
         $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')
-                    ->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name')
+                    ->join('book_authors', 'books.id', '=', 'book_authors.book_id')->select('books.*', 'book_authors.author_id')
+                    ->join('authors', 'authors.id', '=', 'book_authors.author_id')->select('books.*', 'authors.author_name')
                     ->join('types', 'books.type', '=', 'types.id')->select('books.*', 'types.type')
                     ->join('genres', 'books.genre', '=', 'genres.id')->select('books.*', 'genres.genre')
                     ->where(function($q) use ($searchValues) {
                         foreach ($searchValues as $value) {
                             $q->orwhere('title', 'LIKE', "%{$value}%")
-                                ->orWhere('author', 'LIKE', "%{$value}%")
+                                ->orWhere('book_authors.author_id', 'LIKE', "%{$value}%")
                                 ->orWhere('isbn', 'LIKE', "%{$value}%")
                                 ->orWhere('date', 'LIKE', "%{$value}%")
                                 ->orWhere('size', 'LIKE', "%{$value}%")
@@ -824,6 +846,7 @@ class BookController extends Controller
 
         $types = Type::all();
         $authors = Author::all();
+        $book_authors = Book_authors::join('authors', 'authors.id', '=', 'book_authors.author_id')->select('book_authors.*', 'authors.author_name')->get();
         $publishing_houses = PublishingHouse::all();
         $cities = City::all();
 
@@ -835,7 +858,10 @@ class BookController extends Controller
             if($author_id == '0')
             {
                 $author_id = '';
-            }
+            } /*else
+            {
+                $author_id = DB::table('book_authors')->join('authors', 'authors.id', '=', 'book_authors.author_id')->select('book_authors.*', 'authors.author_name')->where('author_id', $author_id)->value('author_name');
+            }*/
         $isbn = $request->input('isbn');
         $date = $request->input('date');
         $size = $request->input('size');
@@ -861,7 +887,7 @@ class BookController extends Controller
                 $city_id = '';
             }
 
-        echo $title;
+        /*echo $title;
         echo $author_id;
         echo $isbn;
         echo $date;
@@ -869,11 +895,11 @@ class BookController extends Controller
         echo $type_id;
         echo $udk;
         echo $publishing_house_id;
-        echo $city_id;
+        echo $city_id;*/
 
         $filters = [
             'title' => $title,
-            'author' => $author_id,
+            'book_authors.author_id' => $author_id,
             'isbn' => $isbn,
             'date' => $date,
             'size' => $size,
@@ -885,13 +911,14 @@ class BookController extends Controller
         ];
 
         $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')
-                    ->join('authors', 'books.author', '=', 'authors.id')->select('books.*', 'authors.author_name')
+                    ->join('book_authors', 'books.id', '=', 'book_authors.book_id')->select('books.*', 'book_authors.author_id')
+                    ->join('authors', 'authors.id', '=', 'book_authors.author_id')->select('books.*', 'authors.author_name')
                     ->join('types', 'books.type', '=', 'types.id')->select('books.*', 'types.type')
                     ->join('genres', 'books.genre', '=', 'genres.id')->select('books.*', 'genres.genre')
                     ->where(function($q) use ($searchValues) {
                         foreach ($searchValues as $value) {
                             $q->orwhere('title', 'LIKE', "%{$value}%");
-                                $q->orWhere('author', 'LIKE', "%{$value}%");
+                                $q->orWhere('book_authors.author_id', 'LIKE', "%{$value}%");
                                 $q->orWhere('isbn', 'LIKE', "%{$value}%");
                                 $q->orWhere('date', 'LIKE', "%{$value}%");
                                 $q->orWhere('size', 'LIKE', "%{$value}%");
@@ -905,10 +932,13 @@ class BookController extends Controller
                         }
                     })
                     ->orWhere(function($query) use ($filters) {
+                        //print_r($filters);
                         foreach ( $filters as $column => $key ) {
                             $value = $key;
-                            if ( (! is_null($key)) ) {
-                                $query->where($column, 'LIKE', "%{$value}%");
+                            if ( !empty($key) )  {
+                                $query->where($column, 'LIKE', "%{$key}%");
+
+                                //echo $column; echo "______"; echo $key; echo "_____"; echo $value; echo "<br>";
                             }
                         }
                     })->get();

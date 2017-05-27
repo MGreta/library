@@ -53,7 +53,11 @@
                                 </td>
                                 <td>
                                     @foreach(get_authors($books[$i]->id) as $author)
-                                    <a href="/author/{{ $author->author_id }}/books">{{ get_author_name($author->author_id) }}</a>, 
+                                        @if(count(get_authors($books[$i]->id)) > 1)
+                                            <a href="/author/{{ $author->author_id }}/books">{{ get_author_name($author->author_id) }}</a>, 
+                                        @else
+                                            <a href="/author/{{ $author->author_id }}/books">{{ get_author_name($author->author_id) }}</a>
+                                        @endif
                                     @endforeach
                                 </td>
                                 <!-- <td>{{ $books[$i]->isbn }}</td> -->

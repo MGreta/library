@@ -14,9 +14,11 @@ class CreateUdkThirdLevelTable extends Migration
     public function up()
     {
         Schema::create('udk_third_level', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->integer('id_first_level');
-            $table->integer('id_second_level');
+            $table->integer('id_first_level')->unsigned();
+            $table->integer('id_second_level')->unsigned();
             $table->string('title');
             $table->string('code');
             $table->timestamps();

@@ -14,12 +14,16 @@ class CreateCommentsTable extends Migration
     public function up()
     {
         Schema::create('comments', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->integer('book_id');
-            $table->integer('user_id');
-            $table->text('about');
+            $table->integer('book_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->text('comment');
             $table->timestamps();
         });
+
+        
     }
 
     /**

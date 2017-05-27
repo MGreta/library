@@ -40,6 +40,20 @@
 						</div>
 
 						<div class="form-group">
+							<label class="col-sm-2 control-label" for="date">Slaptažodis</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="password" name="password" value="">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="date">Pakartokite slaptažodį</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="repeat_password" name="repeat_password" value="">
+							</div>
+						</div>
+
+						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
 									Išsaugoti pakeitimus

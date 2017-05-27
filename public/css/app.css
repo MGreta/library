@@ -5858,6 +5858,10 @@ body {
     color: #0f1626; }
   .panel-body input {
     border-radius: 1px; }
+  .panel-body .bs-placeholder {
+    background-color: #6b7a8f;
+    /*color: #999 !important;*/
+    color: #fff !important; }
   .panel-body button {
     background-color: #0f1626;
     color: #f5f5f5 !important;

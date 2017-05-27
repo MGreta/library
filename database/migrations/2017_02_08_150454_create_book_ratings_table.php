@@ -14,12 +14,16 @@ class CreateBookRatingsTable extends Migration
     public function up()
     {
         Schema::create('book_ratings', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->integer('book_id');
-            $table->integer('user_id');
+            $table->integer('book_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->decimal('book_rating', 3, 1)->default('0.0');
             $table->timestamps();
         });
+
+        
     }
 
     /**

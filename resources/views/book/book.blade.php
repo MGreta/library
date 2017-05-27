@@ -9,7 +9,7 @@
         @if (Auth::user())
         @if (Auth::user()->hasRole("admin"))
         {{--<a class="btn btn-default btn-xs" style="float: right;" data-toggle="modal" data-target="#booksEdit{{ $book->id }}"><span class="glyphicon glyphicon-pencil" style="float: right;" aria-hidden="true"></span></a>--}}
-        <a class="btn btn-default btn-xs" href="{{ url('/book/' . $books[$i]->id . '/edit' ) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+        <a class="btn btn-default btn-xs" href="{{ url('/book/' . $book->id . '/edit' ) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
         <a class="btn btn-default btn-xs" style="float: right;" data-toggle="modal" data-target="#books-delete-modal{{$book->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
         @endif
         @endif
@@ -29,7 +29,15 @@
             <div class="row form-group">
                 <label class="col-sm-2 control-label" for="title">Autorius</label>
                 <div class="col-sm-10">
-                    <p>{{ get_author_name($book->author) }}</p>
+                    <p>
+                        @foreach(get_authors($book->id) as $author)
+                            @if(count(get_authors($book->id)) > 1)
+                                <a href="/author/{{ $author->author_id }}/books">{{ get_author_name($author->author_id) }}</a>, 
+                            @else
+                                <a href="/author/{{ $author->author_id }}/books">{{ get_author_name($author->author_id) }}</a>
+                            @endif
+                        @endforeach
+                    </p>
                 </div>
             </div>
 

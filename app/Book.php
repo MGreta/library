@@ -15,7 +15,7 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'author', 'isbn', 'date', 'size', 'language', 'type', 'udk', 'quantity', 'about', 'publishing_house', 'city', 'genre'
+        'title', 'isbn', 'date', 'size', 'language', 'type', 'udk', 'quantity', 'about', 'publishing_house', 'city', 'genre'
     ];
 
     /**
@@ -33,8 +33,8 @@ class Book extends Model
         return $this->belongsTo('App\Language');
     }
 
-    public function author()
+    /*public function author()
     {
         return $this->belongsTo('App\Author', 'author', 'id');
-    }
+    }*/
 }

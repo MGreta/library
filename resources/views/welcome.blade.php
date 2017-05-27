@@ -162,7 +162,7 @@
                         <li><a href=" {{ url('/options') }} ">Nustatymai</a></li>
                     </ul>
                 </div>
-        @endif
+       
                 <div class="col-md-10 main">
                     @include ('partials.message')
                     @yield('content')
@@ -247,6 +247,7 @@
                 </div>
             </div>
         </div>
+         @endif
         
 
 

@@ -14,9 +14,14 @@ class CreateAuthorsTable extends Migration
     public function up()
     {
         Schema::create('authors', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->string('author_name')->nullable();
-            $table->string('author_surname')->nullable();
+            $table->string('country')->nullable();
+            $table->string('birth_date')->nullable();
+            $table->string('death_date')->nullable();
+            $table->string('image')->default('default.jpg');
             $table->timestamps();
         });
     }

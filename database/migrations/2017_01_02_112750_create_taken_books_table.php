@@ -13,15 +13,22 @@ class CreateTakenBooksTable extends Migration
      */
     public function up()
     {
-        Schema::create('takenBooks', function (Blueprint $table) {
+        Schema::create('taken_books', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->integer('book_id');
-            $table->integer('user_id');
+            $table->integer('book_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->date('start_day');
             $table->date('end_day');
-            $table->integer('late_days')->nullable();
+            $table->integer('worker_id')->unsigned();
+            $table->integer('read')->default('0');
+            $table->integer('returned')->default('0');
+            $table->integer('times_continued')->default('0');
             $table->timestamps();
         });
+
+        
     }
 
     /**

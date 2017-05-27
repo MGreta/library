@@ -13,9 +13,12 @@ class CreatePublishingHouseTable extends Migration
      */
     public function up()
     {
-        Schema::create('publishing_house', function (Blueprint $table) {
+        Schema::create('publishing_houses', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->string('publishing_house');
+            $table->timestamps();
         });
     }
 

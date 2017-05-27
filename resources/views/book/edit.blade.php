@@ -123,10 +123,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="quantity">Apie</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="about" name="about" value="{{ $book->about }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label" for="genre">Žanras</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="genre" name="genre">
-                                    <option value="{{ $book->genre }}">{{ get_genre($book->genre) }}</option>
+                                    <option value="0">Pasirinkite žanrą</option>
                                     @if (get_all_genres($book->genre)->count())
                                         @foreach (get_all_genres($book->genre) as $genre)
                                             <option value="{{ $genre->id }}" @if (old('genre') == $genre->id) {{ 'selected="selected"' }} @endif >{{ $genre->genre }}</option>
