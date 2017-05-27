@@ -66,10 +66,10 @@ class Book_reservationsController extends Controller
         	}
 
         	Session::forget('cart');
-            return redirect('/books')->with('status', 'User created successfully.');
+            return redirect('/books')->with('status', 'Rezervacija išsaugota sėkmingai.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new user. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Rezervacijos išsaugoti nepavyko. Bandykite dar kartą.']));
     }
 
     public function getRemoveItem($id) {
@@ -101,7 +101,7 @@ class Book_reservationsController extends Controller
     		DB::table('Book_reservations')->where('id', $id)->delete();
     		return redirect('/reservations');
     	} else {
-    		return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
+    		return redirect()->back()->with('errors', new MessageBag(['Išduoti knygos nepavyko. Bandykite dar kartą.']));
     	}
     }
     public function bookIsReady(Request $request, $id) {
@@ -111,7 +111,7 @@ class Book_reservationsController extends Controller
         if ($response) {
             return redirect('/reservations');
         } else {
-            return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
+            return redirect()->back()->with('errors', new MessageBag(['Pakeisti knygos statuso nepavyko. Bandykite dar kartą.']));
         }
     }
 
@@ -122,7 +122,7 @@ class Book_reservationsController extends Controller
         if ($response) {
             return redirect('/reservations');
         } else {
-            return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
+            return redirect()->back()->with('errors', new MessageBag(['Pakeisti knygos statuso nepavyko. Bandykite dar kartą.']));
         }
     }
 

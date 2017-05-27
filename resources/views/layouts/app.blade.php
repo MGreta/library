@@ -44,7 +44,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">Library</a>
+                    <a class="navbar-brand" href="{{ url('/') }}">Biblioteka</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -57,8 +57,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
+                            <li><a href="{{ url('/login') }}">Prisijungti</a></li>
+                            <li><a href="{{ url('/register') }}">Registruotis</a></li>
                         @else
                             <li>
                                 <a href="{{ url('/logout') }}"

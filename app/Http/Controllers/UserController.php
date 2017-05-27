@@ -52,7 +52,7 @@ class UserController extends Controller
 
         if ($validator->fails()) {
 
-            return redirect('/profile')->with('errors', new MessageBag(['Error saving user. Please try again.']));
+            return redirect('/profile')->with('errors', new MessageBag(['Vartotojo informacijos atnaujinti nepavyko. Bandykite dar kartą.']));
         }
 
         if ($user = User::find($id)) {
@@ -61,13 +61,13 @@ class UserController extends Controller
             $user->email = $request->input('email');
             if ($user->save()) {
 
-                return view('user.index', compact('user'))->with('status', 'Update successful.');
+                return view('user.index', compact('user'))->with('status', 'Vartotojo informacija atnaujinta sėkmingai.');
             }
 
-            return redirect('/profile')->with('errors', new MessageBag(['Error saving user. Please try again.']));
+            return redirect('/profile')->with('errors', new MessageBag(['Išsaugoti vartotojo informacijos nepavyko. Bandykite dar kartą.']));
         }
 
-        return redirect('/profile')->with('errors', new MessageBag(['Unauthorized action.']));
+        return redirect('/profile')->with('errors', new MessageBag(['Redaguoti vartotojo infromacijos negalima.']));
 	}
 
     public function books()
@@ -131,7 +131,7 @@ class UserController extends Controller
             $book->read = '1';
             $response = $book->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Knyga sėkmingai pažymėta kaip perskaityta.']);
             }
             return redirect('/user-books');
         }
@@ -143,7 +143,7 @@ class UserController extends Controller
             $book->read = '0';
             $response = $book->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Knyga sėkmingai pažymėta kaip neperskaityta.']);
             }
             return redirect('/user-books');
         }
@@ -175,7 +175,7 @@ class UserController extends Controller
                 $book->times_continued = $times_continued;
                 $response = $book->save();
                 if ($response) {
-                    return redirect()->back()->with(['message' => 'Rezrevacija pratesta.']);
+                    return redirect()->back()->with(['message' => 'Rezrevacija pratęsta.']);
                 }
                 return redirect('/books');
             }

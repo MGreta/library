@@ -46,10 +46,10 @@ class TypeController extends Controller
         foreach($types as $type){
             $type_same = Type::where('type', $type)->get();
             if($type = ''){
-                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte.']));
             }else{
                 if (count($type_same) !== 0){
-                    return redirect()->back()->with('errors', new MessageBag(['type jau yra įvesta']));
+                    return redirect()->back()->with('errors', new MessageBag(['Tipas jau yra išsaugotas.']));
                 }
             }
         }
@@ -60,9 +60,9 @@ class TypeController extends Controller
             ]);
         }
         if ($type) {
-            return redirect('type')->with('status', 'Type created successfully.');
+            return redirect('type')->with('status', 'Tipas sėkmingai išsaugotas.');
         }
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Tipo išsaugoti nepavyko. Bandykite dar kartą.']));
         /*$validator =  Validator::make($request->all(), [
             'type' => 'required|max:255|unique:types,type'
         ]);
@@ -108,14 +108,14 @@ class TypeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Tipo atnaujinti nepavyko. Bandykite dar kartą'])->with('wrong_id', $id);
         }
 
         if ($type = Type::find($id)) {
             $type->type = $request->input('type');
             $response = $type->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Tipas sėkmingai atnaujintas.']);
             }
             return redirect('/type');
         }
@@ -149,7 +149,7 @@ class TypeController extends Controller
                 $book->type = '0';
                 $book->save();
             }*/
-            return redirect()->back()->withErrors(['error' => 'Klaida. Negalima ištrinti jeigu tipas turi knygų.']);
+            return redirect()->back()->withErrors(['error' => 'Negalima ištrinti jeigu tipas turi knygų.']);
         }
         DB::table('types')->where('id', $id)->delete();
         return redirect()->back();

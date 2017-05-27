@@ -4,17 +4,17 @@
 
 @if( count($reservations_is_ready) != 0 )
 <div class="panel panel-primary">
-    <div class="panel-heading">Ready books</div>
+    <div class="panel-heading">Paruoštos atsiimti knygos</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
-                    <th>Cancel reservations</th>
+                    <th>Pavadinimas</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Atšaukti rezervaciją</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -49,10 +49,11 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
+                    <th>Pavadinimas</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Atšaukti rezervaciją</th>
                 </tr>
             </tfoot>
         </table>
@@ -61,17 +62,17 @@
 @endif
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Books reservations</div>
+    <div class="panel-heading">Neparuoštos rezervacijos</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
-                    <th>Cancel reservation</th>
+                    <th>Pavadinimas</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Atšaukti rezervaciją</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,7 +95,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -102,11 +103,11 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
-                    <th>Cancel reservation</th>
+                    <th>Pavadinimas</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Atšaukti rezervaciją</th>
                 </tr>
             </tfoot>
         </table>

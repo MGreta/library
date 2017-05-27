@@ -6,9 +6,12 @@
     <div class="panel-heading">{{ $book->title }}<br>
         <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($book->id) }} ( {{ count_ratings($book->id) }} )</small><br>
         <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($book->id) }} </small>
+        @if (Auth::user())
         @if (Auth::user()->hasRole("admin"))
-        <a class="btn btn-default btn-xs" style="float: right;" data-toggle="modal" data-target="#booksEdit{{ $book->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+        {{--<a class="btn btn-default btn-xs" style="float: right;" data-toggle="modal" data-target="#booksEdit{{ $book->id }}"><span class="glyphicon glyphicon-pencil" style="float: right;" aria-hidden="true"></span></a>--}}
+        <a class="btn btn-default btn-xs" href="{{ url('/book/' . $books[$i]->id . '/edit' ) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
         <a class="btn btn-default btn-xs" style="float: right;" data-toggle="modal" data-target="#books-delete-modal{{$book->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+        @endif
         @endif
     </div>
     <div class="panel-body">
@@ -17,14 +20,14 @@
         </div>
         <div class="col-md-8">
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Title</label>
+                <label class="col-sm-2 control-label" for="title">Knygos pavadinimas</label>
                 <div class="col-sm-10">
                     <p>{{ $book->title }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Author</label>
+                <label class="col-sm-2 control-label" for="title">Autorius</label>
                 <div class="col-sm-10">
                     <p>{{ get_author_name($book->author) }}</p>
                 </div>
@@ -38,28 +41,28 @@
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Date</label>
+                <label class="col-sm-2 control-label" for="title">Data</label>
                 <div class="col-sm-10">
                     <p>{{ $book->date }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Size</label>
+                <label class="col-sm-2 control-label" for="title">Dydis</label>
                 <div class="col-sm-10">
                     <p>{{ $book->size }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Language</label>
+                <label class="col-sm-2 control-label" for="title">Kalba</label>
                 <div class="col-sm-10">
                     <p>{{ get_language($book->language) }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Type</label>
+                <label class="col-sm-2 control-label" for="title">Tipas</label>
                 <div class="col-sm-10">
                     <p>{{ get_type($book->type) }}</p>
                 </div>
@@ -73,28 +76,28 @@
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Quantity</label>
+                <label class="col-sm-2 control-label" for="title">Kiekis</label>
                 <div class="col-sm-10">
                     <p>{{ $book->quantity }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Publishing house</label>
+                <label class="col-sm-2 control-label" for="title">Leidykla</label>
                 <div class="col-sm-10">
                     <p>{{ get_publishing_house($book->publishing_house) }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">City</label>
+                <label class="col-sm-2 control-label" for="title">Miestas</label>
                 <div class="col-sm-10">
                     <p>{{ get_city($book->city) }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">About</label>
+                <label class="col-sm-2 control-label" for="title">Apie</label>
                 <div class="col-sm-10">
                     <p>{{ $book->about }}</p>
                 </div>
@@ -103,7 +106,7 @@
     </div>
 </div>
 <div class="panel panel-primary">
-    <div class="panel-heading">Additional information</div>
+    <div class="panel-heading">Papildoma informacija</div>
     <div class="panel-body">
         <div class="col-md-12">
             <div class="form-group">
@@ -117,13 +120,13 @@
 </div>
 @if (Auth::user())
 <div class="panel panel-primary">
-    <div class="panel-heading">Rate This</div>
+    <div class="panel-heading">Įvertinimas</div>
     <div class="panel-body">
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $book->id . '/rate') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             
-                <label class="col-sm-2 control-label" for="rate">Rate This</label>
+                <label class="col-sm-2 control-label" for="rate">Įvertinkite</label>
                     
                     
 
@@ -209,13 +212,13 @@ $(document).ready(function(){
 });
 </script>
 <div class="panel panel-primary">
-    <div class="panel-heading">Add Comment</div>
+    <div class="panel-heading">Pridėkite komentarą</div>
     <div class="panel-body">
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $book->id . '/addComment') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="comment">Comment</label>
+                <label class="col-sm-2 control-label" for="comment">Komentaras</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="book_comment" name="comment" value="">
                 </div>
@@ -224,7 +227,7 @@ $(document).ready(function(){
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">
-                        Save Changes
+                        Išsaugoti
                     </button>
                 </div>
             </div>
@@ -235,7 +238,7 @@ $(document).ready(function(){
 
 @if(count($comments) > 0)
 <div class="panel panel-primary">
-    <div class="panel-heading">Comments</div>
+    <div class="panel-heading">Komentarai</div>
     <div class="panel-body">
         <div class="col-md-4">
             
@@ -251,6 +254,7 @@ $(document).ready(function(){
                         <div class="col-md-8 col-sm-8">
                             <p>{{ $comments[$i]->comment }}</p>
                         </div>
+                        @if (Auth::user())
                         @if (((Auth::user()->id) == ($comments[$i]->user_id)) || Auth::user()->hasRole("admin"))
                             <div class="col-md-1 col-sm-1">
                                 <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#editComment{{ $comments[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
@@ -265,7 +269,7 @@ $(document).ready(function(){
                                                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $comments[$i]->id . '/editComment') }}">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label" for="title">Comment</label>
+                                                    <label class="col-sm-2 control-label" for="title">Komentaras</label>
                                                     <div class="col-sm-10">
                                                         <input type="text" class="form-control" id="comment" name="comment" value="{{ old('comments', $comments[$i]->comment) }}">
                                                     </div>
@@ -274,14 +278,14 @@ $(document).ready(function(){
                                                 <div class="form-group">
                                                     <div class="col-md-6 col-md-offset-4">
                                                         <button type="submit" class="btn btn-primary">
-                                                            Save Changes
+                                                            Išsaugoti
                                                         </button>
                                                     </div>
                                                 </div>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                             </div>
 
                                         </div>
@@ -301,7 +305,7 @@ $(document).ready(function(){
                                                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $comments[$i]->id . '/deleteComment') }}">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label" for="title">Comment</label>
+                                                    <label class="col-sm-2 control-label" for="title">Komentaras</label>
                                                     <div class="col-sm-10">
                                                         {{$comments[$i]->comment }}
                                                     </div>
@@ -313,10 +317,10 @@ $(document).ready(function(){
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Ištrinti</button>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -327,6 +331,7 @@ $(document).ready(function(){
                                 </div>
                             </div>
                         @endif
+                        @endif
                     </div>
                 </div>
             @endfor
@@ -336,8 +341,9 @@ $(document).ready(function(){
 </div>
 @endif
 
+@if (Auth::user())
 @if (Auth::user()->hasRole("admin"))
-<div class="modal fade" id="booksEdit{{ $book->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+{{--<div class="modal fade" id="booksEdit{{ $book->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -483,20 +489,20 @@ $(document).ready(function(){
             </div>
         </div>
     </div>
-</div>
+</div>--}}
 <div class="modal fade" id="books-delete-modal{{$book->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                <h4 class="modal-title">Delete book</h4>
+                <h4 class="modal-title">Panaikinti knygą</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' .$book->id .'/delete') }}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="row">
                         <div class="col-md-4">
-                            <h5>Book title</h5>
+                            <h5>Knygos pavadinimas</h5>
                         </div>
                         <div>
                             <p>{{ $book->title }}</p>
@@ -504,7 +510,7 @@ $(document).ready(function(){
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <h5>Book author</h5>
+                            <h5>Autorius</h5>
                         </div>
                         <div>
                             <p>{{ get_author_name($book->author) }}</p>
@@ -512,15 +518,15 @@ $(document).ready(function(){
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>Ar tikrai norite istrinti?</h4>
+                            <h4>Ar tikrai norite ištrinti?</h4>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
                         </div>
                     </div>
                 </form>
@@ -530,5 +536,6 @@ $(document).ready(function(){
         </div>
     </div>
 </div>
+@endif
 @endif
 @endsection

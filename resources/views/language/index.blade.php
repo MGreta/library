@@ -10,10 +10,12 @@
     </script>
 @endif
 <div class="">  
+@if (Auth::user())
+    @if (Auth::user()->hasRole("admin"))
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading">Add Language</div>
+                <div class="panel-heading">Pridėti kalbą</div>
                 <div class="panel-body">
                     <form class="form-inline" role="form" method="POST" action="{{ url('/language') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -23,13 +25,13 @@
                                 <input type="text" class="form-control" id="language" name="language" value="{{ old('language') }}">
                             </div>
                         </div> -->
-
+                        <div class="input-group input-group-btn"> 
+                            <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button>
+                        </div>
                         <div class="input-group control-group after-add-more">
                             <input type="text" name="language[]" class="form-control" value="{{ old('language') }}">
                         </div>
-                        <div class="input-group-btn"> 
-                                <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
-                        </div>
+                        
                         <!-- Copy Fields -->
                         <!-- <div class="copy hide">
                             <div class="control-group input-group" style="margin-top:10px">
@@ -56,25 +58,28 @@
                         </script>
 
 
-                        <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
+                        <button type="submit" name="create" value="create" class="btn btn-primary">Pridėti</button>
                     </form>
                 </div>
             </div>
         </div>
     </div> 
+    @endif
+@endif
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Languages</div>
+                <div class="panel-heading">Kalbos</div>
                 <div class="panel-body">
                     <table class="table table-striped table-hover table-condensed">
                         <thead>
                             <tr class="info">
                                 <th>#</th>
-                                <th><a href="{{ action('LanguageController@order') }}">Language</a></th>
+                                <th><a href="{{ action('LanguageController@order') }}">Kalba</a></th>
+                                <th>Knygos pagal kalbą</th>
                                 @if (Auth::user())
                                     @if (Auth::user()->hasRole("admin"))
-                                    <th>Action</th>
+                                    <th>Veiksmas</th>
                                     @endif
                                 @endif
                             </tr>
@@ -85,6 +90,7 @@
                                     <tr>
                                         <th>{{ $i+1 }}</th>
                                             <td><a href="/language/{{ $languages[$i]->id }}/books">{{ $languages[$i]->language }}</a></td>
+                                            <td>{{ get_books_by_language($languages[$i]->id) }}</td>
                                             @if (Auth::user())
                                                 @if (Auth::user()->hasRole("admin"))
                                                 <td>
@@ -102,7 +108,7 @@
                                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                                                         <div class="form-group">
-                                                                            <label class="col-sm-2 control-label" for="title">Language</label>
+                                                                            <label class="col-sm-2 control-label" for="title">Kalba</label>
                                                                             <div class="col-sm-10">
                                                                                 <input type="text" class="form-control" id="language" name="language" value="{{ old('language', $languages[$i]->language) }}">
                                                                             </div>
@@ -111,14 +117,14 @@
                                                                         <div class="form-group">
                                                                             <div class="col-md-6 col-md-offset-4">
                                                                                 <button type="submit" class="btn btn-primary">
-                                                                                    Save Changes
+                                                                                    Išsaugoti pakeitimus
                                                                                 </button>
                                                                             </div>
                                                                         </div>
                                                                     </form>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                                                 </div>
 
                                                             </div>
@@ -130,14 +136,14 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                                    <h4 class="modal-title">Delete language</h4>
+                                                                    <h4 class="modal-title">Panaikinti kalbą</h4>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/language/' .$languages[$i]->id .'/delete') }}">
                                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                                         <div class="row">
                                                                             <div class="col-md-4">
-                                                                                <h5>Language</h5>
+                                                                                <h5>Kalba</h5>
                                                                             </div>
                                                                             <div>
                                                                                 <p>{{ $languages[$i]->language }}</p>
@@ -145,15 +151,15 @@
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col-md-12">
-                                                                                <h4>Ar tikrai norite istrinti?</h4>
+                                                                                <h4>Ar tikrai norite ištrinti?</h4>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col-md-6">
-                                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                             </div>
                                                                             <div class="col-md-6">
-                                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                                                             </div>
                                                                         </div>
                                                                     </form>
@@ -170,17 +176,18 @@
                                 @endfor
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="8">List Is Empty.</td>
+                                    <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                                 </tr>
                             @endif
                         </tbody>                        
                         <tfoot>
                             <tr class="info">
                                 <th>#</th>
-                                <th>Language</th>
+                                <th>Kalba</th>
+                                <th>Knygos pagal kalbą</th>
                                 @if (Auth::user())
                                     @if (Auth::user()->hasRole("admin"))
-                                    <th>Action</th>
+                                    <th>Veiksmas</th>
                                     @endif
                                 @endif
                             </tr>

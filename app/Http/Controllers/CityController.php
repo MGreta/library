@@ -29,10 +29,10 @@ class CityController extends Controller
         foreach($cities as $city){
             $city_same = City::where('city', $city)->get();
             if($city = ''){
-                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte.']));
             }else{
                 if (count($city_same) !== 0){
-                    return redirect()->back()->with('errors', new MessageBag(['miestas jau yra įvesta']));
+                    return redirect()->back()->with('errors', new MessageBag(['Toks miestas jau yra išsaugotas.']));
                 }
             }
         }
@@ -43,9 +43,9 @@ class CityController extends Controller
             ]);
         }
         if ($city) {
-            return redirect('city')->with('status', 'City created successfully.');
+            return redirect('city')->with('status', 'Miestas sėkmingai išsaugotas.');
         }
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new city. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Miesto nepavyko išsaugoti. Bandykite dar kartą.']));
         /*$validator =  Validator::make($request->all(), [
             'city' => 'required|max:255|unique:cities,city'
         ]);
@@ -83,14 +83,14 @@ class CityController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Miesto nepavyko pakeisti. Bandykite dar kartą.'])->with('wrong_id', $id);
         }
 
         if ($city = City::find($id)) {
             $city->city = $request->input('city');
             $response = $city->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Miestas atnaujintas.']);
             }
             return redirect('/city');
         }

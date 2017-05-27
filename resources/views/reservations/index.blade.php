@@ -4,21 +4,21 @@
 
 @if( count($reservations_is_ready) != 0 )
 <div class="panel panel-primary">
-    <div class="panel-heading">Ready books</div>
+    <div class="panel-heading">Paruoštos atsiimti knygos</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
-                    <th>How many free</th>
-                    <th>Not ready</th>
-                    <th>Taken</th>
-                    <th>Remove reservation</th>
+                    <th>Vartotojas</th>
+                    <th>Knyga</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Laivos</th>
+                    <th>Neparuošta</th>
+                    <th>Paimta</th>
+                    <th>Panaikinti rezervaciją</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -66,15 +66,15 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
-                    <th>How many free</th>
-                    <th>Ready</th>
-                    <th>Taken</th>
-                    <th>Remove reservation</th>
+                    <th>Vartotojas</th>
+                    <th>Knyga</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Laivos</th>
+                    <th>Neparuošta</th>
+                    <th>Paimta</th>
+                    <th>Panaikinti rezervaciją</th>
                 </tr>
             </tfoot>
         </table>
@@ -83,21 +83,21 @@
 @endif
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Not ready books</div>
+    <div class="panel-heading">Neparuoštos rezervacijos</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
-                    <th>How many free</th>
-                    <th>Ready</th>
-                    <th>Taken</th>
-                    <th>Remove reservation</th>
+                    <th>Vartotojas</th>
+                    <th>Knyga</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Laisvos</th>
+                    <th>Paruošta</th>
+                    <th>Paimta</th>
+                    <th>Panaikinti rezervaciją</th>
                 </tr>
             </thead>
             <tbody>
@@ -143,7 +143,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -151,15 +151,15 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>Comment</th>
-                    <th>Reservation start date</th>
-                    <th>Reservation end date</th>
-                    <th>How many free</th>
-                    <th>Ready</th>
-                    <th>Taken</th>
-                    <th>Remove reservations</th>
+                    <th>Vartotojas</th>
+                    <th>Knyga</th>
+                    <th>Komentaras</th>
+                    <th>Rezervacijos pradžia</th>
+                    <th>Rezervacijos pabaiga</th>
+                    <th>Laisvos</th>
+                    <th>Paruošta</th>
+                    <th>Paimta</th>
+                    <th>Panaikinti rezervaciją</th>
                 </tr>
             </tfoot>
         </table>

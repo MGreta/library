@@ -2,22 +2,22 @@
 
 @section('content')
 <div class="panel panel-primary">
-  <div class="panel-heading">Add Book</div>
+  <div class="panel-heading">Pridėti knygą</div>
   <div class="panel-body">
     <form class="form-horizontal" role="form" method="POST" action="{{ url('add-book') }}">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
     	<div class="form-group">
-        <label for="title" class="col-sm-1 control-label">Title</label>
+        <label for="title" class="col-sm-1 control-label">Pavadinimas</label>
     	  <div class="col-sm-11">
-    	   	<input type="text" class="form-control" id="title" placeholder="title" name="title" value="{{ old('title') }}">
+    	   	<input type="text" class="form-control" id="title" placeholder="Pavadinimas" name="title" value="{{ old('title') }}">
     	  </div>
       </div>
             
       <div class="form-group">
-        <label class="col-sm-1 control-label" for="author">Author</label>
+        <label class="col-sm-1 control-label" for="author">Autorius</label>
          <div class="col-sm-5">
-          <select class="form-control" id="author" name="author">
-            <option value="0">Select author</option>
+          <select class="form-control selectpicker" id="author" name="author[]" multiple>
+            <option value="0">Pasirinkite autorių</option>
             <option value="other" @if (old('author') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
             @if ($authors->count())
               @foreach ($authors as $author)
@@ -27,9 +27,9 @@
           </select>
         </div>
 
-        <label for="author-name" class="col-sm-1 control-label">Author name</label>
+        <label for="author-name" class="col-sm-1 control-label">Autorius</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="author_name" placeholder="author name" name="author_name" value="{{ old('author_name') }}" disabled>
+          <input type="text" class="form-control" id="author_name" placeholder="Autorius" name="author_name" value="{{ old('author_name') }}">
         </div>
       </div>
     	<!-- <div class="form-group" id="create-book-authname" style="display: none;">
@@ -41,26 +41,26 @@
     	<div class="form-group">
   	    <label for="isbn" class="col-sm-1 control-label">ISBN</label>
   	    <div class="col-sm-11">
-  	    	<input type="text" class="form-control" id="isbn" placeholder="isbn" name="isbn" value="{{ old('isbn') }}">
+  	    	<input type="text" class="form-control" id="isbn" placeholder="ISBN" name="isbn" value="{{ old('isbn') }}">
   	    </div>
     	</div>
     	<div class="form-group">
-  	    <label for="date" class="col-sm-1 control-label">Date</label>
+  	    <label for="date" class="col-sm-1 control-label">Data</label>
   	    <div class="col-sm-11">
-  	    	<input type="text" class="form-control" id="date" placeholder="date" name="date" value="{{ old('date') }}">
+  	    	<input type="text" class="form-control" id="date" placeholder="Data" name="date" value="{{ old('date') }}">
   	    </div>
     	</div>
     	<div class="form-group">
-  	    <label for="size" class="col-sm-1 control-label">Size</label>
+  	    <label for="size" class="col-sm-1 control-label">Dydis</label>
   	    <div class="col-sm-11">
-  	    	<input type="text" class="form-control" id="size" placeholder="size" name="size" value="{{ old('size') }}">
+  	    	<input type="text" class="form-control" id="size" placeholder="Dydis" name="size" value="{{ old('size') }}">
   	    </div>
     	</div>
     	<div class="form-group">
-        <label class="col-sm-1 control-label" for="language">Language</label>
+        <label class="col-sm-1 control-label" for="language">Kalba</label>
         <div class="col-sm-5">
           <select class="form-control" id="language" name="language">
-            <option value="0">Select a language</option>
+            <option value="0">Pasirinkite kalbą</option>
             <option value="other" @if (old('language') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
             @if ($languages->count())
               @foreach ($languages as $language)
@@ -72,19 +72,19 @@
           </select>
         </div>
 
-        <label for="language" class="col-sm-1 control-label">Language</label>
+        <label for="language" class="col-sm-1 control-label">Kalba</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="add_language" placeholder="language" name="add_language" value="{{ old('add_language') }}" disabled>
+          <input type="text" class="form-control" id="add_language" placeholder="Kalba" name="add_language" value="{{ old('add_language') }}" disabled>
         </div>
       </div>
       <!-- <div class="form-group" id="create-book-language" style="display: none;">
         
       </div> -->
     	<div class="form-group">
-        <label class="col-sm-1 control-label" for="type">Type</label>
+        <label class="col-sm-1 control-label" for="type">Tipas</label>
         <div class="col-sm-5">
           <select class="form-control" id="type" name="type">
-            <option value="0">Select a type</option>
+            <option value="0">Pasirinkite tipą</option>
             <option value="other" @if (old('type') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
             @if ($types->count())
               @foreach ($types as $type)
@@ -94,31 +94,31 @@
           </select>
         </div>
 
-        <label for="type" class="col-sm-1 control-label">Type</label>
+        <label for="type" class="col-sm-1 control-label">Tipas</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="add_type" placeholder="type" name="add_type" value="{{ old('add_type') }}" disabled>
+          <input type="text" class="form-control" id="add_type" placeholder="Tipas" name="add_type" value="{{ old('add_type') }}" disabled>
         </div>
       </div>
       <!-- <div class="form-group" id="create-book-type" style="display: none;">
         
       </div> -->
-    	<div class="form-group">
-  	    <label for="udk" class="col-sm-1 control-label">udk</label>
+    	{{--<div class="form-group">
+  	    <label for="udk" class="col-sm-1 control-label">UDK</label>
   	    <div class="col-sm-11">
-  	    	<input type="text" class="form-control" id="udk" placeholder="udk" name="udk" value="{{ old('udk') }}">
+  	    	<input type="text" class="form-control" id="udk" placeholder="UDK" name="udk" value="{{ old('udk') }}">
   	    </div>
-    	</div>
+    	</div>--}}
     	<div class="form-group">
   	    <label for="quantity" class="col-sm-1 control-label">Kiekis</label>
   	    <div class="col-sm-11">
-  	    	<input type="text" class="form-control" id="quantity" placeholder="quantity" name="quantity" value="{{ old('quantity') }}">
+  	    	<input type="text" class="form-control" id="quantity" placeholder="Kiekis" name="quantity" value="{{ old('quantity') }}">
   	    </div>
     	</div>
       <div class="form-group">
-        <label class="col-sm-1 control-label" for="publishing_house">Publishing house</label>
+        <label class="col-sm-1 control-label" for="publishing_house">Leidykla</label>
         <div class="col-sm-5">
           <select class="form-control" id="publishing_house" name="publishing_house">
-            <option value="0">Select a publishing house</option>
+            <option value="0">Pasirinkite leidyklą</option>
             <option value="other" @if (old('publishing_house') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
             @if ($publishing_houses->count())
                 @foreach ($publishing_houses as $publishing_house)
@@ -128,19 +128,19 @@
         </select>
         </div>
 
-        <label for="publishing-house" class="col-sm-1 control-label">Publishing house</label>
+        <label for="publishing-house" class="col-sm-1 control-label">Leidykla</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="add_publishing_house" placeholder="publishing house" name="add_publishing_house" value="{{ old('add_publishing_house') }}" disabled>
+          <input type="text" class="form-control" id="add_publishing_house" placeholder="Leidykla" name="add_publishing_house" value="{{ old('add_publishing_house') }}" disabled>
         </div>
       </div>
       <!-- <div class="form-group" id="create-book-publishing-house" style="display: none;">
         
       </div> -->
       <div class="form-group">
-        <label class="col-sm-1 control-label" for="city">City</label>
+        <label class="col-sm-1 control-label" for="city">Miestas</label>
         <div class="col-sm-5">
           <select class="form-control" id="city" name="city">
-            <option value="0">Select a city</option>
+            <option value="0">Pasirinkite miestą</option>
             <option value="other" @if (old('city') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
             @if ($cities->count())
               @foreach ($cities as $city)
@@ -150,9 +150,9 @@
           </select>
         </div>
 
-        <label for="city" class="col-sm-1 control-label">City</label>
+        <label for="city" class="col-sm-1 control-label">Miestas</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="add_city" placeholder="city" name="add_city" value="{{ old('add_city') }}" disabled>
+          <input type="text" class="form-control" id="add_city" placeholder="Miestas" name="add_city" value="{{ old('add_city') }}" disabled>
         </div>
       </div>
       <!-- <div class="form-group" id="create-book-city" style="display: none;">
@@ -181,9 +181,9 @@
         
       </div> -->
     	<div class="form-group">
-  	    <label for="about" class="col-sm-1 control-label">About</label>
+  	    <label for="about" class="col-sm-1 control-label">Apie</label>
   	    <div class="col-sm-11">
-  	    	<input type="text" class="form-control" id="about" placeholder="about" name="about" value="{{ old('about') }}">
+  	    	<input type="text" class="form-control" id="about" placeholder="Apie" name="about" value="{{ old('about') }}">
   	    </div>
     	</div>
 
@@ -220,7 +220,7 @@
 
     	<div class="form-group">
        	<div class="col-sm-offset-2 col-sm-10">
-       		<button type="submit" name="create" value="create" class="btn btn-primary">Add new</button>
+       		<button type="submit" name="create" value="create" class="btn btn-primary">Pridėti naują</button>
        	</div>
       </div>
     </form>
@@ -229,14 +229,14 @@
 
 
 <script>
-  $('#author').on('change', function(){
+  /*$('#author').on('change', function(){
     if($(this).val() == 'other'){
       $('#author_name').prop("disabled", false);
     }
-  });
-  if($('#author').val() == 'other'){
+  });*/
+  /*if($('#author').val() == 'other'){
     $('#author_name').prop("disabled", false);
-  };
+  };*/
 
   $('#language').on('change', function(){
     if($(this).val() == 'other'){

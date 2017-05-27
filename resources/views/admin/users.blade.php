@@ -11,7 +11,7 @@
 @endif
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Books</div>
+    <div class="panel-heading">Vartotojai</div>
     <div class="panel-body">
         <form class="form-horizontal" role="form" method="GET" action="{{ url('/users-search') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -19,25 +19,25 @@
                 <input type="text" class="form-control" id="search" name="search"></input>
             </div>
             <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">Ieškoti</button>
             </div>
         </form>
     </div>
 </div>
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Users</div>
+    <div class="panel-heading">Vartotojai</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th><a href="{{ action('AdminController@orderByFirstName') }}">First Name</a></th>
-                    <th><a href="{{ action('AdminController@orderByLastName') }}">Last Name</a></th>
-                    <th><a href="{{ action('AdminController@orderByEmail') }}">Email</a></th>
+                    <th><a href="{{ action('AdminController@orderByFirstName') }}">Vardas</a></th>
+                    <th><a href="{{ action('AdminController@orderByLastName') }}">Pavardė</a></th>
+                    <th><a href="{{ action('AdminController@orderByEmail') }}">El. paštas</a></th>
                     <!-- <th><a href="{{ action('AdminController@orderByClass') }}">Class</a></th> -->
-                    <th><a href="{{ action('AdminController@orderByRole') }}">Role</a></th>
-                    <th>Action</th>
+                    <th><a href="{{ action('AdminController@orderByRole') }}">Rolė</a></th>
+                    <th>Veiksmas</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,28 +68,28 @@
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="first_name">Name</label>
+                                                            <label class="col-sm-2 control-label" for="first_name">Vardas</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $users[$i]->name) }}">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="last_name">Last Name</label>
+                                                            <label class="col-sm-2 control-label" for="last_name">Pavardė</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name', $users[$i]->last_name) }}">
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        {{--<div class="form-group">
                                                             <label class="col-sm-2 control-label" for="class">Class</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="class" name="class" value="{{ old('class', $users[$i]->class) }}">
                                                             </div>
-                                                        </div>
+                                                        </div>--}}
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="email">Email</label>
+                                                            <label class="col-sm-2 control-label" for="email">El. paštas</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $users[$i]->email) }}">
                                                             </div>
@@ -103,7 +103,7 @@
                                                         </div> -->
                                                         
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="role">Role</label>
+                                                            <label class="col-sm-2 control-label" for="role">Rolė</label>
                                                             <div class="col-sm-10">
                                                                 <select class="form-control" id="role" name="role">
                                                                     @if ($roles->count())
@@ -118,14 +118,14 @@
                                                         <div class="form-group">
                                                             <div class="col-md-6 col-md-offset-4">
                                                                 <button type="submit" class="btn btn-primary">
-                                                                    Save Changes
+                                                                    Išsaugoti pakeitimus
                                                                 </button>
                                                             </div>
                                                         </div>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                                 </div>
 
                                             </div>
@@ -137,14 +137,14 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                    <h4 class="modal-title">Delete user</h4>
+                                                    <h4 class="modal-title">Panaikinti vartotoją</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/all-users/' .$users[$i]->id .'/delete') }}">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <h5>User name</h5>
+                                                                <h5>Vartotojas</h5>
                                                             </div>
                                                             <div>
                                                                 <p>{{ $users[$i]->name }} {{ $users[$i]->last_name }}</p>
@@ -152,15 +152,15 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <h4>Ar tikrai norite istrinti?</h4>
+                                                                <h4>Ar tikrai norite ištrinti?</h4>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -176,7 +176,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -184,12 +184,12 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
+                    <th>Vardas</th>
+                    <th>Pavardė</th>
+                    <th>El. paštas</th>
                     <!-- <th>Class</th> -->
-                    <th>Roles</th>
-                    <th>Action</th>
+                    <th>Rolė</th>
+                    <th>Veiksmas</th>
                 </tr>
             </tfoot>
         </table>

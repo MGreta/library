@@ -1,3 +1,5 @@
+<!-- Nenaudojama -->
+
 @extends('welcome')
 
 @section('content')

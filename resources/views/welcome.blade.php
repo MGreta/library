@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -24,8 +24,15 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+
 
         <!-- Styles -->
+        <style type="text/css">
+            body {
+                background-image: url(<?php URL::to('/')?>/background.jpg);
+            }
+        </style>
     </head>
     <body>
         <!-- <nav class="navbar navbar-default">
@@ -86,11 +93,11 @@
             <div class="row">
                 <div class="col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li><a href="{{ url('/books') }}">Books</a></li>
-                        <li><a href="{{ url('/authors') }}">Authors</a></li>
-                        <li><a href="{{ url('/language') }}">Language</a></li>
-                        <li><a href="{{ url('/type') }}">Type</a></li>
-                        <li><a href="{{ url('/genres') }}">Genre</a></li>
+                        <li><a href="{{ url('/books') }}">Knygos</a></li>
+                        <li><a href="{{ url('/authors') }}">Autoriai</a></li>
+                        <li><a href="{{ url('/language') }}">Kalbos</a></li>
+                        <li><a href="{{ url('/type') }}">Tipai</a></li>
+                        <li><a href="{{ url('/genres') }}">Žanrai</a></li>
                     </ul>
                 </div>
                 <div class="col-md-10 main">
@@ -104,19 +111,23 @@
                 <div class="col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                     @if( count_user_occupied_books() > 0 )
-                        <li><a href=" {{ url('/user-books') }} ">My occupied books  ({{ count_user_occupied_books() }})</a></li>
+                        <li><a href=" {{ url('/user-books') }} ">Šiuo metu turimos knygos  ({{ count_user_occupied_books() }})</a></li>
                     @endif
                     @if( count_user_late_books() > 0 )
-                        <li><a href=" {{ url('/user-late-books') }} ">My late books ({{ count_user_late_books() }})</a></li>
+                        <li><a href=" {{ url('/user-late-books') }} ">Vėluojamos grąžinti knygos ({{ count_user_late_books() }})</a></li>
                     @endif
                     @if( count_user_returned_books() > 0 )
-                        <li><a href=" {{ url('/user-returned-books') }} ">My returned books ({{ count_user_returned_books() }})</a></li>
+                        <li><a href=" {{ url('/user-returned-books') }} ">Grąžintos knygos ({{ count_user_returned_books() }})</a></li>
                     @endif
                     @if( count_user_reserved_books() > 0 )
-                        <li><a href=" {{ url('/user-reserved-books') }} ">My reserved books ({{ count_user_reserved_books() }})</a></li>
+                        <li><a href=" {{ url('/user-reserved-books') }} ">Rezervuotos knygos ({{ count_user_reserved_books() }})</a></li>
                     @endif
                         <hr>
-                        <li><a href="{{ url('/books') }}">All Books</a></li>
+                        <li><a href="{{ url('/books') }}">Knygos</a></li>
+                        <li><a href="{{ url('/authors') }}">Autoriai</a></li>
+                        <li><a href="{{ url('/language') }}">Kalbos</a></li>
+                        <li><a href="{{ url('/type') }}">Tipai</a></li>
+                        <li><a href="{{ url('/genres') }}">Žanrai</a></li>
                     </ul>
                 </div>
                 <div class="col-md-10 main">
@@ -129,91 +140,114 @@
             <div class="row">
                 <div class="col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li><a href="{{ url('/all-users') }}">Users</a></li>
-                        <li><a href="{{ url('/books') }}">Books</a></li>
-                        <li><a href="{{ url('authors') }}">Authors</a></li>
-                        <li><a href="{{ url('/language') }}">Language</a></li>
-                        <li><a href="{{ url('/type') }}">Type</a></li>
-                        <li><a href="{{ url('/genres') }}">Genre</a></li>
-                        <li><a href="{{ url('/publishing-house') }}">Publishing House</a></li>
-                        <li><a href="{{ url('/city') }}">City</a></li>
+                        <li><a href="{{ url('/all-users') }}">Vartotojai</a></li>
+                        <li><a href="{{ url('/books') }}">Knygos</a></li>
+                        <li><a href="{{ url('authors') }}">Autoriai</a></li>
+                        <li><a href="{{ url('/language') }}">Kalbos</a></li>
+                        <li><a href="{{ url('/type') }}">Tipai</a></li>
+                        <li><a href="{{ url('/genres') }}">Žanrai</a></li>
+                        <li><a href="{{ url('/publishing-house') }}">Leidyklos</a></li>
+                        <li><a href="{{ url('/city') }}">Miestai</a></li>
                         <hr>
                         <!-- <li><a href="{{ url('/add-user') }}">Add users</a></li> -->
-                        <li><a href="{{ url('/add-book') }}">Add Books</a></li>
+                        <li><a href="{{ url('/add-book') }}">Pridėti įrašą</a></li>
                         <hr>                    
                         <!-- <li><a href="{{ url('/register-book') }}">Register Book</a></li> -->
-                        <li><a href="{{ url('/occupied-books') }}">Occupied Books ({{ count_occupied_books() }})</a></li>
-                        <li><a href="{{ url('/continued-books') }}">Continued Books ({{ count_continued_books() }})</a></li>
-                        <li><a href="{{ url('/reservations') }}">Reserved Books ({{ count_reserved_books() }})</a></li>
-                        <li><a href="{{ url('/late-books') }}">Late Books ({{ count_late_books() }})</a></li>
-                        <li><a href="{{ url('/returned-books') }}">Returned Books ({{ count_returned_books() }})</a></li>
+                        <li><a href="{{ url('/occupied-books') }}">Paimtos knygos ({{ count_occupied_books() }})</a></li>
+                        <li><a href="{{ url('/continued-books') }}">Pratęstos knygos ({{ count_continued_books() }})</a></li>
+                        <li><a href="{{ url('/reservations') }}">Rezervuotos knygos ({{ count_reserved_books() }})</a></li>
+                        <li><a href="{{ url('/late-books') }}">Vėluojamos grąžinti knygos ({{ count_late_books() }})</a></li>
+                        <li><a href="{{ url('/returned-books') }}">Grąžintos knygos ({{ count_returned_books() }})</a></li>
                         <hr>
-                        <li><a href=" {{ url('/options') }} ">Options</a></li>
+                        <li><a href=" {{ url('/options') }} ">Nustatymai</a></li>
                     </ul>
                 </div>
+        @endif
                 <div class="col-md-10 main">
                     @include ('partials.message')
                     @yield('content')
                     {{--
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('add-url') }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ url('add-url') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                        @foreach ($first_level_results as $first_level_result)
-                        <select class="form-control udk-select" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
-                            <ul>
-                            <option class="first-level" style="color: #999999;" value="not-selected"> {{ $first_level_result['title'] }} </option>
-                            <option class="first-level" style="font-size: 16px; font-weight: 600; color: #000;" value="{{ $first_level_result['title'] }}"> {{ $first_level_result['title'] }} </option>
-                            @foreach ($second_level_results as $second_level_result)
-                                @if ($first_level_result['id'] == $second_level_result['first_level_id'])
-                                    <option class="second-level" style="font-size: 14px; font-weight: 500; color: #000;" value="{{ $second_level_result['code'] }}"> {{ $second_level_result['title'] }} </option>
-                                    <ul>
-                                    @foreach ($third_level_results as $third_level_result)
-                                        @if ($first_level_result['id'] == $second_level_result['first_level_id'] && $first_level_result['id'] == $third_level_result['first_level_id'] && $second_level_result['id'] == $third_level_result['second_level_id'])
-                                            <option class="third-level" style="font-size: 12px; font-weight: 300; color: #000;" value="{{ $third_level_result['code'] }}">{{ $third_level_result['title'] }} </option>
-                                        @endif
-                                    @endforeach
-                                    </ul>
-                                @endif
+                            @foreach ($first_level_results as $first_level_result)
+                            <select class="form-control udk-select" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
+                                <ul>
+                                <option class="first-level" style="color: #999999;" value="not-selected"> {{ $first_level_result['title'] }} </option>
+                                <option class="first-level" style="font-size: 16px; font-weight: 600; color: #000;" value="{{ $first_level_result['title'] }}"> {{ $first_level_result['title'] }} </option>
+                                @foreach ($second_level_results as $second_level_result)
+                                    @if ($first_level_result['id'] == $second_level_result['first_level_id'])
+                                        <option class="second-level" style="font-size: 14px; font-weight: 500; color: #000;" value="{{ $second_level_result['code'] }}"> {{ $second_level_result['title'] }} </option>
+                                        <ul>
+                                        @foreach ($third_level_results as $third_level_result)
+                                            @if ($first_level_result['id'] == $second_level_result['first_level_id'] && $first_level_result['id'] == $third_level_result['first_level_id'] && $second_level_result['id'] == $third_level_result['second_level_id'])
+                                                <option class="third-level" style="font-size: 12px; font-weight: 300; color: #000;" value="{{ $third_level_result['code'] }}">{{ $third_level_result['title'] }} </option>
+                                            @endif
+                                        @endforeach
+                                        </ul>
+                                    @endif
+                                @endforeach
+                                </ul>
+                            </select>
                             @endforeach
-                            </ul>
-                        </select>
-                        @endforeach
 
-                        <div class="form-group">
-                        <label class="col-sm-1 control-label" for="genre">Genre</label>
-                        <div class="col-sm-5">
-                          <select class="form-control" id="genre" name="genre">
-                          <option value="0">Select a genre</option>
-                          <option value="other" @if (old('genre') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
-                            @if ($genres->count())
-                              @foreach ($genres as $genre)
-                                <option value="{{ $genre->id }}" @if (old('genre') == $genre->id) {{ 'selected="selected"' }} @endif >{{ $genre->genre }}</option>
-                              @endforeach
-                            @endif
-                          </select>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" name="create" value="create" class="btn btn-primary">Add new</button>
+                            <div class="form-group">
+                            <label class="col-sm-1 control-label" for="genre">Genre</label>
+                            <div class="col-sm-5">
+                              <select class="form-control" id="genre" name="genre">
+                              <option value="0">Select a genre</option>
+                              <option value="other" @if (old('genre') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
+                                @if ($genres->count())
+                                  @foreach ($genres as $genre)
+                                    <option value="{{ $genre->id }}" @if (old('genre') == $genre->id) {{ 'selected="selected"' }} @endif >{{ $genre->genre }}</option>
+                                  @endforeach
+                                @endif
+                              </select>
                             </div>
-                        </div>
 
-                    </form>
-                    
-
-                    
-                    <h1>
-
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" name="create" value="create" class="btn btn-primary">Add new</button>
+                                </div>
+                            </div>
+                        </form>
                         
-                            {{ $string }}
-                        
-                    </h1>
-                --}}
+                        <h1>{{ $string }}</h1>
+                    --}}
+                    <!-- <h1>Labas</h1>
+                    <div id="container" style="width:100%; height:400px;"></div>
+
+                    <script type="text/javascript">
+                        $(function () { 
+                            var myChart = Highcharts.chart('container', {
+                                chart: {
+                                    type: 'bar'
+                                },
+                                title: {
+                                    text: 'Fruit Consumption'
+                                },
+                                xAxis: {
+                                    categories: ['Apples', 'Bananas', 'Oranges']
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: 'Fruit eaten'
+                                    }
+                                },
+                                series: [{
+                                    name: 'Jane',
+                                    data: [1, 0, 4]
+                                }, {
+                                    name: 'John',
+                                    data: [5, 7, 3]
+                                }]
+                            });
+                        });
+                    </script> -->
                 </div>
             </div>
         </div>
-        @endif
+        
 
 
 

@@ -15,58 +15,60 @@
 @if (Auth::user())
     @if (Auth::user()->hasRole("admin"))
     <div class="panel panel-primary">
-        <div class="panel-heading">Add authors</div>
+        <div class="panel-heading">Pridėti naują autorių</div>
         <div class="panel-body">
             <form role="form" method="POST" action="{{ url('authors') }}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
-                    <label class="col-md-2 col-sm-4 control-label" for="title">Name</label>
+                    <label class="col-md-2 col-sm-4 control-label" for="title">Vardas pavardė</label>
                     <div class="col-md-10 col-sm-8">
                         <input type="text" class="form-control" id="author_name" name="author_name" value="{{ old('author_name') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-sm-4 control-label" for="country">Country</label>
+                    <label class="col-md-2 col-sm-4 control-label" for="country">Šalis</label>
                     <div class="col-md-10 col-sm-8">
                         <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-sm-4 control-label" for="birth_date">Birth date</label>
+                    <label class="col-md-2 col-sm-4 control-label" for="birth_date">Gimimo data</label>
                     <div class="col-md-10 col-sm-8">
                         <input type="text" class="form-control" id="birth_date" name="birth_date" value="{{ old('birth_date') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-sm-4 control-label" for="death_date">Death date</label>
+                    <label class="col-md-2 col-sm-4 control-label" for="death_date">Mirties data</label>
                     <div class="col-md-10 col-sm-8">
                         <input type="text" class="form-control" id="death_date" name="death_date" value="{{ old('death_date') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-sm-4 control-label" for="image">Image</label>
+                    <label class="col-md-2 col-sm-4 control-label" for="image">Nuotrauka</label>
                     <div class="col-md-10 col-sm-8">
                         <input type="file" id="image" name="image" value="{{ old('image') }}">
                     </div>
                 </div>
-                <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
+                <div class="col-md-10 col-md-offset-2 col-sm-8 col-sm-offset-4">
+                    <button type="submit" name="create" value="create" class="btn btn-primary">Pridėti</button>
+                </div>
             </form>
         </div>
     </div>
     @endif
 @endif
     <div class="panel panel-primary">
-        <div class="panel-heading">Authors</div>
+        <div class="panel-heading">Autoriai</div>
         <div class="panel-body">
             <table class="table table-striped table-hover table-condensed">
                 <thead>
                     <tr class="info">
                         <th>#</th>
-                        <th>Image</th>
-                        <th><a href="{{ action('AuthorController@orderByName') }}">Name</a></th>
-                        <th>Books</th>
-                        <th>Kiek kartu autoriaus knygos buvo paimtos</th>
-                        <th>Action</th>
+                        <th>Nuotrauka</th>
+                        <th><a href="{{ action('AuthorController@orderByName') }}">Vardas</a></th>
+                        <th>Knygos</th>
+                        <th>Kiek kartų autoriaus <br>knygos buvo paimtos</th>
+                        <th>Veiksmai</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,30 +95,30 @@
                                                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/author/' . $authors[$i]->id . '/edit') }}">
                                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                             <div class="form-group">
-                                                                <label class="col-sm-2 control-label" for="title">Name</label>
+                                                                <label class="col-sm-2 control-label" for="title">Vardas</label>
                                                                 <div class="col-sm-10">
                                                                     <input type="text" class="form-control" id="author_name" name="author_name" value="{{ old('author_name', $authors[$i]->author_name) }}">
                                                                 </div>
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            {{--<div class="form-group">
                                                                 <label class="col-sm-2 control-label" for="author">Surname</label>
                                                                 <div class="col-sm-10">
                                                                     <input type="text" class="form-control" id="author_surname" name="author_surname" value="{{ old('author_surname', $authors[$i]->author_surname) }}">
                                                                 </div>
-                                                            </div>
+                                                            </div>--}}
 
                                                             <div class="form-group">
                                                                 <div class="col-md-6 col-md-offset-4">
                                                                     <button type="submit" class="btn btn-primary">
-                                                                        Save Changes
+                                                                        Išsaugoti
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                                     </div>
 
                                                 </div>
@@ -128,14 +130,14 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                        <h4 class="modal-title">Delete author</h4>
+                                                        <h4 class="modal-title">Panaiktinti autorių</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/authors/' .$authors[$i]->id .'/delete') }}">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                             <div class="row">
                                                                 <div class="col-md-4">
-                                                                    <h5>Author name</h5>
+                                                                    <h5>Autorius</h5>
                                                                 </div>
                                                                 <div>
                                                                     <p>{{ $authors[$i]->author_name }} {{ $authors[$i]->author_surname }}</p>
@@ -143,15 +145,15 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <h4>Ar tikrai norite istrinti?</h4>
+                                                                    <h4>Ar tikrai norite ištrinti?</h4>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                    <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -166,7 +168,7 @@
                         @endfor
                     @else
                         <tr>
-                            <td class="text-center" colspan="8">List Is Empty.</td>
+                            <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -174,10 +176,11 @@
                 <tfoot>
                     <tr class="info">
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Books</th>
-                        <th>Kiek kartu autoriaus knygos buvo paimtos</th>
-                        <th>Action</th>
+                        <th>Nuotrauka</th>
+                        <th>Vardas</th>
+                        <th>Knygos</th>
+                        <th>Kiek kartų autoriaus <br>knygos buvo paimtos</th>
+                        <th>Veiksmai</th>
                     </tr>
                 </tfoot>
             </table>

@@ -3,17 +3,17 @@
 @section('content')
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Returned Books</div>
+    <div class="panel-heading">Grąžintos knygos</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th>Book Title</th>
-                    <th>start date</th>
-                    <th>end date</th>
-                    <th>read(yes/no)</th>
-                    <th>admin</th>
+                    <th>Pavadinimas</th>
+                    <th>Pradžia</th>
+                    <th>Pabaigae</th>
+                    <th>Perskaityta (Taip/Ne)</th>
+                    <th>Darbuotojas</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -38,11 +38,11 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>Book Title</th>
-                    <th>start date</th>
-                    <th>end date</th>
-                    <th>read(yes/no)</th>
-                    <th>admin</th>
+                    <th>Pavadinimas</th>
+                    <th>Pradžia</th>
+                    <th>Pabaigae</th>
+                    <th>Perskaityta (Taip/Ne)</th>
+                    <th>Darbuotojas</th>
                 </tr>
             </tfoot>
         </table>

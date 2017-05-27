@@ -15,31 +15,31 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">            
             <div class="navbar-form navbar-left">
                 <ul class="nav navbar-nav">
-                    <li><a href=" {{ url('/detail-search') }} ">Detali paieska</a></li>
+                    <li><a href=" {{ url('/detail-search') }} ">Detali paieška</a></li>
+                    <li class="header-search">
+                        <form class="form-horizontal" role="form" method="GET" action="{{ url('/search/search') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" placeholder="Paieška" name="search" value="{{ old('search') }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="submit" name="submit" value="submit">Ieškoti</button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
-                <form class="form-horizontal" role="form" method="GET" action="{{ url('/search/search') }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" placeholder="Search" name="search" value="{{ old('search') }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"></a></li>
-                <!-- <li><a href="{{ url('/admin') }}">Admin</a></li> -->
                 <li>
-                    <a href="{{ url('/shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Shopping Cart
+                    <a href="{{ url('/shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Rezervacija
                     <span class="badge">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
                     </a>
                 </li>
-                <li><a href="{{ url('/profile') }}">Profile</a></li>
+                <li><a href="{{ url('/profile') }}">Profilis</a></li>
                 <li>
                     <a href="{{ url('/logout') }}"
                         onclick="event.preventDefault();

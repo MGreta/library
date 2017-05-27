@@ -7,3 +7,181 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+$slate: #eae3ea;
+$navy-blue: #0f1626;
+$leather: #ab987a;
+$coral: #ff533d;
+$eggshell: #f5f5f5;
+
+
+body {
+    min-height: 100vh;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+/*Navigation*/
+.navbar-default {
+	background-image: none !important;
+	box-shadow: none !important;
+	background-color: rgba(248, 248, 248, 0.3) !important;
+	.navbar-header {
+		.navbar-brand {
+			color: #0f1626;
+		}
+	}
+	.navbar-left {
+		li {
+			background-color: #0f1626;
+			margin: 5px;
+			a {
+				text-align: center;
+			    text-transform: uppercase;
+			    color: #f5f5f5 !important;
+			    padding: 10px !important;
+			}
+		}
+		li:hover {
+			background-color: #f5f5f5;
+			a {
+				color: #0f1626 !important;
+			}
+		}
+		.header-search {
+			background-color: transparent;
+			.form-control {
+				height: 40px;
+				border-radius: 1px;
+			}
+			button {
+				background-color: #0f1626;
+				color: #f5f5f5 !important;
+				padding: 10px;
+				border: 0;
+				text-transform: uppercase;
+			}
+			button:hover {
+				outline: none;
+				text-decoration: none;
+				border: 0 !important;
+				background-color: #f5f5f5;
+				color: #0f1626 !important;
+				cursor: pointer;
+			}
+		}
+	}
+	.navbar-right {
+		li {
+			background-color: #ff533d;
+			margin: 10px 5px 10px 5px;
+			a {
+				text-transform: uppercase;
+				text-align: center;
+				color: #f5f5f5 !important;
+				padding: 10px !important;
+			}
+		}
+		li:hover {
+			background-color: #0f1626;
+		}
+	}
+}
+/*Sidebar*/
+.sidebar {
+	li {
+		background-color: #0f1626;
+    	margin: 5px 0 5px 0;
+    	a {
+    		text-align: center;
+		    text-transform: uppercase;
+		    color: #f5f5f5;
+    	}
+	}
+	li:hover {
+		background-color: #f5f5f5;
+		a {
+			color: #0f1626;
+		}
+	}
+}
+
+/*Pages content*/
+.panel {
+	border-radius: 1px !important;
+}
+.panel-default {
+	border-radius: 1px !important;
+}
+.panel-primary {
+	border-color: $navy-blue !important;
+}
+.panel-heading {
+	background-image: none !important;
+	background-color: #0f1626 !important;
+	color: #f5f5f5 !important;
+	text-transform: uppercase;
+	border-radius: 1px !important;
+}
+.panel-body {
+	/*background-color: #eae3ea !important;*/
+	background-color: $eggshell !important;
+	label {
+		color: $navy-blue;
+	}
+	input {
+		border-radius: 1px;
+	}
+	button {
+		background-color: #0f1626;
+		color: #f5f5f5 !important;
+		padding: 10px;
+		border: 0;
+		border-radius: 1px;
+		text-transform: uppercase;
+		background-image: none !important;
+	}
+	button:hover {
+		outline: none;
+		text-decoration: none;
+		border: 0 !important;
+		background-color: $coral;
+		color: $eggshell !important;
+		cursor: pointer;
+	}
+}
+table {
+	thead, tfoot {
+		tr {
+			th {
+				background-color: $coral !important;
+				a {
+					color: $navy-blue;
+				}
+				a:hover {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+	tbody {
+		tr {
+			td {
+				a {
+					color: $navy-blue;
+				}
+				a:hover {
+					text-decoration: none;
+					color: $coral;
+				}
+				.btn-default {
+					background-image: none !important;
+					background-color: $eggshell !important;
+				}
+				.btn-default:hover {
+					background-color: $coral !important;
+				}
+			}
+		}
+	}
+}

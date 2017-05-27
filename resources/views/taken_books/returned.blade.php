@@ -3,19 +3,19 @@
 @section('content')
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Returned Books</div>
+    <div class="panel-heading">Grąžinta</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>start date</th>
-                    <th>end date</th>
-                    <th>read(yes/no)</th>
-                    <th>admin</th>
-                    <th>Not Returned</th>
+                    <th>Vartotojas</th>
+                    <th>Pavadinimas</th>
+                    <th>Pradžia</th>
+                    <th>Pabaiga</th>
+                    <th>Perskaityta (Taip/Ne)</th>
+                    <th>Darbuotojas</th>
+                    <th>Negrąžinta</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,9 +29,9 @@
                                 <td> {{ $books[$i]->end_day }} </td>
                                 <td>
                                     @if(is_read($books[$i]->id) == '1')
-                                    Yes
+                                    Taip
                                     @else
-                                    No
+                                    Ne
                                     @endif 
                                 </td>
                                 <td><a href="{{ url('/about-user/' . $books[$i]->worker_id ) }}"> {{ get_user_name($books[$i]->worker_id) }} </a></td>
@@ -42,7 +42,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -50,13 +50,13 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>start date</th>
-                    <th>end date</th>
-                    <th>read(yes/no)</th>
-                    <th>admin</th>
-                    <th>Not Returned</th>
+                    <th>Vartotojas</th>
+                    <th>Pavadinimas</th>
+                    <th>Pradžia</th>
+                    <th>Pabaiga</th>
+                    <th>Perskaityta (Taip/Ne)</th>
+                    <th>Darbuotojas</th>
+                    <th>Negrąžinta</th>
                 </tr>
             </tfoot>
         </table>

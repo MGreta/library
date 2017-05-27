@@ -37,10 +37,10 @@ class LanguageController extends Controller
         foreach($languages as $language){
             $language_same = Language::where('language', $language)->get();
             if($language = ''){
-                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte.']));
             }else{
                 if (count($language_same) !== 0){
-                    return redirect()->back()->with('errors', new MessageBag(['kalba jau yra įvesta']));
+                    return redirect()->back()->with('errors', new MessageBag(['Kalba jau yra išsaugota.']));
                 }
             }
         }
@@ -51,9 +51,9 @@ class LanguageController extends Controller
             ]);
         }
         if ($language) {
-            return redirect('language')->with('status', 'Language created successfully.');
+            return redirect('language')->with('status', 'Kalba sėkmingai pridėta.');
         }
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new language. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Kalbos išsaugoti nepavyko. Bandykite dar kartą.']));
     }
 
     public function show($id)
@@ -76,14 +76,14 @@ class LanguageController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Išsaugoti nepavyko.'])->with('wrong_id', $id);
         }
 
         if ($language = Language::find($id)) {
             $language->language = $request->input('language');
         $response = $language->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Kalba pakeista.']);
             }
             return redirect('/languages');
         }

@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading">Add Type</div>
+                <div class="panel-heading">Pridėti tipą</div>
                 <div class="panel-body">
                     <form class="form-inline" role="form" method="POST" action="{{ url('/type') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -25,12 +25,13 @@
                                 <input type="text" class="form-control" id="type" name="type" value="{{ old('type') }}">
                             </div>
                         </div> -->
+                        <div class="input-group input-group-btn"> 
+                            <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button>
+                        </div>
                         <div class="input-group control-group after-add-more">
                             <input type="text" name="type[]" class="form-control" value="{{ old('type') }}">
                         </div>
-                        <div class="input-group-btn"> 
-                                <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
-                        </div>
+                        
                         <script type="text/javascript">
 
                             $(document).ready(function() {
@@ -45,7 +46,7 @@
                             });
 
                         </script>
-                        <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
+                        <button type="submit" name="create" value="create" class="btn btn-primary">Pridėti</button>
                     </form>
                 </div>
             </div>
@@ -56,17 +57,17 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Types</div>
+                <div class="panel-heading">Tipai</div>
                 <div class="panel-body">
                     <table class="table table-striped table-hover table-condensed">
                         <thead>
                             <tr class="info">
                                 <th>#</th>
-                                <th><a href="{{ action('TypeController@order') }}">Types</a></th>
-                                <th>Books</th>
+                                <th><a href="{{ action('TypeController@order') }}">Tipas</a></th>
+                                <th>Knygos pagal tipą</th>
                                 @if (Auth::user())
                                 @if (Auth::user()->hasRole("admin"))
-                                <th>Action</th>
+                                <th>Veiksmai</th>
                                 @endif
                                 @endif
                             </tr>
@@ -76,7 +77,7 @@
                                 @for ($i = 0; $i < count($types); $i++)
                                     <tr>
                                         <th>{{ $i+1 }}</th>
-                                            <td>{{ $types[$i]->type }}</td>
+                                            <td><a href="/type/{{ $types[$i]->id }}/books">{{ $types[$i]->type }}</a></td>
                                             <td>{{ get_books_by_types($types[$i]->id) }}</td>
                                             @if (Auth::user())
                                             @if (Auth::user()->hasRole("admin"))
@@ -95,7 +96,7 @@
                                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                                                     <div class="form-group">
-                                                                        <label class="col-sm-2 control-label" for="title">Type</label>
+                                                                        <label class="col-sm-2 control-label" for="title">Tipas</label>
                                                                         <div class="col-sm-10">
                                                                             <input type="text" class="form-control" id="type" name="type" value="{{ old('type', $types[$i]->type) }}">
                                                                         </div>
@@ -104,14 +105,14 @@
                                                                     <div class="form-group">
                                                                         <div class="col-md-6 col-md-offset-4">
                                                                             <button type="submit" class="btn btn-primary">
-                                                                                Save Changes
+                                                                                Išsaugoti pakeitimus
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                                             </div>
 
                                                         </div>
@@ -123,14 +124,14 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                                <h4 class="modal-title">Delete type</h4>
+                                                                <h4 class="modal-title">Panaikinti</h4>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/type/' .$types[$i]->id .'/delete') }}">
                                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                                     <div class="row">
                                                                         <div class="col-md-4">
-                                                                            <h5>Type</h5>
+                                                                            <h5>Tipas</h5>
                                                                         </div>
                                                                         <div>
                                                                             <p>{{ $types[$i]->type }}</p>
@@ -138,15 +139,15 @@
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-12">
-                                                                            <h4>Ar tikrai norite istrinti?</h4>
+                                                                            <h4>Ar tikrai norite ištrinti?</h4>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-6">
-                                                                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                         </div>
                                                                         <div class="col-md-6">
-                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -163,7 +164,7 @@
                                 @endfor
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="8">List Is Empty.</td>
+                                    <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                                 </tr>
                             @endif
                         </tbody>                        

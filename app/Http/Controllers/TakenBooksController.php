@@ -45,7 +45,7 @@ class TakenBooksController extends Controller
         if ($response) {
             return redirect()->back()->with('success');
         } else {
-            return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
+            return redirect()->back()->with('errors', new MessageBag(['Statuso pakeisti nepavyko. Bandykite dar kartą.']));
         }
     }
 
@@ -57,7 +57,7 @@ class TakenBooksController extends Controller
         if ($response) {
             return redirect()->back()->with('success');
         } else {
-            return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
+            return redirect()->back()->with('errors', new MessageBag(['Statuso pakeisti nepavyko. Bandykite dar kartą.']));
         }
     }
 
@@ -100,7 +100,7 @@ class TakenBooksController extends Controller
                 $book->times_continued = $times_continued;
                 $response = $book->save();
                 if ($response) {
-                    return redirect()->back()->with(['message' => 'Rezervacija pratesta.']);
+                    return redirect()->back()->with(['message' => 'Rezervacija sėkmingai pratęsta.']);
                 }
                 return redirect('/books');
             }

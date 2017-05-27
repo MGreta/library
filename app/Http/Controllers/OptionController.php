@@ -35,7 +35,7 @@ class OptionController extends Controller
         $price->value = $request->input('debt_price');
         $response = $price->save();
         if ($response) {
-            return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            return redirect()->back()->with(['message' => 'Kainos nustatytmas išsaugotas.']);
         }
         return redirect('/options');
     }
@@ -57,7 +57,7 @@ class OptionController extends Controller
         $days->value = $request->input('days_to_have_book');
         $response = $days->save();
         if ($response) {
-            return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+            return redirect()->back()->with(['message' => 'Dienų nustatymas išsaugotas.']);
         }
         return redirect('/options');
     }

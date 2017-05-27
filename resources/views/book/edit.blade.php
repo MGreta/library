@@ -5,25 +5,25 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Book</div>
+				<div class="panel-heading">Redaguoti knygą</div>
 				<div class="panel-body">
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $book->id . '/edit') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="form-group">
-                            <label class="col-sm-2 control-label" for="title">Title</label>
+                            <label class="col-sm-2 control-label" for="title">Pavadinimas</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $book->title) }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="author">Author</label>
+                            <label class="col-sm-2 control-label" for="author">Autorius</label>
                             <div class="col-sm-10">
-                                <select class="form-control" id="author" name="author">
-                                    <option value="0">Select author</option>
+                                <select class="form-control selectpicker" id="author" name="author[]" multiple>
+                                    <option value="0">Pasirinkti autorių</option>
                                     @if ($authors->count())
                                         @foreach ($authors as $author)
-                                            <option value="{{ $author->id }}" @if ($book->author == $author->id) {{ 'selected="selected"' }} @endif >{{ $author->author_name }} {{ $author->author_surname }}</option>
+                                            <option value="{{ $author->id }}" @foreach ($book_authors as $book_author) @if ($book_author->author_id == $author->id) {{ 'selected="selected"' }} @endif @endforeach>{{ $author->author_name }}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="isbn">Isbn</label>
+                            <label class="col-sm-2 control-label" for="isbn">ISBN</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="isbn" name="isbn" value="{{ old('isbn', $book->isbn) }}">
                             </div>
@@ -45,21 +45,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="date">Date</label>
+                            <label class="col-sm-2 control-label" for="date">Data</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="date" name="date" value="{{ old('date', $book->date) }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="size">Size</label>
+                            <label class="col-sm-2 control-label" for="size">Dydis</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="size" name="size" value="{{ $book->size }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="language">Language</label>
+                            <label class="col-sm-2 control-label" for="language">Kalba</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="language" name="language">
                                     @if ($languages->count())
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="type">Type</label>
+                            <label class="col-sm-2 control-label" for="type">Tipas</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="type" name="type">
                                     <option value="{{ $book->type }}">{{ get_type($book->type) }}</option>
@@ -88,17 +88,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="quantity">Quantity</label>
+                            <label class="col-sm-2 control-label" for="quantity">Kiekis</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $book->quantity }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="publishing_house">Publishing house</label>
+                            <label class="col-sm-2 control-label" for="publishing_house">Leidykla</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="publishing_house" name="publishing_house">
-                                    <option value="0">Select a publishing house</option>
+                                    <option value="0">Pasirinkite leidyklą</option>
                                     @if ($publishing_houses->count())
                                         @foreach ($publishing_houses as $publishing_house)
                                             <option value="{{ $publishing_house->id }}" @if ($book->publishing_house == $publishing_house->id) {{ 'selected="selected"' }} @endif >{{ $publishing_house->publishing_house }}</option>
@@ -109,10 +109,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="city">City</label>
+                            <label class="col-sm-2 control-label" for="city">Miestas</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="city" name="city">
-                                    <option value="0">Select a city</option>
+                                    <option value="0">Pasirinkite miestą</option>
                                     @if ($cities->count())
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->id }}" @if ($book->city == $city->id) {{ 'selected="selected"' }} @endif >{{ $city->city }}</option>
@@ -123,7 +123,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="genre">Genre</label>
+                            <label class="col-sm-2 control-label" for="genre">Žanras</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="genre" name="genre">
                                     <option value="{{ $book->genre }}">{{ get_genre($book->genre) }}</option>
@@ -159,7 +159,7 @@
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
-									Save Changes
+									Išsaugoti pakeitimus
 								</button>
 							</div>
 						</div>

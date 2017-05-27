@@ -10,31 +10,35 @@
     </script>
 @endif
 <div class="panel panel-primary">
-    <div class="panel-heading">Books</div>
+    <div class="panel-heading">Knygos</div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th><a href="{{ action('BookController@orderByTitle') }}">Title</a></th>
-                    <th><a href="{{ action('BookController@orderByAuthor') }}">Author</a></th>
+                    <th><!-- <a href="{{ action('BookController@orderByTitle') }}"> -->Pavadinimas<!-- </a> --></th>
+                    <th><!-- <a href="{{ action('BookController@orderByAuthor') }}"> -->Autorius<!-- </a> --></th>
                     <!-- <th><a href="{{ action('BookController@orderByISBN') }}">ISBN</a></th> -->
                     <!-- <th><a href="{{ action('BookController@orderByDate') }}">Date</a></th> -->
-                    <th><a href="{{ action('BookController@orderBySize') }}">Size</a></th>
-                    <th><a href="{{ action('BookController@orderByLanguage') }}">Language</a></th>
-                    <th><a href="{{ action('BookController@orderByType') }}">Rusis</a></th>
+                    <th><!-- <a href="{{ action('BookController@orderBySize') }}"> -->Dydis<!-- </a> --></th>
+                    <th><!-- <a href="{{ action('BookController@orderByLanguage') }}"> -->Kalba<!-- </a> --></th>
+                    <th><!-- <a href="{{ action('BookController@orderByType') }}"> -->Rūšis<!-- </a> --></th>
                     <!-- <th><a href="{{ action('BookController@orderByUDK') }}">UDK</a></th> -->
-                    <th><a href="{{ action('BookController@orderByQuantity') }}">Kiekis</a></th>
+                    @if (Auth::user())
+                    <th><!-- <a href="{{ action('BookController@orderByQuantity') }}"> -->Kiekis<!-- </a> --></th>
                     <th>Laisvos</th>
+                    @endif
                     <!-- <th><a href="#">Publishing house</a></th>
                     <th><a href="#">City</a></th> -->
-                    <th><a href="{{ action('BookController@orderByGenre') }}">Genre</a></th>
-                    <th>About</th>
-                    <th>Add to cart</th>
+                    <th><!-- <a href="{{ action('BookController@orderByGenre') }}"> -->Žanras<!-- </a> --></th>
+                    <th>Apie</th>
                     @if (Auth::user())
-                    @if (Auth::user()->hasRole("admin"))
-                    <th>Action</th>
+                        <th>Įdėti į krepšelį</th>
                     @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->hasRole("admin"))
+                        <th>Veiksmas</th>
+                        @endif
                     @endif
                 </tr>
             </thead>
@@ -47,25 +51,31 @@
                                     <small><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> {{ get_average_rating($books[$i]->id) }}</small>
                                     <small><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ count_comments($books[$i]->id) }} </small>
                                 </td>
-                                <td><a href="/author/{{ $books[$i]->author }}/books">{{ get_author_name($books[$i]->author) }}</a></td>
+                                <td>
+                                    @foreach(get_authors($books[$i]->id) as $author)
+                                    <a href="/author/{{ $author->author_id }}/books">{{ get_author_name($author->author_id) }}</a>, 
+                                    @endforeach
+                                </td>
                                 <!-- <td>{{ $books[$i]->isbn }}</td> -->
                                 <!-- <td>{{ $books[$i]->date }}</td> -->
                                 <td>{{ $books[$i]->size }}</td>
                                 <td><a href="/language/{{ $books[$i]->language }}/books">{{ $books[$i]->language }}</a></td>
                                 <td><a href="/type/{{ $books[$i]->type }}/books">{{ get_type($books[$i]->type) }}</td>
                                 <!-- <td>{{ $books[$i]->udk }}</td> -->
-                                <td>{{ $books[$i]->quantity }}</td>
-                                <td> {{ count_free_books($books[$i]->id) }} </td>
+                                @if (Auth::user())
+                                    <td>{{ $books[$i]->quantity }}</td>
+                                    <td> {{ count_free_books($books[$i]->id) }} </td>
+                                @endif
                                 <!-- <td>{{ $books[$i]->publishing_house }}</td>
                                 <td>{{ $books[$i]->city }}</td> -->
                                 <td><a href="/genres/{{ $books[$i]->genre }}/books">{{ get_genre($books[$i]->genre) }}</a></td>
-                                <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">About {{ $books[$i]->title }}</a>
+                                <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">Apie {{ $books[$i]->title }}</a>
                                     <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">About</h4>
+                                                    <h4 class="modal-title" id="myModalLabel">Apie</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>{{ $books[$i]->about }}</p>
@@ -74,12 +84,15 @@
                                         </div>
                                     </div>
                                 </td>
+                                @if (Auth::user())
+                                <td>
+                                    <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Pridėti</a>
+                                </td>
+                                @endif
+                                @if (Auth::user())
+                                    @if (Auth::user()->hasRole("admin"))
                                 <td>
                                     <a class="btn btn-default btn-xs" href="{{ url('/book/' . $books[$i]->id . '/edit' ) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                                </td>
-                                @if (Auth::user())
-                                @if (Auth::user()->hasRole("admin"))
-                                <td>
                                 {{--
                                     <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#booksEdit{{ $books[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                     <div class="modal fade" id="booksEdit{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -251,21 +264,21 @@
                                         </div>
                                     </div>
                                 --}}
-                                    <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Add</a>
+                                    
                                     <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#books-delete-modal{{$books[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                     <div class="modal fade" id="books-delete-modal{{$books[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                    <h4 class="modal-title">Delete book</h4>
+                                                    <h4 class="modal-title">Panaikinti</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' .$books[$i]->id .'/delete') }}">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <h5>Book title</h5>
+                                                                <h5>Pavadinimas</h5>
                                                             </div>
                                                             <div>
                                                                 <p>{{ $books[$i]->title }}</p>
@@ -273,7 +286,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <h5>Book author</h5>
+                                                                <h5>Autorius</h5>
                                                             </div>
                                                             <div>
                                                                 <p>{{ get_author_name($books[$i]->author) }}</p>
@@ -281,15 +294,15 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <h4>Ar tikrai norite istrinti?</h4>
+                                                                <h4>Ar tikrai norite ištrinti?</h4>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -306,7 +319,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -314,25 +327,29 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>Title</th>
-                    <th>Author</th>
+                    <th>Pavadinimas</th>
+                    <th>Autorius</th>
                     <!-- <th>ISBN</th> -->
                     <!-- <th>Date</th> -->
-                    <th>Size</th>
-                    <th>Language</th>
-                    <th>Rusis</th>
+                    <th>Dydis</th>
+                    <th>Kalbas</th>
+                    <th>Rūšis</th>
                     <!-- <th>UDK</th> -->
-                    <th>Kiekis</th>
-                    <th>Laisvos</th>
+                    @if (Auth::user())
+                        <th>Kiekis</th>
+                        <th>Laisvos</th>
+                    @endif
                     <!-- <th>Publishing house</th>
                     <th>City</th> -->
-                    <th>Genre</th>
-                    <th>About</th>
-                    <th>Add to cart</th>
+                    <th>Žanras</th>
+                    <th>Apie</th>
                     @if (Auth::user())
-                    @if (Auth::user()->hasRole("admin"))
-                    <th>Action</th>
+                        <th>Įdėti į krepšelį</th>
                     @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->hasRole("admin"))
+                            <th>Veiksmas</th>
+                        @endif
                     @endif
                 </tr>
             </tfoot>

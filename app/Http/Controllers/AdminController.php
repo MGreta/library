@@ -124,10 +124,10 @@ class AdminController extends Controller
                 }
             }
 
-            return redirect('/admin')->with('status', 'User created successfully.');
+            return redirect('/admin')->with('status', 'Vartotojas pridėtas.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new user. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Kažką negerai įvedėte. Bandykite dar kartą.']));
     }
 
     
@@ -144,12 +144,11 @@ class AdminController extends Controller
         $validator =  Validator::make($request->all(), [
             'name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'class' => 'required|max:255',
             'email' => 'required|max:255'
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Kažkas negerai įvesta.'])->with('wrong_id', $id);
         }
 
         if ($user = User::find($id)) {
@@ -161,7 +160,7 @@ class AdminController extends Controller
             if ($response) {
                 $user->roles()->detach();
                 $user->roles()->attach($request->input('role'));
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Vartotojo informacija atnaujinta.']);
             }
             return redirect('/all-users');
         }
@@ -184,7 +183,7 @@ class AdminController extends Controller
                 $book_id = $book['item']['id'];
                 $will_be_free = TakenBooks::where('book_id', $book_id)->orderBy('end_day')->first();
 
-                return view('user.shopping_cart')->with('books', $books)->with('will_be_free', $will_be_free)->with('successMsg','Book will be free from ');
+                return view('user.shopping_cart')->with('books', $books)->with('will_be_free', $will_be_free)->with('successMsg','Knyga turėtų būti laisva nuo ');
             }
         }
 
@@ -212,10 +211,10 @@ class AdminController extends Controller
             }
 
             Session::forget('cart');
-            return redirect('/books')->with('status', 'User created successfully.');
+            return redirect('/books')->with('status', 'Rezervacija sėkminga.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new user. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Rezervacija nepavyko. Bandykite dar kartą.']));
     }
 
     public function getRemoveItem($id) {

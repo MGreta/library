@@ -15,11 +15,18 @@ use App\Book_reservations;
 use App\PublishingHouse;
 use App\City;
 use App\Role;
+use App\Book_authors;
 
 function get_author_name($id) {
 	$author_name = Author::where('id', $id)->value('author_name');
 
 	return $author_name;
+}
+
+function get_authors($id) {
+	$authors = Book_authors::where('book_id', $id)->get();
+
+	return $authors;
 }
 
 /*function get_author_surname($id) {
@@ -60,6 +67,12 @@ function get_books_by_authors($id) {
 
 function get_books_by_genre($id) {
 	$books = Book::where('genre', $id)->count();
+
+	return $books;
+}
+
+function get_books_by_language($id) {
+	$books = Book::where('language', $id)->count();
 
 	return $books;
 }

@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading">Add City</div>
+                <div class="panel-heading">Pridėti miestą</div>
                 <div class="panel-body">
                     <form class="form-inline" role="form" method="POST" action="{{ url('city') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -25,12 +25,13 @@
                                 <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
                             </div>
                         </div> -->
+                        <div class="input-group input-group-btn"> 
+                            <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button>
+                        </div>
                         <div class="input-group control-group after-add-more">
                             <input type="text" name="city[]" class="form-control" value="{{ old('city') }}">
                         </div>
-                        <div class="input-group-btn"> 
-                                <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
-                        </div>
+                        
                         <script type="text/javascript">
 
                             $(document).ready(function() {
@@ -45,7 +46,7 @@
                             });
 
                         </script>
-                        <button type="submit" name="create" value="create" class="btn btn-primary">Add</button>
+                        <button type="submit" name="create" value="create" class="btn btn-primary">Pridėti</button>
                     </form>
                 </div>
             </div>
@@ -56,17 +57,17 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">City</div>
+                <div class="panel-heading">Miestai</div>
                 <div class="panel-body">
                     <table class="table table-striped table-hover table-condensed">
                         <thead>
                             <tr class="info">
                                 <th>#</th>
-                                <th><a href="{{ action('CityController@order') }}">City</a></th>
-                                <th>City</th>
+                                <th><a href="{{ action('CityController@order') }}">Miestas</a></th>
+                                <th>Knygos pagal miestus</th>
                                 @if (Auth::user())
                                 @if (Auth::user()->hasRole("admin"))
-                                <th>Action</th>
+                                <th>Veiksmas</th>
                                 @endif
                                 @endif
                             </tr>
@@ -95,7 +96,7 @@
                                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                                                     <div class="form-group">
-                                                                        <label class="col-sm-2 control-label" for="city">City</label>
+                                                                        <label class="col-sm-2 control-label" for="city">Miestas</label>
                                                                         <div class="col-sm-10">
                                                                             <input type="text" class="form-control" id="city" name="city" value="{{ old('city', $city[$i]->city) }}">
                                                                         </div>
@@ -104,14 +105,14 @@
                                                                     <div class="form-group">
                                                                         <div class="col-md-6 col-md-offset-4">
                                                                             <button type="submit" class="btn btn-primary">
-                                                                                Save Changes
+                                                                                Išsaugoti
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                                             </div>
 
                                                         </div>
@@ -123,14 +124,14 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                                <h4 class="modal-title">Delete city</h4>
+                                                                <h4 class="modal-title">Panaikinti miestą</h4>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/city/' .$city[$i]->id .'/delete') }}">
                                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                                     <div class="row">
                                                                         <div class="col-md-4">
-                                                                            <h5>City</h5>
+                                                                            <h5>Miestas</h5>
                                                                         </div>
                                                                         <div>
                                                                             <p>{{ $city[$i]->city }}</p>
@@ -138,15 +139,15 @@
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-12">
-                                                                            <h4>Ar tikrai norite istrinti?</h4>
+                                                                            <h4>Ar tikrai norite ištrinti?</h4>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-6">
-                                                                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                            <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                         </div>
                                                                         <div class="col-md-6">
-                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Atšsaukti</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -163,18 +164,18 @@
                                 @endfor
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="8">List Is Empty.</td>
+                                    <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                                 </tr>
                             @endif
                         </tbody>                        
                         <tfoot>
                             <tr class="info">
                                 <th>#</th>
-                                <th>City</th>
-                                <th>Books</th>
+                                <th>Miestas</th>
+                                <th>Knygos pagal miestus</th>
                                 @if (Auth::user())
                                 @if (Auth::user()->hasRole("admin"))
-                                <th>Action</th>
+                                <th>Veiksmas</th>
                                 @endif
                                 @endif
                             </tr>

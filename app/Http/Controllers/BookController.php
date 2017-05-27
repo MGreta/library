@@ -23,6 +23,7 @@ use App\TakenBooks;
 use Illuminate\Support\MessageBag;
 use App\Option;
 use App\Books_udk_codes;
+use App\Book_authors;
 
 class BookController extends Controller
 {
@@ -93,7 +94,7 @@ class BookController extends Controller
 
     public function booksByLanguage($id)
     {
-        $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')->where('languages.language', $id)->get();
+        $books = Book::join('languages', 'books.language', '=', 'languages.id')->select('books.*', 'languages.language')->where('languages.id', $id)->get();
 
         $languages = Language::get();
         $types = Type::all();
@@ -234,7 +235,7 @@ class BookController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Leidinio atnaujinti nepavyko. Bandykite dar kartą.'])->with('wrong_id', $id);
         }
 
         $first_levels = DB::table('udk_first_level')->get();
@@ -272,10 +273,25 @@ class BookController extends Controller
             }
         }
 
+        //istrinti knygos autorius
+        DB::table('book_authors')->where('book_id', $id)->delete();
+
+        $authors = $request->input('author');
+        foreach($authors as $author)
+        {
+            if($author !== 1)
+            {
+                $author_id = Author::where('id', $author)->value('id');
+                $book_author = Book_authors::create([
+                    'book_id' => $id,
+                    'author_id' => $author_id,
+                ]);
+            }
+        }
+
         if ($book = Book::find($id)) {
             $book = Book::find($id);
             $book->title = $request->input('title');
-            $book->author = $request->input('author');
             $book->isbn = $request->input('isbn');
             $book->udk = $udk;
             $book->date = $request->input('date');
@@ -289,7 +305,7 @@ class BookController extends Controller
             $book->about = $request->input('about');
             $response = $book->save();
             if ($response) {
-                return redirect('/books')->with(['message' => 'Knyga atnaujintas.']);
+                return redirect('/books')->with(['message' => 'Leidinys sėkmingai atnaujintas.']);
             }
             return redirect('/books');
         }
@@ -348,8 +364,10 @@ class BookController extends Controller
 
         //Check input validations
 
+        //$multiple_authors = preg_split('/\s+/', $request->input('author_name'), -1, PREG_SPLIT_NO_EMPTY);
+        /*$multiple_authors = explode(",", $request->input('author_name'));*/
         //author
-        if ($request->input('author') == 'other') {
+        /*if ($request->input('author') == 'other') {
             $validator_auth =  Validator::make($request->all(), [
                 'author_name' => 'required|max:255'
             ]);
@@ -358,7 +376,25 @@ class BookController extends Controller
             if ($validator_auth->fails()) {
                 return redirect()->back()->withErrors($validator_auth)->withInput();
             }
+        }*/
+        if ($request->input('author_name') !== ' ') 
+        {
+            $multiple_authors = explode(",", $request->input('author_name'));
+            foreach ($multiple_authors as $single_author)
+            {
+                //jeigu toks autorius jau yra issaugotas
+                if($author = Author::where('author_name', $single_author)->value('id') !== NULL)
+                {
+                    return redirect()->back()->withErrors(['error' => 'Toks autorius jau yra išsaugotas'])->withInput();
+                }
+            }
         }
+
+
+
+
+
+
         //Language
         if ($request->input('language') == 'other') {
             $validator_language =  Validator::make($request->all(), [
@@ -419,7 +455,7 @@ class BookController extends Controller
 
 
         //author
-        if ($request->input('author') == 'other') {
+        /*if ($request->input('author') == 'other') {
             $author = Author::create([
                 'author_name' => $request->input('author_name')
             ]);
@@ -428,7 +464,7 @@ class BookController extends Controller
             }
         } else {
             $author_id = $request->input('author');
-        }
+        }*/
 
         //Language
         if ($request->input('language') == 'other') {
@@ -530,7 +566,7 @@ class BookController extends Controller
 
         $book = Book::create([
             'title' => $request->input('title'),
-            'author' => $author_id,
+            /*'author' => $author_id,*/
             'isbn' => $request->input('isbn'),
             'date' => $request->input('date'),
             'size' => $request->input('size'),
@@ -544,10 +580,52 @@ class BookController extends Controller
             'about' => $request->input('about'),
         ]);
         if ($book) {
-            return redirect('add-book')->with('status', 'Book created successfully.');
+
+            //suvesti autoriai
+            if ($request->input('author_name') !== " ") 
+            {
+                $multiple_authors = explode(",", $request->input('author_name'));
+                foreach ($multiple_authors as $single_author)
+                {
+                    //jeigu tokio autoriaus nera issaugoto, tai issaugom i authors ir i book_authors
+                    if($author = Author::where('author_name', $single_author)->value('id') == NULL)
+                    {
+                        $author = Author::create([
+                            'author_name' => $single_author
+                        ]);
+                        $new_author_id = Author::where('author_name', $single_author)->value('id');
+                        $book_author = Book_authors::create([
+                            'book_id' => $book->id,
+                            'author_id' => $new_author_id,
+                        ]);
+                    }
+                }
+            }
+
+            //kai pasirenkama is dropdown
+            $authors = $request->input('author');
+            foreach($authors as $author)
+            {
+                if($author !== 1 && $author !== "other")
+                {
+                    $author_id = Author::where('id', $author)->value('id');
+                    $book_author = Book_authors::create([
+                        'book_id' => $book->id,
+                        'author_id' => $author_id,
+                    ]);
+                }
+            }
+
+
+
+
+
+
+
+            return redirect('add-book')->with('status', 'Leidinys sėkmingai pridėtas.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new book. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Leidinio atnaujinti nepavyko. Bandykite dar kartą.']));
     }
 
     public function editBook($id)
@@ -559,6 +637,7 @@ class BookController extends Controller
         $publishing_houses = PublishingHouse::all();
         $cities = City::all();
         $genres = Genres::all();
+        $book_authors = Book_authors::where('book_id', $id)->get();
 
         $first_levels = DB::table('udk_first_level')->get();
         $first_level_results = [];
@@ -600,7 +679,7 @@ class BookController extends Controller
 
         $udk_codes = Books_udk_codes::where('book_id', $id)->get();
 
-        return view('book.edit', compact('book', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres', 'first_level_results', 'second_level_results', 'third_level_results', 'udk_codes'));
+        return view('book.edit', compact('book', 'languages', 'types', 'authors', 'publishing_houses', 'cities', 'genres', 'first_level_results', 'second_level_results', 'third_level_results', 'udk_codes', 'book_authors'));
     }
 
     public function getAddToCart(Request $request, $id)
@@ -642,7 +721,7 @@ class BookController extends Controller
             }
         }
         if ($not_free !== 'NULL') {
-            return view('user.shopping_cart', compact('books', 'not_free'))->with('successMsg','Book will be free from ');
+            return view('user.shopping_cart', compact('books', 'not_free'))->with('successMsg','Leidinys bus laisvas nuo ');
         }
 
         return view('user.shopping_cart', ['books' => $cart->items]);

@@ -8,7 +8,7 @@
     	<form class="form-horizontal" role="form" method="GET" action="{{ url('/detail-search/search') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group">
-                <label for="search" class="col-sm-1 control-label">Search</label>
+                <label for="search" class="col-sm-1 control-label">Paieška</label>
                 <div class="col-sm-11">
                     <input type="text" class="form-control" id="search" name="search"></input>
                 </div>
@@ -18,25 +18,24 @@
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Detail search
+                            Detali paieška
                         </a>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="title" class="col-sm-1 control-label">Title</label>
+                            <label for="title" class="col-sm-1 control-label">Pavadinimas</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control" id="title" placeholder="title" name="title" value="{{ old('title') }}">
+                                <input type="text" class="form-control" id="title" placeholder="Pavadinimas" name="title" value="{{ old('title') }}">
                             </div>
                         </div>
       
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" for="author">Author</label>
+                            <label class="col-sm-1 control-label" for="author">Autorius</label>
                             <div class="col-sm-3">
                                 <select class="form-control" id="author" name="author">
-                                    <option value="0">Select author</option>
-                                    <option value="other" @if (old('author') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
+                                    <option value="0">Pasirinkti autorių</option>
                                     @if ($authors->count())
                                         @foreach ($authors as $author)
                                             <option value="{{ $author->id }}" @if (old('author') == $author->id) {{ 'selected="selected"' }} @endif >{{ $author->author_name }} {{ $author->author_surname }}</option>
@@ -49,30 +48,29 @@
                         <div class="form-group">
                             <label for="isbn" class="col-sm-1 control-label">ISBN</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control" id="isbn" placeholder="isbn" name="isbn" value="{{ old('isbn') }}">
+                                <input type="text" class="form-control" id="isbn" placeholder="ISBN" name="isbn" value="{{ old('isbn') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="date" class="col-sm-1 control-label">Date</label>
+                            <label for="date" class="col-sm-1 control-label">Data</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control" id="date" placeholder="date" name="date" value="{{ old('date') }}">
+                                <input type="text" class="form-control" id="date" placeholder="Data" name="date" value="{{ old('date') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="size" class="col-sm-1 control-label">Size</label>
+                            <label for="size" class="col-sm-1 control-label">Dydis</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control" id="size" placeholder="size" name="size" value="{{ old('size') }}">
+                                <input type="text" class="form-control" id="size" placeholder="Dydis" name="size" value="{{ old('size') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" for="language">Language</label>
+                            <label class="col-sm-1 control-label" for="language">Kalba</label>
                             <div class="col-sm-5">
                                 <select class="form-control" id="language" name="language">
-                                    <option value="0">Select a language</option>
-                                    <option value="other" @if (old('language') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
+                                    <option value="0">Pasirinkti kalbą</option>
                                     @if ($languages->count())
                                         @foreach ($languages as $language)
                                             <option value="{{ $language->id }}" @if (old('language') == $language->id) {{ 'selected="selected"' }} @endif >
@@ -85,11 +83,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" for="type">Type</label>
+                            <label class="col-sm-1 control-label" for="type">Tipas</label>
                             <div class="col-sm-5">
                                 <select class="form-control" id="type" name="type">
-                                    <option value="0">Select a type</option>
-                                    <option value="other" @if (old('type') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
+                                    <option value="0">Pasirinkti tipą</option>
                                     @if ($types->count())
                                         @foreach ($types as $type)
                                             <option value="{{ $type->id }}" @if (old('type') == $type->id) {{ 'selected="selected"' }} @endif >{{ $type->type }}</option>
@@ -100,18 +97,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="udk" class="col-sm-1 control-label">udk</label>
+                            <label for="udk" class="col-sm-1 control-label">UDK</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control" id="udk" placeholder="udk" name="udk" value="{{ old('udk') }}">
+                                <input type="text" class="form-control" id="udk" placeholder="UDK" name="udk" value="{{ old('udk') }}">
                             </div>
                         </div>
             
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" for="publishing_house">Publishing house</label>
+                            <label class="col-sm-1 control-label" for="publishing_house">Leidykla</label>
                             <div class="col-sm-5">
                                 <select class="form-control" id="publishing_house" name="publishing_house">
-                                    <option value="0">Select a publishing house</option>
-                                    <option value="other" @if (old('publishing_house') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
+                                    <option value="0">Pasirinkti leidyklą</option>
                                     @if ($publishing_houses->count())
                                         @foreach ($publishing_houses as $publishing_house)
                                             <option value="{{ $publishing_house->id }}" @if (old('publishing_house') == $publishing_house->id) {{ 'selected="selected"' }} @endif >{{ $publishing_house->publishing_house }}</option>
@@ -122,11 +118,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" for="city">City</label>
+                            <label class="col-sm-1 control-label" for="city">Miestas</label>
                             <div class="col-sm-5">
                                 <select class="form-control" id="city" name="city">
-                                    <option value="0">Select a city</option>
-                                    <option value="other" @if (old('city') == 'other') {{ 'selected="selected"' }} @endif>Kitas</option>
+                                    <option value="0">Pasirinkti miestą</option>
                                     @if ($cities->count())
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->id }}" @if (old('city') == $city->id) {{ 'selected="selected"' }} @endif >{{ $city->city }}</option>
@@ -173,26 +168,26 @@
 
 
     		<div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">Ieškoti</button>
             </div>
         </form>
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th><a href="{{ action('BookController@orderByTitle') }}">Title</a></th>
-                    <th><a href="{{ action('BookController@orderByAuthor') }}">Author</a></th>
-                    <th><a href="{{ action('BookController@orderBySize') }}">Size</a></th>
-                    <th><a href="{{ action('BookController@orderByLanguage') }}">Language</a></th>
-                    <th><a href="{{ action('BookController@orderByType') }}">Rusis</a></th>
-                    <th><a href="{{ action('BookController@orderByQuantity') }}">Kiekis</a></th>
+                    <th>Pavadinimas</th>
+                    <th>Autorius</th>
+                    <th>Dydis</th>
+                    <th>Kalba</th>
+                    <th>Rūšis</th>
+                    <th>Kiekis</th>
                     <th>Laisvos</th>
-                    <th><a href="{{ action('BookController@orderByGenre') }}">Genre</a></th>
-                    <th>About</th>
-                    <th>Add to cart</th>
+                    <th>Žanras</th>
+                    <th>Apie</th>
+                    <th>Įdėti į krepšelį</th>
                     @if (Auth::user())
                     @if (Auth::user()->hasRole("admin"))
-                    <th>Action</th>
+                    <th>Veiksmas</th>
                     @endif
                     @endif
                 </tr>
@@ -220,7 +215,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">About</h4>
+                                                    <h4 class="modal-title" id="myModalLabel">Apie</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>{{ $books[$i]->about }}</p>
@@ -230,12 +225,12 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Add</a>
+                                    <a href="{{ url('/book/' . $books[$i]->id . '/add-to-cart' ) }}">Pridėti</a>
                                 </td>
                                 @if (Auth::user())
                                 @if (Auth::user()->hasRole("admin"))
                                 <td>
-                                    <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#booksEdit{{ $books[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                    {{--<a class="btn btn-default btn-xs" data-toggle="modal" data-target="#booksEdit{{ $books[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                     <div class="modal fade" id="booksEdit{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -368,21 +363,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
+                                    <a class="btn btn-default btn-xs" href="{{ url('/book/' . $books[$i]->id . '/edit' ) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                     <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#books-delete-modal{{$books[$i]->id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                     <div class="modal fade" id="books-delete-modal{{$books[$i]->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                    <h4 class="modal-title">Delete book</h4>
+                                                    <h4 class="modal-title">Panaikinti knygą</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' .$books[$i]->id .'/delete') }}">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <h5>Book title</h5>
+                                                                <h5>Pavadinimas</h5>
                                                             </div>
                                                             <div>
                                                                 <p>{{ $books[$i]->title }}</p>
@@ -390,7 +386,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <h5>Book author</h5>
+                                                                <h5>Autorius</h5>
                                                             </div>
                                                             <div>
                                                                 <p>{{ get_author_name($books[$i]->author) }}</p>
@@ -398,15 +394,15 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <h4>Ar tikrai norite istrinti?</h4>
+                                                                <h4>Ar tikrai norite ištrinti?</h4>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Delete</button>
+                                                                <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -423,7 +419,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -431,36 +427,25 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Size</th>
-                    <th>Language</th>
-                    <th>Rusis</th>
+                    <th>Pavadinimas</th>
+                    <th>Autorius</th>
+                    <th>Dydis</th>
+                    <th>Kalba</th>
+                    <th>Rūšis</th>
                     <th>Kiekis</th>
                     <th>Laisvos</th>
-                    <th>Genre</th>
-                    <th>About</th>
-                    <th>Add to cart</th>
+                    <th>Žanras</th>
+                    <th>Apie</th>
+                    <th>Įdėti į krepšelį</th>
                     @if (Auth::user())
                     @if (Auth::user()->hasRole("admin"))
-                    <th>Action</th>
+                    <th>Veiksmas</th>
                     @endif
                     @endif
                 </tr>
             </tfoot>
         </table>
     </div>
-</div>
-
-
-<div class="dropdown">
-  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown trigger
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dLabel">
-    ...
-  </ul>
 </div>
 
 @endsection

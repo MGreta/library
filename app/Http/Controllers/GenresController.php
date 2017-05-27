@@ -47,10 +47,10 @@ class GenresController extends Controller
         foreach($genre_inputs as $genre_input){
             $genre_input_same = Genres::where('genre', $genre_input)->get();
             if($genre_input = ''){
-                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte.']));
             }else{
                 if (count($genre_input_same) !== 0){
-                    return redirect()->back()->with('errors', new MessageBag(['genre jau yra įvesta']));
+                    return redirect()->back()->with('errors', new MessageBag(['Žanras jau yra išsaugotas.']));
                 }
             }
         }
@@ -61,9 +61,9 @@ class GenresController extends Controller
             ]);
         }
         if ($genre_input) {
-            return redirect('genres')->with('status', 'Genre created successfully.');
+            return redirect('genres')->with('status', 'Žanras sėkmingai pridėtas.');
         }
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Žanro nepavyko išsaugoti. Bandykite dar kartą.']));
         /*$validator =  Validator::make($request->all(), [
             'genre_input' => 'required|max:255|min:2|unique:genres,genre'
         ]);
@@ -109,14 +109,14 @@ class GenresController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_genre_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Žanro nepavyko išsaugoti. Bandykite dar kartą.'])->with('wrong_genre_id', $id);
         }
 
         if ($genre = Genres::find($id)) {
             $genre->genre = $request->input('genre');
             $response = $genre->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Žanras sėkmingai atnaujintas.']);
             }
             return redirect('/books');
         }

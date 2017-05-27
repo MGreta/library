@@ -27,21 +27,21 @@
 		<div class="row">
 			<div class="col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="{{ url('/all-users') }}">Users</a></li>
-					<li><a href="{{ url('/books') }}">Books</a></li>
-					<li><a href="{{ url('/authors') }}">Authors</a></li>
-					<li><a href="{{ url('/language') }}">Language</a></li>
-					<li><a href="{{ url('/type') }}">Type</a></li>
-					<li><a href="{{ url('/genres') }}">Genre</a></li>
-					<li><a href="{{ url('/publishing-house') }}">Publishing House</a></li>
-					<li><a href="{{ url('/city') }}">City</a></li>
+					<li><a href="{{ url('/all-users') }}">Vartotojai</a></li>
+					<li><a href="{{ url('/books') }}">Knygos</a></li>
+					<li><a href="{{ url('/authors') }}">Autoriai</a></li>
+					<li><a href="{{ url('/language') }}">Kalbos</a></li>
+					<li><a href="{{ url('/type') }}">Tipai</a></li>
+					<li><a href="{{ url('/genres') }}">Žanrai</a></li>
+					<li><a href="{{ url('/publishing-house') }}">Leidyklos</a></li>
+					<li><a href="{{ url('/city') }}">Miestai</a></li>
 					<hr>
-					<li><a href="{{ url('/add-user') }}">Add users</a></li>
-					<li><a href="{{ url('/add-book') }}">Add Books</a></li>
+					<li><a href="{{ url('/add-user') }}">Pridėti vartotoją</a></li>
+					<li><a href="{{ url('/add-book') }}">Pridėti knygą</a></li>
 					<hr>					
-					<li><a href="{{ url('/occupied-books') }}">Occupied Books</a></li>
-					<li><a href="{{ url('/reservations') }}">Reserved Books</a></li>
-					<li><a href="{{ url('/late-books') }}">Late Books</a></li>
+					<li><a href="{{ url('/occupied-books') }}">Paimtos knygos</a></li>
+					<li><a href="{{ url('/reservations') }}">Rezervuotos knygos</a></li>
+					<li><a href="{{ url('/late-books') }}">Vėluojamos grąžinti knygos</a></li>
 					
 				</ul>
 			</div>

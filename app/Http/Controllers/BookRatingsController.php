@@ -25,16 +25,16 @@ class BookRatingsController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.']);
+                return redirect()->back()->withErrors(['error' => 'Įvertinimo išsaugoti nepavyko.']);
             }
 
             if ($rating = BookRatings::find($rating)) {
                 $rating->book_rating = $request->input('book_rating');
                 $response = $rating->save();
                 if ($response) {
-                    return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                    return redirect()->back()->with(['message' => 'Įvertinimas pakeistas.']);
                 }
-                return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
+                return redirect()->back()->with('errors', new MessageBag(['Įvertinimo išsaugoti nepavyko.']));
             }
         }
         else {
@@ -54,10 +54,10 @@ class BookRatingsController extends Controller
             ]);
             if ($rating) {
 
-                return redirect()->back()->with('status', 'Genre created successfully.');
+                return redirect()->back()->with('status', 'Įvertinimas išsaugotas sėkmingai.');
             }
 
-            return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
+            return redirect()->back()->with('errors', new MessageBag(['Įvertinimo išsaugoti nepavyko.']));
         }
     	
     }

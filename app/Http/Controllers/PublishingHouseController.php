@@ -30,10 +30,10 @@ class PublishingHouseController extends Controller
         foreach($publishing_houses as $publishing_house){
             $publishing_house_same = PublishingHouse::where('publishing_house', $publishing_house)->get();
             if($publishing_house = ''){
-                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte']));
+                return redirect()->back()->with('errors', new MessageBag(['Nieko neįvedėte.']));
             }else{
                 if (count($publishing_house_same) !== 0){
-                    return redirect()->back()->with('errors', new MessageBag(['publishing house jau yra įvesta']));
+                    return redirect()->back()->with('errors', new MessageBag(['Leidykla jau yra išsaugota.']));
                 }
             }
         }
@@ -44,9 +44,9 @@ class PublishingHouseController extends Controller
             ]);
         }
         if ($publishing_house) {
-            return redirect('publishing-house')->with('status', 'publishing house created successfully.');
+            return redirect('publishing-house')->with('status', 'Leidykla išsaugota sėkmigai.');
         }
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new publishinghouse. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Leidyklos išsaugoti nepavyko. Bandykite dar kartą.']));
         /*$validator =  Validator::make($request->all(), [
             'publishing_house' => 'required|max:255|unique:publishing_houses,publishing_house'
         ]);
@@ -86,14 +86,14 @@ class PublishingHouseController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_genre_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Leidyklos atnaujinti nepavyko.'])->with('wrong_genre_id', $id);
         }
 
         if ($publishing_house = PublishingHouse::find($id)) {
             $publishing_house->publishing_house = $request->input('publishing_house');
         $response = $publishing_house->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Leidykla atnaujinta sėkmingai.']);
             }
             return redirect('/publishing-house');
         }
@@ -107,10 +107,10 @@ class PublishingHouseController extends Controller
         $response = $publishing_house->save();
         if ($response) {
             return redirect()->back()
-                    ->with(['message' => '']);
+                    ->with(['message' => 'Leidykla atnaujinta sėkmingai.']);
         }
         return redirect()->back()
-                ->withErrors(['error' => 'Klaida.']);
+                ->withErrors(['error' => 'Leidyklos atnaujinti nepavyko. Bandykite dar kartą.']);
     }
 
     public function update(Request $request, $id)

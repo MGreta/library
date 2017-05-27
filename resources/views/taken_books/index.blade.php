@@ -9,19 +9,19 @@
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>start date</th>
-                    <th>end date</th>
-                    <th>read(yes/no)</th>
-                    <th>admin</th>
-                    <th>Days left</th>
-                    <th>Days late</th>
+                    <th>Vartotojas</th>
+                    <th>Pavadinimas</th>
+                    <th>Pradžios data</th>
+                    <th>Pabaigos data</th>
+                    <th>Perskaityta (Taip/Ne)</th>
+                    <th>Darbuotojas</th>
+                    <th>Kiek dienų liko</th>
+                    <th>Kiek dienų vėluoja</th>
                     @if(is_price() !== '0')
-                    <th>debt</th>
+                    <th>Skola</th>
                     @endif
-                    <th>Prasitesti knyga</th>
-                    <th>Returned</th>
+                    <th>Pratęsti knygą</th>
+                    <th>Grąžinta</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,9 +39,9 @@
                                 <td>{{ $books[$i]->end_day }}</td>
                                 <td> 
                                     @if(is_read($books[$i]->id) == '1')
-                                    Yes
+                                    Taip
                                     @else
-                                    No
+                                    Ne
                                     @endif 
                                 </td>
                                 <td><a href="{{ url('/about-user/' . $books[$i]->worker_id ) }}"> {{ get_user_name($books[$i]->worker_id) }} </a></td>
@@ -64,7 +64,7 @@
                     @endfor
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">List Is Empty.</td>
+                        <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                     </tr>
                 @endif
             </tbody>
@@ -72,19 +72,19 @@
             <tfoot>
                 <tr class="info">
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book Title</th>
-                    <th>start date</th>
-                    <th>end date</th>
-                    <th>read(yes/no)</th>
-                    <th>admin</th>
-                    <th>Days left</th>
-                    <th>Days late</th>
+                    <th>Vartotojas</th>
+                    <th>Pavadinimas</th>
+                    <th>Pradžios data</th>
+                    <th>Pabaigos data</th>
+                    <th>Perskaityta (Taip/Ne)</th>
+                    <th>Darbuotojas</th>
+                    <th>Kiek dienų liko</th>
+                    <th>Kiek dienų vėluoja</th>
                     @if(is_price() !== '0')
-                    <th>debt</th>
+                    <th>Skola</th>
                     @endif
-                    <th>Prasitesti knyga</th>
-                    <th>Returned</th>
+                    <th>Pratęsti knygą</th>
+                    <th>Grąžinta</th>
                 </tr>
             </tfoot>
         </table>

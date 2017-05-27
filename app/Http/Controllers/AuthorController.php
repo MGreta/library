@@ -84,7 +84,7 @@ class AuthorController extends Controller
             $author->image = $filename;
             $author->save();
 
-            return redirect('authors')->with('status', 'Author created successfully.');
+            return redirect('authors')->with('status', 'Autorius sėkmingai pridėtas.');
         }
 
 
@@ -92,7 +92,7 @@ class AuthorController extends Controller
             return redirect('authors')->with('status', 'Author created successfully.');
         }*/
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new author. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Kažkas negerai. Bandykite dar kartą.']));
     }
 
     /**
@@ -120,7 +120,7 @@ class AuthorController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Kažkas negerai. Bandykite dar kartą.'])->with('wrong_id', $id);
         }
 
         if ($author = Author::find($id)) {

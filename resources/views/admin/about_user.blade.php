@@ -8,28 +8,28 @@
     <div class="panel-body">
         <div class="col-md-12">
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Name</label>
+                <label class="col-sm-2 control-label" for="title">Vardas</label>
                 <div class="col-sm-10">
                     <p>{{ $user->name }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Last name</label>
+                <label class="col-sm-2 control-label" for="title">Pavardė</label>
                 <div class="col-sm-10">
                     <p>{{ $user->last_name }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Email</label>
+                <label class="col-sm-2 control-label" for="title">El. paštas</label>
                 <div class="col-sm-10">
                     <p>{{ $user->email }}</p>
                 </div>
             </div>
 
             <div class="row form-group">
-                <label class="col-sm-2 control-label" for="title">Role</label>
+                <label class="col-sm-2 control-label" for="title">Rolė</label>
                 <div class="col-sm-10">
                     <p>
                         @foreach ($user->roles()->pluck('name', 'slug') as $slug => $role_name)
@@ -47,7 +47,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <h4 class="panel-title">
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#readyReservations" aria-expanded="false" aria-controls="readyReservations">
-                Ready reservations
+                Paruoštos knygos atsiėmimui
             </a>
         </h4>
     </div>
@@ -57,13 +57,13 @@
                 <thead>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>Comment</th>
-                        <th>Reservation start date</th>
-                        <th>Reservation end date</th>
-                        <th>How many free</th>
-                        <th>Not ready</th>
-                        <th>Taken</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Komentaras</th>
+                        <th>Rezervacijos pradžios laikas</th>
+                        <th>Rezervacijos pabaigos laikas</th>
+                        <th>Laisvos</th>
+                        <th>Dar neparuošta</th>
+                        <th>Paimta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,7 +86,7 @@
                         @endfor
                     @else
                         <tr>
-                            <td class="text-center" colspan="8">List Is Empty.</td>
+                            <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -94,13 +94,13 @@
                 <tfoot>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>Comment</th>
-                        <th>Reservation start date</th>
-                        <th>Reservation end date</th>
-                        <th>How many free</th>
-                        <th>Ready</th>
-                        <th>Taken</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Komentaras</th>
+                        <th>Rezervacijos pradžios laikas</th>
+                        <th>Rezervacijos pabaigos laikas</th>
+                        <th>Laisvos</th>
+                        <th>Dar neparuošta</th>
+                        <th>Paimta</th>
                     </tr>
                 </tfoot>
             </table>
@@ -112,7 +112,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <h4 class="panel-title">
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#notReadyReservations" aria-expanded="false" aria-controls="notReadyReservations">
-                Not ready reservations
+                Rezervacijos
             </a>
         </h4>
     </div>
@@ -122,13 +122,13 @@
                 <thead>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>Comment</th>
-                        <th>Reservation start date</th>
-                        <th>Reservation end date</th>
-                        <th>How many free</th>
-                        <th>Ready</th>
-                        <th>Taken</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Komentaras</th>
+                        <th>Rezervacijos pradžios laikas</th>
+                        <th>Rezervacijos pabaigos laikas</th>
+                        <th>Laisvos</th>
+                        <th>Paruošta</th>
+                        <th>Paimta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -160,7 +160,7 @@
                         @endfor
                     @else
                         <tr>
-                            <td class="text-center" colspan="8">List Is Empty.</td>
+                            <td class="text-center" colspan="8">Sąrašas tuščias.</td>
                         </tr>
                     @endif
                 </tbody>
@@ -168,13 +168,13 @@
                 <tfoot>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>Comment</th>
-                        <th>Reservation start date</th>
-                        <th>Reservation end date</th>
-                        <th>How many free</th>
-                        <th>Ready</th>
-                        <th>Taken</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Komentaras</th>
+                        <th>Rezervacijos pradžios laikas</th>
+                        <th>Rezervacijos pabaigos laikas</th>
+                        <th>Laisvos</th>
+                        <th>Paruošta</th>
+                        <th>Paimta</th>
                     </tr>
                 </tfoot>
             </table>
@@ -186,7 +186,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <h4 class="panel-title">
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#takenBooks" aria-expanded="false" aria-controls="takenBooks">
-                Taken books
+                Paimtos knygos
             </a>
         </h4>
     </div>
@@ -196,16 +196,16 @@
                 <thead>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>start date</th>
-                        <th>end date</th>
-                        <th>read(yes/no)</th>
-                        <th>admin</th>
-                        <th>Days left</th>
-                        <th>Days late</th>
-                        <th>debt</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Pradžios laikas</th>
+                        <th>Pabaigos laikas</th>
+                        <th>Perskaityta(Taip/Ne)</th>
+                        <th>Atidavė knygą</th>
+                        <th>Kiek dienų liko</th>
+                        <th>Kiek dienų vėluoja</th>
+                        <th>Skola</th>
                         <th>Prasitesti knyga</th>
-                        <th>Returned</th>
+                        <th>Grąžinta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -222,9 +222,9 @@
                                     <td>{{ $taken_books[$i]->end_day }}</td>
                                     <td> 
                                         @if(is_read($taken_books[$i]->id) == '1')
-                                        Yes
+                                        Taip
                                         @else
-                                        No
+                                        Ne
                                         @endif 
                                     </td>
                                     <td> {{ get_user_name($taken_books[$i]->worker_id) }} </td>
@@ -253,16 +253,16 @@
                 <tfoot>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>start date</th>
-                        <th>end date</th>
-                        <th>read(yes/no)</th>
-                        <th>admin</th>
-                        <th>Days left</th>
-                        <th>Days late</th>
-                        <th>debt</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Pradžios laikas</th>
+                        <th>Pabaigos laikas</th>
+                        <th>Perskaityta(Taip/Ne)</th>
+                        <th>Atidavė knygą</th>
+                        <th>Kiek dienų liko</th>
+                        <th>Kiek dienų vėluoja</th>
+                        <th>Skola</th>
                         <th>Prasitesti knyga</th>
-                        <th>Returned</th>
+                        <th>Grąžinta</th>
                     </tr>
                 </tfoot>
             </table>
@@ -274,7 +274,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <h4 class="panel-title">
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#returnedBooks" aria-expanded="false" aria-controls="returnedBooks">
-                Returned books
+                Grąžintos knygos
             </a>
         </h4>
     </div>
@@ -284,12 +284,12 @@
                 <thead>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>start date</th>
-                        <th>end date</th>
-                        <th>read(yes/no)</th>
-                        <th>admin</th>
-                        <th>Not Returned</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Pradžios data</th>
+                        <th>Pabaigos data</th>
+                        <th>Perskaityta(Taip/Ne)</th>
+                        <th>Atdavė knygą</th>
+                        <th>Negrąžinta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -302,9 +302,9 @@
                                     <td> {{ $returned_books[$i]->end_day }} </td>
                                     <td>
                                         @if(is_read($taken_books[$i]->id) == '1')
-                                        Yes
+                                        Taip
                                         @else
-                                        No
+                                        Ne
                                         @endif 
                                     </td>
                                     <td> {{ get_user_name($returned_books[$i]->worker_id) }} </td>
@@ -323,12 +323,12 @@
                 <tfoot>
                     <tr class="info">
                         <th>#</th>
-                        <th>Book Title</th>
-                        <th>start date</th>
-                        <th>end date</th>
-                        <th>read(yes/no)</th>
-                        <th>admin</th>
-                        <th>Not Returned</th>
+                        <th>Knygos pavadinimas</th>
+                        <th>Pradžios data</th>
+                        <th>Pabaigos data</th>
+                        <th>Perskaityta(Taip/Ne)</th>
+                        <th>Atdavė knygą</th>
+                        <th>Negrąžinta</th>
                     </tr>
                 </tfoot>
             </table>

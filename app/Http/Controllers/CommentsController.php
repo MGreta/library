@@ -32,10 +32,10 @@ class CommentsController extends Controller
         ]);
         if ($comment) {
 
-            return redirect()->back()->with('status', 'Genre created successfully.');
+            return redirect()->back()->with('status', 'Komentaras sėkmingai išsaugotas.');
         }
 
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));
+        return redirect()->back()->with('errors', new MessageBag(['Komentaro išsaugoti nepavyko. Bandykite dar kartą.']));
     }
 
     public function editComment(Request $request, $id)
@@ -45,14 +45,14 @@ class CommentsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['error' => 'Klaida. Neleistinas veiksmas.'])->with('wrong_genre_id', $id);
+            return redirect()->back()->withErrors(['error' => 'Komentaro pakeisti nepavyko. Bandykite dar kartą.'])->with('wrong_genre_id', $id);
         }
 
         if ($comment = Comments::find($id)) {
             $comment->comment = $request->input('comment');
             $response = $comment->save();
             if ($response) {
-                return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
+                return redirect()->back()->with(['message' => 'Komentaras atnaujintas.']);
             }
             return redirect()->back();
         }
