@@ -19,12 +19,6 @@
                 <div class="panel-body">
                     <form class="form-inline" role="form" method="POST" action="{{ url('publishing-house') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <!-- <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" for="publishing_house">Publishing House</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="publishing_house" name="publishing_house" value="{{ old('publishing_house') }}">
-                            </div>
-                        </div> -->
                         <div class="input-group input-group-btn"> 
                             <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button>
                         </div>
@@ -78,7 +72,7 @@
                                     <tr>
                                         <th>{{ $i+1 }}</th>
                                             <td>{{ $publishing_house[$i]->publishing_house }}</td>
-                                            <td>{{-- get_books_by_publishing_house($publishing_house[$i]->id) --}}</td>
+                                            <td>{{ get_books_by_publishing_house($publishing_house[$i]->id) }}</td>
                                             @if (Auth::user())
                                             @if (Auth::user()->hasRole("admin"))
                                             <td>
@@ -112,7 +106,7 @@
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
+                                                                <button type="button" class="btn" data-dismiss="modal">Uždaryti</button>
                                                             </div>
 
                                                         </div>
@@ -147,7 +141,7 @@
                                                                             <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                         </div>
                                                                         <div class="col-md-6">
-                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
+                                                                            <button type="button" class="btn" data-dismiss="modal">Uždaryti</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>

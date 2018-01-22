@@ -19,12 +19,6 @@ class LanguageController extends Controller
         return view('language.index', compact('languages'));
     }
 
-    /*public function index()
-    {
-        $languages = Language::all();
-        return view('language.index', compact('languages'));
-    }*/
-
     public function create()
     {
         //
@@ -60,13 +54,6 @@ class LanguageController extends Controller
     {
         //
     }
-
-    /*public function editLanguage($id)
-    {
-        $language = Language::find($id);
-
-        return view('language.edit', compact('language'));
-    }*/
 
     public function LanguageEdit($id, Request $request)
     {

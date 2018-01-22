@@ -30,7 +30,10 @@
         <!-- Styles -->
         <style type="text/css">
             body {
-                background-image: url(<?php URL::to('/')?>/background.jpg);
+                /*background-image: url(<?php URL::to('/')?>/background.jpg);*/
+                /*background-color: #dcc7aa;*/
+                background-color: #d7cec7;
+                /*background-color: #d5d5d5;*/
             }
         </style>
     </head>

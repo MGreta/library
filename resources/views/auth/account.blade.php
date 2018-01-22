@@ -29,20 +29,7 @@
                                     <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name', $user->last_name) }}">
                                 </div>
                             </div>
-
-                            <!-- <div class="form-group">
-                                <label class="col-md-4 control-label" for="last_name">Class</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="class" name="class" value="{{ old('class', $user->class) }}">
-                                </div>
-                            </div> -->
-
-                            {{--<div class="form-group">
-                                <label class="col-md-4 control-label" for="email">Class</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}">
-                                </div>
-                            </div>--}}
+                            
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

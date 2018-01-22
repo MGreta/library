@@ -59,21 +59,11 @@ class AuthorController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        /*if(($request->file('image')) !== ''){*/
-            $image = $request->file('image');
-            $filename = $image->getClientOriginalName();
-            Image::make($image)->resize(300, 300)->save( public_path('authorsImages/' . $filename) );
-        /*}*/
+        $image = $request->file('image');
+        $filename = $image->getClientOriginalName();
+        Image::make($image)->resize(300, 300)->save( public_path('authorsImages/' . $filename) );
         $author_name = $request->input('author_name');
-        echo $author_name;
-        echo "<br>";
         $country = $request->input('country');
-        echo $country;
-
-        /*$author = Author::create([
-            'author_name' => $author_name,
-            'country' => $country,
-        ]);*/
 
         if ($request->has('create')) {
             $author = new Author();
@@ -86,11 +76,6 @@ class AuthorController extends Controller
 
             return redirect('authors')->with('status', 'Autorius sėkmingai pridėtas.');
         }
-
-
-        /*if ($author) {
-            return redirect('authors')->with('status', 'Author created successfully.');
-        }*/
 
         return redirect()->back()->with('errors', new MessageBag(['Kažkas negerai. Bandykite dar kartą.']));
     }
@@ -106,13 +91,6 @@ class AuthorController extends Controller
         //
     }
 
-    /*public function editAuthor($id)
-    {
-        $author = Author::find($id);
-
-        return view('admin.edit_author', compact('author'));
-    }*/
-
     public function AuthorEdit($id, Request $request)
     {   
         $validator =  Validator::make($request->all(), [
@@ -123,8 +101,16 @@ class AuthorController extends Controller
             return redirect()->back()->withErrors(['error' => 'Kažkas negerai. Bandykite dar kartą.'])->with('wrong_id', $id);
         }
 
+        $image = $request->file('image');
+        $filename = $image->getClientOriginalName();
+        Image::make($image)->resize(300, 300)->save( public_path('authorsImages/' . $filename) );
+
         if ($author = Author::find($id)) {
             $author->author_name = $request->input('author_name');
+            $author->country = $request->input('country');
+            $author->birth_date = $request->input('birth_date');
+            $author->death_date = $request->input('death_date');
+            $author->image = $filename;
             $response = $author->save();
             if ($response) {
                 return redirect()->back()->with(['message' => 'Knyga atnaujintas.']);
@@ -163,9 +149,4 @@ class AuthorController extends Controller
         return view('admin.authors', compact('authors'));
     }
 
-    /*public function orderBySurname()
-    {
-        $authors = DB::table('authors')->orderBy('author_surname')->get();
-        return view('admin.authors', compact('authors'));
-    }*/
 }

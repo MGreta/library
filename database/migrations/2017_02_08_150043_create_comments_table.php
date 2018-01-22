@@ -17,8 +17,8 @@ class CreateCommentsTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('book_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('book_id')->nullable()->unsigned();
+            $table->integer('user_id')->nullable()->unsigned();
             $table->text('comment');
             $table->timestamps();
         });

@@ -22,7 +22,7 @@ class CreateBooksTable extends Migration
             $table->string('date')->nullable();
             $table->integer('size')->nullable();
             $table->integer('language')->nullable()->unsigned();
-            $table->integer('type')->unsigned();
+            $table->integer('type')->nullable()->unsigned();
             $table->integer('publishing_house')->nullable()->unsigned();
             $table->integer('genre')->nullable()->unsigned();
             $table->integer('city')->nullable()->unsigned();

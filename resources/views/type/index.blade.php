@@ -19,12 +19,6 @@
                 <div class="panel-body">
                     <form class="form-inline" role="form" method="POST" action="{{ url('/type') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <!-- <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" for="type">Type</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="type" name="type" value="{{ old('type') }}">
-                            </div>
-                        </div> -->
                         <div class="input-group input-group-btn"> 
                             <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button>
                         </div>
@@ -112,7 +106,7 @@
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
+                                                                <button type="button" class="btn" data-dismiss="modal">Uždaryti</button>
                                                             </div>
 
                                                         </div>
@@ -147,7 +141,7 @@
                                                                             <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                         </div>
                                                                         <div class="col-md-6">
-                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
+                                                                            <button type="button" class="btn" data-dismiss="modal">Atšaukti</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>

@@ -130,14 +130,6 @@ class AdminController extends Controller
         return redirect()->back()->with('errors', new MessageBag(['Kažką negerai įvedėte. Bandykite dar kartą.']));
     }
 
-    
-
-    /*public function editUser($id)
-    {
-        $user = User::find($id);
-
-        return view('admin.edit_user', compact('user'));
-    }*/
 
     public function UserEdit($id, Request $request)
     {

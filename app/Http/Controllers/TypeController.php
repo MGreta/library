@@ -63,24 +63,6 @@ class TypeController extends Controller
             return redirect('type')->with('status', 'Tipas sėkmingai išsaugotas.');
         }
         return redirect()->back()->with('errors', new MessageBag(['Tipo išsaugoti nepavyko. Bandykite dar kartą.']));
-        /*$validator =  Validator::make($request->all(), [
-            'type' => 'required|max:255|unique:types,type'
-        ]);
-
-        if ($validator->fails()) {
-
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $type = Type::create([
-            'type' => $request->input('type')
-        ]);
-        if ($type) {
-
-            return redirect('type')->with('status', 'Type created successfully.');
-        }
-
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new type. Please try again.']));*/
     }
 
     /**
@@ -93,13 +75,6 @@ class TypeController extends Controller
     {
         //
     }
-
-    /*public function editType($id)
-    {
-        $type = Type::find($id);
-
-        return view('admin.edit_type', compact('type'));
-    }*/
 
     public function TypeEdit($id, Request $request)
     {
@@ -143,12 +118,6 @@ class TypeController extends Controller
     {
         $books_with_type = Book::where('type', $id)->get();
         if (count($books_with_type) > 0){
-            /*foreach ($books_with_type as $book) {
-                $book_id = Book::where('id', $book->id)->where('type', $id)->value('id');
-                $book = Book::find($book_id);
-                $book->type = '0';
-                $book->save();
-            }*/
             return redirect()->back()->withErrors(['error' => 'Negalima ištrinti jeigu tipas turi knygų.']);
         }
         DB::table('types')->where('id', $id)->delete();

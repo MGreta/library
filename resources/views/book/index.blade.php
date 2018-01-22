@@ -16,21 +16,16 @@
             <thead>
                 <tr class="info">
                     <th>#</th>
-                    <th><!-- <a href="{{ action('BookController@orderByTitle') }}"> -->Pavadinimas<!-- </a> --></th>
-                    <th><!-- <a href="{{ action('BookController@orderByAuthor') }}"> -->Autorius<!-- </a> --></th>
-                    <!-- <th><a href="{{ action('BookController@orderByISBN') }}">ISBN</a></th> -->
-                    <!-- <th><a href="{{ action('BookController@orderByDate') }}">Date</a></th> -->
-                    <th><!-- <a href="{{ action('BookController@orderBySize') }}"> -->Dydis<!-- </a> --></th>
-                    <th><!-- <a href="{{ action('BookController@orderByLanguage') }}"> -->Kalba<!-- </a> --></th>
-                    <th><!-- <a href="{{ action('BookController@orderByType') }}"> -->Rūšis<!-- </a> --></th>
-                    <!-- <th><a href="{{ action('BookController@orderByUDK') }}">UDK</a></th> -->
+                    <th>Pavadinimas</th>
+                    <th>Autorius</th>
+                    <th class="mobile">Dydis</th>
+                    <th class="mobile">Kalba</th>
+                    <th class="mobile">Rūšis</th>
                     @if (Auth::user())
-                    <th><!-- <a href="{{ action('BookController@orderByQuantity') }}"> -->Kiekis<!-- </a> --></th>
+                    <th class="mobile">Kiekis</th>
                     <th>Laisvos</th>
                     @endif
-                    <!-- <th><a href="#">Publishing house</a></th>
-                    <th><a href="#">City</a></th> -->
-                    <th><!-- <a href="{{ action('BookController@orderByGenre') }}"> -->Žanras<!-- </a> --></th>
+                    <th class="mobile">Žanras</th>
                     <th>Apie</th>
                     @if (Auth::user())
                         <th>Įdėti į krepšelį</th>
@@ -60,19 +55,14 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <!-- <td>{{ $books[$i]->isbn }}</td> -->
-                                <!-- <td>{{ $books[$i]->date }}</td> -->
-                                <td>{{ $books[$i]->size }}</td>
-                                <td><a href="/language/{{ $books[$i]->language }}/books">{{ $books[$i]->language }}</a></td>
-                                <td><a href="/type/{{ $books[$i]->type }}/books">{{ get_type($books[$i]->type) }}</td>
-                                <!-- <td>{{ $books[$i]->udk }}</td> -->
+                                <td class="mobile">{{ $books[$i]->size }}</td>
+                                <td class="mobile">{{ $books[$i]->language }}</td>
+                                <td class="mobile"><a href="/type/{{ $books[$i]->type }}/books">{{ get_type($books[$i]->type) }}</td>
                                 @if (Auth::user())
-                                    <td>{{ $books[$i]->quantity }}</td>
+                                    <td class="mobile">{{ $books[$i]->quantity }}</td>
                                     <td> {{ count_free_books($books[$i]->id) }} </td>
                                 @endif
-                                <!-- <td>{{ $books[$i]->publishing_house }}</td>
-                                <td>{{ $books[$i]->city }}</td> -->
-                                <td><a href="/genres/{{ $books[$i]->genre }}/books">{{ get_genre($books[$i]->genre) }}</a></td>
+                                <td class="mobile"><a href="/genres/{{ $books[$i]->genre }}/books">{{ get_genre($books[$i]->genre) }}</a></td>
                                 <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">Apie {{ $books[$i]->title }}</a>
                                     <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
@@ -262,7 +252,7 @@
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -306,7 +296,7 @@
                                                                 <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
+                                                                <button type="button" class="btn" data-dismiss="modal">Atšaukti</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -333,19 +323,14 @@
                     <th>#</th>
                     <th>Pavadinimas</th>
                     <th>Autorius</th>
-                    <!-- <th>ISBN</th> -->
-                    <!-- <th>Date</th> -->
-                    <th>Dydis</th>
-                    <th>Kalbas</th>
-                    <th>Rūšis</th>
-                    <!-- <th>UDK</th> -->
+                    <th class="mobile">Dydis</th>
+                    <th class="mobile">Kalbas</th>
+                    <th class="mobile">Rūšis</th>
                     @if (Auth::user())
-                        <th>Kiekis</th>
+                        <th class="mobile">Kiekis</th>
                         <th>Laisvos</th>
                     @endif
-                    <!-- <th>Publishing house</th>
-                    <th>City</th> -->
-                    <th>Žanras</th>
+                    <th class="mobile">Žanras</th>
                     <th>Apie</th>
                     @if (Auth::user())
                         <th>Įdėti į krepšelį</th>
@@ -358,6 +343,7 @@
                 </tr>
             </tfoot>
         </table>
+        {{ $books->links() }}
     </div>
 </div>
 

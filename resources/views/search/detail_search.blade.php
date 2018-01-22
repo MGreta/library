@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Books</div>
+    <div class="panel-heading">Paieška</div>
     <div class="panel-body">
     	<form class="form-horizontal" role="form" method="GET" action="{{ url('/detail-search/search') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -177,12 +177,12 @@
                     <th>#</th>
                     <th>Pavadinimas</th>
                     <th>Autorius</th>
-                    <th>Dydis</th>
-                    <th>Kalba</th>
-                    <th>Rūšis</th>
-                    <th>Kiekis</th>
-                    <th>Laisvos</th>
-                    <th>Žanras</th>
+                    <th class="mobile">Dydis</th>
+                    <th class="mobile">Kalba</th>
+                    <th class="mobile">Rūšis</th>
+                    <th class="mobile">Kiekis</th>
+                    <th class="mobile">Laisvos</th>
+                    <th class="mobile">Žanras</th>
                     <th>Apie</th>
                     <th>Įdėti į krepšelį</th>
                     @if (Auth::user())
@@ -211,12 +211,12 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>{{ $books[$i]->size }}</td>
-                                <td>{{ get_language($books[$i]->language) }}</td>
-                                <td>{{ get_type($books[$i]->type) }}</td>
-                                <td>{{ $books[$i]->quantity }}</td>
-                                <td> {{ count_free_books($books[$i]->id) }} </td>
-                                <td>{{ $books[$i]->genre }}</td>
+                                <td class="mobile">{{ $books[$i]->size }}</td>
+                                <td class="mobile">{{ get_language($books[$i]->language) }}</td>
+                                <td class="mobile">{{ get_type($books[$i]->type) }}</td>
+                                <td class="mobile">{{ $books[$i]->quantity }}</td>
+                                <td class="mobile"> {{ count_free_books($books[$i]->id) }} </td>
+                                <td class="mobile">{{ $books[$i]->genre }}</td>
                                 <td><a type="button" type="button" data-toggle="modal" style="cursor:pointer" data-target="#aboutModal{{ $books[$i]->id }}">About {{ $books[$i]->title }}</a>
                                     <div class="modal fade" id="aboutModal{{ $books[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
@@ -437,12 +437,12 @@
                     <th>#</th>
                     <th>Pavadinimas</th>
                     <th>Autorius</th>
-                    <th>Dydis</th>
-                    <th>Kalba</th>
-                    <th>Rūšis</th>
-                    <th>Kiekis</th>
-                    <th>Laisvos</th>
-                    <th>Žanras</th>
+                    <th class="mobile">Dydis</th>
+                    <th class="mobile">Kalba</th>
+                    <th class="mobile">Rūšis</th>
+                    <th class="mobile">Kiekis</th>
+                    <th class="mobile">Laisvos</th>
+                    <th class="mobile">Žanras</th>
                     <th>Apie</th>
                     <th>Įdėti į krepšelį</th>
                     @if (Auth::user())

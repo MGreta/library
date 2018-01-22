@@ -17,8 +17,8 @@ class CreateBookRatingsTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('book_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('book_id')->nullable()->unsigned();
+            $table->integer('user_id')->nullable()->unsigned();
             $table->decimal('book_rating', 3, 1)->default('0.0');
             $table->timestamps();
         });

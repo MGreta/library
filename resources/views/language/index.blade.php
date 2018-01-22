@@ -19,28 +19,12 @@
                 <div class="panel-body">
                     <form class="form-inline" role="form" method="POST" action="{{ url('/language') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <!-- <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" for="language">Language</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="language" name="language" value="{{ old('language') }}">
-                            </div>
-                        </div> -->
                         <div class="input-group input-group-btn"> 
                             <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button>
                         </div>
                         <div class="input-group control-group after-add-more">
                             <input type="text" name="language[]" class="form-control" value="{{ old('language') }}">
                         </div>
-                        
-                        <!-- Copy Fields -->
-                        <!-- <div class="copy hide">
-                            <div class="control-group input-group" style="margin-top:10px">
-                                <input type="text" name="language[]" class="form-control" value="{{ old('language') }}">
-                                <div class="input-group-btn"> 
-                                    <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
-                                </div>
-                            </div>
-                        </div> -->
 
                         <script type="text/javascript">
 
@@ -124,7 +108,7 @@
                                                                     </form>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
+                                                                    <button type="button" class="btn" data-dismiss="modal">Uždaryti</button>
                                                                 </div>
 
                                                             </div>
@@ -159,7 +143,7 @@
                                                                                 <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                             </div>
                                                                             <div class="col-md-6">
-                                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
+                                                                                <button type="button" class="btn" data-dismiss="modal">Uždaryti</button>
                                                                             </div>
                                                                         </div>
                                                                     </form>

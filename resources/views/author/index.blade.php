@@ -66,9 +66,14 @@
                         <th>#</th>
                         <th>Nuotrauka</th>
                         <th><a href="{{ action('AuthorController@orderByName') }}">Vardas</a></th>
-                        <th>Knygos</th>
-                        <th>Kiek kartų autoriaus <br>knygos buvo paimtos</th>
-                        <th>Veiksmai</th>
+                        <th>Šalis</th>
+                        <th class="mobile">Knygos</th>
+                        <th class="mobile">Kiek kartų autoriaus <br>knygos buvo paimtos</th>
+                        @if (Auth::user())
+                            @if (Auth::user()->hasRole("admin"))
+                                <th>Veiksmai</th>
+                            @endif
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -78,9 +83,12 @@
                                 <th>{{ $i+1 }}</th>
                                     <td><img src="{{ URL::to('/') }}/authorsimages/{{ $authors[$i]->image }}" style="height: 50px; width: 50px;">
                                     </td>
-                                    <td><a href="/author/{{ $authors[$i]->id }}/books">{{ $authors[$i]->author_name }}</a></td>
-                                    <td>{{ get_books_by_authors($authors[$i]->id) }}</td>
-                                    <td> {{ count_author_taken_times($authors[$i]->id) }} </td>
+                                    <td><a href="/author/{{ $authors[$i]->id }}/books">{{ $authors[$i]->author_name }} ({{$authors[$i]->birth_date}}@if(!empty($authors[$i]->death_date)) - {{ $authors[$i]->death_date }}@endif)</a></td>
+                                    <td>{{ $authors[$i]->country }}</td>
+                                    <td class="mobile">{{ get_books_by_authors($authors[$i]->id) }}</td>
+                                    <td class="mobile"> {{ count_author_taken_times($authors[$i]->id) }} </td>
+                                    @if (Auth::user())
+                                    @if (Auth::user()->hasRole("admin"))
                                     <td>
                                         <a class="btn btn-default btn-xs"  data-toggle="modal" data-target="#authorEdit{{ $authors[$i]->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                         <div class="modal fade" id="authorEdit{{ $authors[$i]->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -101,12 +109,33 @@
                                                                 </div>
                                                             </div>
 
-                                                            {{--<div class="form-group">
-                                                                <label class="col-sm-2 control-label" for="author">Surname</label>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label" for="country">Šalis</label>
                                                                 <div class="col-sm-10">
-                                                                    <input type="text" class="form-control" id="author_surname" name="author_surname" value="{{ old('author_surname', $authors[$i]->author_surname) }}">
+                                                                    <input type="text" class="form-control" id="country" name="country" value="{{ old('country', $authors[$i]->country) }}">
                                                                 </div>
-                                                            </div>--}}
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label" for="birth_date">Gimimo data</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="birth_date" name="birth_date" value="{{ old('birth_date', $authors[$i]->birth_date) }}">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label" for="death_date">Mirties data</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="death_date" name="death_date" value="{{ old('death_date', $authors[$i]->death_date) }}">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-2 col-sm-4 control-label" for="image">Nuotrauka</label>
+                                                                <div class="col-md-10 col-sm-8">
+                                                                    <input type="file" id="image" name="image" value="{{ old('image') }}">
+                                                                </div>
+                                                            </div>
 
                                                             <div class="form-group">
                                                                 <div class="col-md-6 col-md-offset-4">
@@ -118,7 +147,7 @@
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
+                                                        <button type="button" class="btn" data-dismiss="modal">Uždaryti</button>
                                                     </div>
 
                                                 </div>
@@ -153,7 +182,7 @@
                                                                     <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Panaikinti</button>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
+                                                                    <button type="button" class="btn" data-dismiss="modal">Atšaukti</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -164,6 +193,8 @@
                                             </div>
                                         </div>
                                     </td>
+                                    @endif
+                                    @endif
                             </tr>
                         @endfor
                     @else
@@ -178,9 +209,14 @@
                         <th>#</th>
                         <th>Nuotrauka</th>
                         <th>Vardas</th>
-                        <th>Knygos</th>
-                        <th>Kiek kartų autoriaus <br>knygos buvo paimtos</th>
-                        <th>Veiksmai</th>
+                        <th>Šalis</th>
+                        <th class="mobile">Knygos</th>
+                        <th class="mobile">Kiek kartų autoriaus <br>knygos buvo paimtos</th>
+                        @if (Auth::user())
+                            @if (Auth::user()->hasRole("admin"))
+                                <th>Veiksmai</th>
+                            @endif
+                        @endif
                     </tr>
                 </tfoot>
             </table>

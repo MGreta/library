@@ -17,8 +17,8 @@ class CreateBookAuthorTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('book_id')->unsigned();
-            $table->integer('author_id')->unsigned();
+            $table->integer('book_id')->nullable()->unsigned();
+            $table->integer('author_id')->nullable()->unsigned();
             $table->timestamps();
         });
         

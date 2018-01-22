@@ -35,7 +35,6 @@
                     <th><a href="{{ action('AdminController@orderByFirstName') }}">Vardas</a></th>
                     <th><a href="{{ action('AdminController@orderByLastName') }}">Pavardė</a></th>
                     <th><a href="{{ action('AdminController@orderByEmail') }}">El. paštas</a></th>
-                    <!-- <th><a href="{{ action('AdminController@orderByClass') }}">Class</a></th> -->
                     <th><a href="{{ action('AdminController@orderByRole') }}">Rolė</a></th>
                     <th>Veiksmas</th>
                 </tr>
@@ -48,7 +47,6 @@
                                 <td><a href="{{ url('/about-user/' . $users[$i]->id ) }}">{{ $users[$i]->name }}</a></td>
                                 <td><a href="{{ url('/about-user/' . $users[$i]->id ) }}">{{ $users[$i]->last_name }}</a></td>
                                 <td>{{ $users[$i]->email }}</td>
-                                <!-- <td>{{ $users[$i]->class }}</td> -->
                                 <td>@foreach ($users[$i]->roles()->pluck('name', 'slug') as $slug => $role_name)
                                         {{ $role_name }}
                                     @endforeach
@@ -94,13 +92,6 @@
                                                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $users[$i]->email) }}">
                                                             </div>
                                                         </div>
-
-                                                        <!-- <div class="form-group">
-                                                            <label class="col-sm-2 control-label" for="role">Role</label>
-                                                            <div class="col-sm-10">
-                                                                <input type="text" class="form-control" id="role" name="role" value="{{ old('role', $role_name) }}">
-                                                            </div>
-                                                        </div> -->
                                                         
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label" for="role">Rolė</label>
@@ -187,7 +178,6 @@
                     <th>Vardas</th>
                     <th>Pavardė</th>
                     <th>El. paštas</th>
-                    <!-- <th>Class</th> -->
                     <th>Rolė</th>
                     <th>Veiksmas</th>
                 </tr>

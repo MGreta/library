@@ -106,7 +106,6 @@ class TakenBooksController extends Controller
             }
         } else 
         {
-            /*return redirect()->back()->withErrors(['error' => 'Knygos prasitesti negalima.']);*/
             return redirect('/occupied-books');
         }
     }

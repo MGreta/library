@@ -17,8 +17,8 @@ class CreateRoleUserTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned();
+            $table->integer('user_id')->nullable()->unsigned();
+            $table->integer('role_id')->nullable()->unsigned();
             $table->timestamps();
         });
 

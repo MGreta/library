@@ -17,8 +17,8 @@ class CreateUdkThirdLevelTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('id_first_level')->unsigned();
-            $table->integer('id_second_level')->unsigned();
+            $table->integer('id_first_level')->nullable()->unsigned();
+            $table->integer('id_second_level')->nullable()->unsigned();
             $table->string('title');
             $table->string('code');
             $table->timestamps();

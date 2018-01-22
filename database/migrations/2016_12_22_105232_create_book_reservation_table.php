@@ -17,8 +17,8 @@ class CreateBookReservationTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('book_id')->unsigned();
+            $table->integer('user_id')->nullable()->unsigned();
+            $table->integer('book_id')->nullable()->unsigned();
             $table->string('comment')->nullable();
             $table->date('reservation_start_day');
             $table->date('reservation_end_day');

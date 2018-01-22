@@ -156,6 +156,15 @@ body {
 		color: $eggshell !important;
 		cursor: pointer;
 	}
+	.rate-star {
+		color: $navy-blue !important;
+
+	}
+	.rate-star:hover {
+		background-color: transparent !important;
+		color: $navy-blue !important;
+		
+	}
 }
 table {
 	thead, tfoot {
@@ -193,3 +202,8 @@ table {
 	}
 }
 
+@media all and (max-width: 750px) {
+	.mobile {
+		display: none;
+	}
+}

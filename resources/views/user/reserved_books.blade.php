@@ -20,7 +20,7 @@
             <tbody>
                 @if ($reservations_is_ready->count())
                     @for ($i = 0; $i < count($reservations_is_ready); $i++)
-                        @if(is_canceled_reservation($reservations[$i]->id) == '0')
+                        @if(is_canceled_reservation($reservations_is_ready[$i]->id) == '0')
                         <tr style="color: #777;">
                         @else
                         <tr>
@@ -61,6 +61,7 @@
 </div>
 @endif
 
+@if( count($reservations) != 0 )
 <div class="panel panel-primary">
     <div class="panel-heading">Neparuoštos rezervacijos</div>
     <div class="panel-body">
@@ -113,5 +114,6 @@
         </table>
     </div>
 </div>
+@endif
 
 @endsection

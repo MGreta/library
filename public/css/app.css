@@ -5877,6 +5877,11 @@ body {
     background-color: #ff533d;
     color: #f5f5f5 !important;
     cursor: pointer; }
+  .panel-body .rate-star {
+    color: #0f1626 !important; }
+  .panel-body .rate-star:hover {
+    background-color: transparent !important;
+    color: #0f1626 !important; }
 
 table thead tr th, table tfoot tr th {
   background-color: #ff533d !important; }
@@ -5898,5 +5903,9 @@ table tbody tr td .btn-default {
 
 table tbody tr td .btn-default:hover {
   background-color: #ff533d !important; }
+
+@media all and (max-width: 750px) {
+  .mobile {
+    display: none; } }
 
 /*# sourceMappingURL=app.css.map */

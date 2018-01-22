@@ -97,6 +97,18 @@ function get_books_by_types($id) {
 	return $books;
 }
 
+function get_books_by_publishing_house($id) {
+	$books = Book::where('publishing_house', $id)->count();
+
+	return $books;
+}
+
+function get_books_by_city($id) {
+	$books = Book::where('city', $id)->count();
+
+	return $books;
+}
+
 function get_user_name($id) {
 	$user_name = User::where('id', $id)->value('name');
 
@@ -196,7 +208,7 @@ function is_read($id) {
 function count_free_books($id) {
 	$all = Book::where('id', $id)->value('quantity');
 	$reserved = Book_reservations::where('book_id', $id)->count();
-	$taken = TakenBooks::where('book_id', $id)->count();
+	$taken = TakenBooks::where('book_id', $id)->where('returned', 0)->count();
 
 	$free = $all - $reserved - $taken;
 	return $free; 

@@ -17,7 +17,7 @@ class CreateUdkTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('book_id')->unsigned();
+            $table->integer('book_id')->nullable()->unsigned();
             $table->string('udk');
             $table->timestamps();
         });

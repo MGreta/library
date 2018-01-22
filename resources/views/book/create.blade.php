@@ -6,15 +6,16 @@
   <div class="panel-body">
     <form class="form-horizontal" role="form" method="POST" action="{{ url('add-book') }}">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
     	<div class="form-group">
-        <label for="title" class="col-sm-1 control-label">Pavadinimas</label>
+        <label for="title" class="col-sm-1 control-label">Pavadinimas*</label>
     	  <div class="col-sm-11">
     	   	<input type="text" class="form-control" id="title" placeholder="Pavadinimas" name="title" value="{{ old('title') }}">
     	  </div>
       </div>
             
       <div class="form-group">
-        <label class="col-sm-1 control-label" for="author">Autorius</label>
+        <label class="col-sm-1 control-label" for="author">Autorius*</label>
          <div class="col-sm-5">
           <select class="form-control selectpicker" id="author" name="author[]" multiple>
             <option value="0">Pasirinkite autorių</option>
@@ -32,32 +33,29 @@
           <input type="text" class="form-control" id="author_name" placeholder="Autorius atskirkite kableliu (,)" name="author_name" value="{{ old('author_name') }}">
         </div>
       </div>
-    	<!-- <div class="form-group" id="create-book-authname" style="display: none;">
-  	    
-    	</div>
-      <div class="form-group" id="create-book-authsurname" style="display: none;">
-        
-      </div> -->
+
     	<div class="form-group">
   	    <label for="isbn" class="col-sm-1 control-label">ISBN</label>
   	    <div class="col-sm-11">
   	    	<input type="text" class="form-control" id="isbn" placeholder="ISBN" name="isbn" value="{{ old('isbn') }}">
   	    </div>
     	</div>
+
     	<div class="form-group">
   	    <label for="date" class="col-sm-1 control-label">Data</label>
   	    <div class="col-sm-11">
   	    	<input type="text" class="form-control" id="date" placeholder="Data" name="date" value="{{ old('date') }}">
   	    </div>
     	</div>
+
     	<div class="form-group">
-  	    <label for="size" class="col-sm-1 control-label">Dydis</label>
+  	    <label for="size" class="col-sm-1 control-label">Dydis*</label>
   	    <div class="col-sm-11">
   	    	<input type="text" class="form-control" id="size" placeholder="Dydis" name="size" value="{{ old('size') }}">
   	    </div>
     	</div>
     	<div class="form-group">
-        <label class="col-sm-1 control-label" for="language">Kalba</label>
+        <label class="col-sm-1 control-label" for="language">Kalba*</label>
         <div class="col-sm-5">
           <select class="form-control" id="language" name="language">
             <option value="0">Pasirinkite kalbą</option>
@@ -77,11 +75,9 @@
           <input type="text" class="form-control" id="add_language" placeholder="Kalba" name="add_language" value="{{ old('add_language') }}" disabled>
         </div>
       </div>
-      <!-- <div class="form-group" id="create-book-language" style="display: none;">
-        
-      </div> -->
+
     	<div class="form-group">
-        <label class="col-sm-1 control-label" for="type">Tipas</label>
+        <label class="col-sm-1 control-label" for="type">Tipas*</label>
         <div class="col-sm-5">
           <select class="form-control" id="type" name="type">
             <option value="0">Pasirinkite tipą</option>
@@ -99,23 +95,23 @@
           <input type="text" class="form-control" id="add_type" placeholder="Tipas" name="add_type" value="{{ old('add_type') }}" disabled>
         </div>
       </div>
-      <!-- <div class="form-group" id="create-book-type" style="display: none;">
-        
-      </div> -->
+
     	{{--<div class="form-group">
   	    <label for="udk" class="col-sm-1 control-label">UDK</label>
   	    <div class="col-sm-11">
   	    	<input type="text" class="form-control" id="udk" placeholder="UDK" name="udk" value="{{ old('udk') }}">
   	    </div>
     	</div>--}}
+
     	<div class="form-group">
-  	    <label for="quantity" class="col-sm-1 control-label">Kiekis</label>
+  	    <label for="quantity" class="col-sm-1 control-label">Kiekis*</label>
   	    <div class="col-sm-11">
   	    	<input type="text" class="form-control" id="quantity" placeholder="Kiekis" name="quantity" value="{{ old('quantity') }}">
   	    </div>
     	</div>
+
       <div class="form-group">
-        <label class="col-sm-1 control-label" for="publishing_house">Leidykla</label>
+        <label class="col-sm-1 control-label" for="publishing_house">Leidykla*</label>
         <div class="col-sm-5">
           <select class="form-control" id="publishing_house" name="publishing_house">
             <option value="0">Pasirinkite leidyklą</option>
@@ -133,11 +129,9 @@
           <input type="text" class="form-control" id="add_publishing_house" placeholder="Leidykla" name="add_publishing_house" value="{{ old('add_publishing_house') }}" disabled>
         </div>
       </div>
-      <!-- <div class="form-group" id="create-book-publishing-house" style="display: none;">
-        
-      </div> -->
+
       <div class="form-group">
-        <label class="col-sm-1 control-label" for="city">Miestas</label>
+        <label class="col-sm-1 control-label" for="city">Miestas*</label>
         <div class="col-sm-5">
           <select class="form-control" id="city" name="city">
             <option value="0">Pasirinkite miestą</option>
@@ -178,7 +172,7 @@
       </div>
 
       <div class="form-group">
-        <label for="about" class="col-sm-1 control-label">Žanras</label>
+        <label for="about" class="col-sm-1 control-label">Temos</label>
         <div class="col-sm-11">
           @foreach ($first_level_results as $first_level_result)
           <select class="form-control udk-select selectpicker" multiple data-max-options="1" data-live-search="true" data-size="10" name="{{ $first_level_result['id'] }}" title="{{ $first_level_result['title'] }}" style="color: #999999;">
@@ -203,8 +197,6 @@
         </div>
       </div>
       
-      
-
     	<div class="form-group">
        	<div class="col-sm-offset-2 col-sm-10">
        		<button type="submit" name="create" value="create" class="btn btn-primary">Pridėti naują</button>
@@ -216,15 +208,6 @@
 
 
 <script>
-  /*$('#author').on('change', function(){
-    if($(this).val() == 'other'){
-      $('#author_name').prop("disabled", false);
-    }
-  });*/
-  /*if($('#author').val() == 'other'){
-    $('#author_name').prop("disabled", false);
-  };*/
-
   $('#language').on('change', function(){
     if($(this).val() == 'other'){
       $('#add_language').prop("disabled", false);

@@ -17,11 +17,11 @@ class CreateTakenBooksTable extends Migration
             $table->engine = 'InnoDB';
             
             $table->increments('id');
-            $table->integer('book_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('book_id')->nullable()->unsigned();
+            $table->integer('user_id')->nullable()->unsigned();
             $table->date('start_day');
             $table->date('end_day');
-            $table->integer('worker_id')->unsigned();
+            $table->integer('worker_id')->nullable()->unsigned();
             $table->integer('read')->default('0');
             $table->integer('returned')->default('0');
             $table->integer('times_continued')->default('0');

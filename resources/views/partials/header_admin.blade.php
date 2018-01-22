@@ -50,7 +50,6 @@
                         {{ csrf_field() }}
                     </form>
                 </li>
-                <!-- <li><a href="#">Register</a></li> -->
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

@@ -132,23 +132,17 @@
     <div class="panel-body">
         <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $book->id . '/rate') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-            
-                <label class="col-sm-2 control-label" for="rate">Įvertinkite</label>
-                    
-                    
-
-                    <!-- <input id="input-1" name="input-1" value="1" name="rating"> -->
-          {{ get_average_rating($book->id) }}
+            <label class="col-sm-2 control-label" for="rate">Įvertinkite</label>
+                <!-- <input id="input-1" name="input-1" value="1" name="rating"> -->
+                {{ get_average_rating($book->id) }}
    
-
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4" style="font-size: 18px;">
-                    <button type="submit" class="submit-1" name="book_rating" value="1" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
-                    <button type="submit" class="submit-2" name="book_rating" value="2" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
-                    <button type="submit" class="submit-3" name="book_rating" value="3" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
-                    <button type="submit" class="submit-4" name="book_rating" value="4" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
-                    <button type="submit" class="submit-5" name="book_rating" value="5" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+                    <button type="submit" class="submit-1 rate-star" name="book_rating" value="1" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+                    <button type="submit" class="submit-2 rate-star" name="book_rating" value="2" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+                    <button type="submit" class="submit-3 rate-star" name="book_rating" value="3" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+                    <button type="submit" class="submit-4 rate-star" name="book_rating" value="4" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+                    <button type="submit" class="submit-5 rate-star" name="book_rating" value="5" style="background-color: transparent; border: 0; padding: 0;"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
                 </div>
             </div>
         </form>
@@ -312,22 +306,24 @@ $(document).ready(function(){
                                             @include ('partials.notice')
                                                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/book/' . $comments[$i]->id . '/deleteComment') }}">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label" for="title">Komentaras</label>
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-10 col-md-offset-2">
+                                                        <h4>Ar tikrai norite ištrinti komentarą?</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 col-md-offset-2 control-label">Komentaras</label>
+                                                    <div class="col-sm-8">
                                                         {{$comments[$i]->comment }}
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <h4>Ar tikrai norite ištrinti komentarą?</h4>
-                                                </div>
-
-                                                <div class="form-group">
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 col-md-offset-2">
                                                             <button type="submit" class="btn btn-danger" onclick="$(this).closest('.modal').find('form').submit();">Ištrinti</button>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
                                                         </div>
                                                     </div>

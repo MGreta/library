@@ -22,33 +22,14 @@ class Book_reservationsController extends Controller
     {
         $reservations = Book_reservations::where('is_ready', '0')->get();
         $reservations_is_ready = Book_reservations::where('is_ready', '1')->get();
+        
         return view('reservations.index', compact('reservations', 'reservations_is_ready'));
     }
-
-/*    public function add()
-	{
-        
-		return view('admin.create_user', compact('roles'));
-	}*/
 
 	public function store(Request $request)
     {
     	$user_id = Auth::user()->id;
         $days = Option::where('name', 'days_to_have_book')->value('value');
-        /*$validator =  Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'role' => 'required|exists:roles,id',
-            'class' => 'required',
-            'password' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-
-            return redirect()->back()->withErrors($validator)->withInput();
-        }*/
-
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         $books = $cart->items;

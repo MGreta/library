@@ -46,35 +46,12 @@ class CityController extends Controller
             return redirect('city')->with('status', 'Miestas sėkmingai išsaugotas.');
         }
         return redirect()->back()->with('errors', new MessageBag(['Miesto nepavyko išsaugoti. Bandykite dar kartą.']));
-        /*$validator =  Validator::make($request->all(), [
-            'city' => 'required|max:255|unique:cities,city'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $city = City::create([
-            'city' => $request->input('city')
-        ]);
-        if ($city) {
-            return redirect('city')->with('status', 'City created successfully.');
-        }
-
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new city. Please try again.']));*/
     }
 
     public function show($id)
     {
         //
     }
-
-    /*public function edit($id)
-    {
-        $city = City::find($id);
-
-        return view('city.edit', compact('city'));
-    }*/
 
     public function cityEdit($id, Request $request)
     {
@@ -106,10 +83,5 @@ class CityController extends Controller
          DB::table('cities')->where('id', $id)->delete();
         return redirect()->back();
     }
-
-   /* public function order()
-    {
-        $types = DB::table('types')->orderBy('type')->get();
-        return view('type.index', compact('types'));
-    }*/
+    
 }

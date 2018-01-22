@@ -24,22 +24,10 @@ class UserController extends Controller
     }
 	public function profile()
 	{
-		/*$user = Auth::user();
-		if (Auth::user()->hasRole("admin")) {
-            return view('admin.index', compact('user'));
-        } else {
-            return view('user.index', compact('user'));
-        }*/   
         $user = Auth::user();
 
         return view('user.index', compact('user'));
-
 	}
-	/*public function edit($id)
-	{
-		$user = Auth::user();
-		return view('auth.account', compact('user'));
-	}*/
 
 	public function update(Request $request)
 	{
@@ -115,8 +103,6 @@ class UserController extends Controller
 
     public function removeReservation(Request $request, $id)
     {
-        //$user_id = Auth::user()->id;
-
         if ($book = Book_reservations::find($id)) {
             $book->is_active = '0';
             $response = $book->save();
@@ -125,14 +111,6 @@ class UserController extends Controller
             }
             return redirect('/user-reserved-books');
         }
-
-
-        /*DB::table('Book_reservations')->where('id', $id)->where('user_id', $user_id)->delete();
-        if ($response) {
-            return redirect('/user-reserved-books');
-        } else {
-            return redirect()->back()->with('errors', new MessageBag(['Something went wrong. Please try again.']));
-        }*/
     }
 
     public function readBook($id)
@@ -191,7 +169,6 @@ class UserController extends Controller
             }
         } else 
         {
-            /*return redirect()->back()->withErrors(['error' => 'Knygos prasitesti negalima.']);*/
             return redirect('/user-returned-books');
         }
     }

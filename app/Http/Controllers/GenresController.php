@@ -1,4 +1,4 @@
-<?php
+e<?php
 
 namespace App\Http\Controllers;
 
@@ -64,24 +64,6 @@ class GenresController extends Controller
             return redirect('genres')->with('status', 'Žanras sėkmingai pridėtas.');
         }
         return redirect()->back()->with('errors', new MessageBag(['Žanro nepavyko išsaugoti. Bandykite dar kartą.']));
-        /*$validator =  Validator::make($request->all(), [
-            'genre_input' => 'required|max:255|min:2|unique:genres,genre'
-        ]);
-
-        if ($validator->fails()) {
-
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $genre = Genres::create([
-            'genre' => $request->input('genre_input')
-        ]);
-        if ($genre) {
-
-            return redirect('/genres')->with('status', 'Genre created successfully.');
-        }
-
-        return redirect()->back()->with('errors', new MessageBag(['Something went wrong while adding new genre. Please try again.']));*/
     }
 
     /**
@@ -94,13 +76,6 @@ class GenresController extends Controller
     {
         //
     }
-
-    /*public function editGenre($id)
-    {
-        $genre = Genres::find($id);
-
-        return view('genre.edit', compact('genre'));
-    }*/
 
     public function GenreEdit(Request $request, $id)
     {

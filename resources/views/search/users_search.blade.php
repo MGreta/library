@@ -11,7 +11,7 @@
 @endif
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Vartotojai</div>
+    <div class="panel-heading">Vartotojų paieška</div>
     <div class="panel-body">
         <form class="form-horizontal" role="form" method="GET" action="{{ url('/users-search') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
